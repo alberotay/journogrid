@@ -7,34 +7,39 @@ const cors = require('cors');
 app.use(express.static('public')); // Sirve archivos estáticos desde la carpeta 'public'
 // Habilita CORS para todas las rutas
 app.use(cors());
+const AraFeed = 'https://www.ara.cat/rss/';
+const elMundoFeed = 'https://e00-elmundo.uecdn.es/elmundo/rss/portada.xml';
+const elPeriodicoFeed = 'https://www.elperiodico.com/es/rss/rss_portada.xml';
+const laVanguardiaFeed = 'https://www.lavanguardia.com/rss/home.xml';
+const elPaisFeed = 'https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada';
+const elPuntAvuiFeed = 'https://www.elpuntavui.cat/barcelona/nacional.feed?type=rss';
+const elAbcFeed = 'https://www.abc.es/rss/2.0/portada/';
+const elMinFeed = 'https://www.20minutos.es/rss/';
+const elNacionalFeed = 'https://www.elnacional.cat/uploads/feeds/feed_es.xml';
+const NDigitalFeed = 'https://www.naciodigital.cat/rss/';
+const eNotFeed = 'https://e-noticies.cat/rss/last-posts';
+const elMonFeed = 'https://elmon.cat/es/feed';
+const EuropaFeed = 'https://www.europapress.es/rss/rss.aspx?ch=284';
+const DailyFeed = 'https://es.euronews.com/rss';
 
-app.get('/rss', (req, res) => {
+let LAST_NEWS
 
-    res.setHeader('Access-Control-Allow-Origin', '*'); // Habilita CORS para cualquier origen
-    res.setHeader('Access-Control-Allow-Methods', 'GET'); // Define los métodos permitidos
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); // Define los encabezados permitidos
+getNews()
 
+setInterval(getNews,200000)
+
+
+
+function getNews(){
+    console.log("actualizando news!")
     try {
-        const AraFeed = 'https://www.ara.cat/rss/';
-        const elMundoFeed = 'https://e00-elmundo.uecdn.es/elmundo/rss/portada.xml';
-        const elPeriodicoFeed = 'https://www.elperiodico.com/es/rss/rss_portada.xml';
-        const laVanguardiaFeed = 'https://www.lavanguardia.com/rss/home.xml';
-        const elPaisFeed = 'https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada';
-        const elPuntAvuiFeed = 'https://www.elpuntavui.cat/barcelona/nacional.feed?type=rss';
-        const elAbcFeed = 'https://www.abc.es/rss/2.0/portada/';
-        const elMinFeed = 'https://www.20minutos.es/rss/';
-        const elNacionalFeed = 'https://www.elnacional.cat/uploads/feeds/feed_es.xml';
-        const NDigitalFeed = 'https://www.naciodigital.cat/rss/';
-        const eNotFeed = 'https://e-noticies.cat/rss/last-posts';
-        const elMonFeed = 'https://elmon.cat/es/feed';
-        const EuropaFeed = 'https://www.europapress.es/rss/rss.aspx?ch=284';
-        const DailyFeed = 'https://es.euronews.com/rss';
-        
-        
-        
 
 
-    
+
+
+
+
+
 
         // Función para parsear un feed y devolver los elementos
         const parseFeed = (feedUrl, isElMundo, isLaVanguardia, callback) => {
@@ -42,7 +47,7 @@ app.get('/rss', (req, res) => {
 
             const req = request(feedUrl);
             const feedparser = new FeedParser();
-            
+
 
             req.on('error', error => {
                 console.error(error);
@@ -73,8 +78,8 @@ app.get('/rss', (req, res) => {
                     } else if (isLaVanguardia && item.enclosures && item.enclosures[0].type === 'image/jpeg') {
                         const thumbnailUrl = item.enclosures[0].url;
                         item.thumbnailUrl = thumbnailUrl;
-                    } 
-                    
+                    }
+
                     items.push(item);
                 }
             });
@@ -97,46 +102,60 @@ app.get('/rss', (req, res) => {
                                             parseFeed(NDigitalFeed, false, false, NDigitalItems => {
                                                 parseFeed(eNotFeed, false, false, eNotItems => {
                                                     parseFeed(elMonFeed, false, false, elMonItems => {
-                                                        
+
                                                         parseFeed(EuropaFeed, false, false, EuropaItems => {
                                                             parseFeed(DailyFeed, false, false, DailyItems => {
 
-                           
-                            const combinedFeed = {
-                                elMundo: elMundoItems,
-                                elPeriodico: elPeriodicoItems,
-                                laVanguardia: laVanguardiaItems,
-                                elPais: elPaisItems,
-                                elPuntAvui: elPuntAvuiItems, // Añade los elementos parseados de El Punt Avui
-                                elAbc: elAbcItems,
-                                Ara: AraItems,
-                                elMin: elMinItems,
-                                elNacional: elNacionalItems,
-                                NDigital: NDigitalItems,
-                                eNot: eNotItems,
-                                elMon: elMonItems,
-                                Europa: EuropaItems,
-                                Daily: DailyItems
-                            };
-                            res.json(combinedFeed);
+
+                                                                const combinedFeed = {
+                                                                    elMundo: elMundoItems,
+                                                                    elPeriodico: elPeriodicoItems,
+                                                                    laVanguardia: laVanguardiaItems,
+                                                                    elPais: elPaisItems,
+                                                                    elPuntAvui: elPuntAvuiItems, // Añade los elementos parseados de El Punt Avui
+                                                                    elAbc: elAbcItems,
+                                                                    Ara: AraItems,
+                                                                    elMin: elMinItems,
+                                                                    elNacional: elNacionalItems,
+                                                                    NDigital: NDigitalItems,
+                                                                    eNot: eNotItems,
+                                                                    elMon: elMonItems,
+                                                                    Europa: EuropaItems,
+                                                                    Daily: DailyItems
+                                                                };
+                                                                LAST_NEWS = combinedFeed;
+                                                            });
+                                                        });
                                                     });
-                                                 });
                                                 });
-                                             });
-                                         });
+                                            });
+                                        });
                                     });
-                                 });    
-                            }); 
+                                });
+                            });
                         });
-                    });
                     });
                 });
             });
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Error al obtener las noticias' });
+
     }
+
+}
+
+
+
+app.get('/rss', (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', '*'); // Habilita CORS para cualquier origen
+    res.setHeader('Access-Control-Allow-Methods', 'GET'); // Define los métodos permitidos
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); // Define los encabezados permitidos
+
+    res.send(LAST_NEWS)
+
+
 });
 
 app.listen(3000, () => {
