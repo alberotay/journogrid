@@ -11,7 +11,7 @@ getRss().then((res)=> {
 
         if(t.allFeeds.length > 0) {
             console.log('adding column for: ' + t.source)
-            $('#allFeeds').append('<div id ="' + t.source + 'Column" class= "fit hoverNew">');
+            $('#allFeeds').append('<li id ="' + t.source + 'Column" class= "fit">');
             $('#' + t.source + 'Column').append('<div id ="' + t.source + 'Header" class= "header" />');
             $('#' + t.source + 'Header').append('<button id ="' + t.source + 'ToggleButton" class="minimize-button"  />');
             $('body').on('click', '#' + t.source + 'ToggleButton', function () {
@@ -23,12 +23,15 @@ getRss().then((res)=> {
             $('#' + t.source + 'H1').append('<button id ="' + t.source + 'MoveUpButton" class="move-up-button" />↑');
             $('body').on('click', '#' + t.source + 'MoveUpButton', function () {
                 moveNewsUp(t.source + 'News')
+
+
             });
             $('#' + t.source + 'H1').append('<button id ="' + t.source + 'MoveDownButton" class="move-down-button" />↓');
             //revisar esto de news
             $('body').on('click', '#' + t.source + 'MoveDownButton', function () {
                 moveNewsDown(t.source + 'News', this)
             });
+
             $('#' + t.source + 'Column').append('<div id ="' + t.source + 'News" class= "news-container" />');
             t.allFeeds.forEach((y, j) => {
                 console.log(y)
@@ -45,6 +48,10 @@ getRss().then((res)=> {
                 $('#' + y.source + '_newsDescription_' + j).append('<p  />' + y.description);
             })
         }})
+    $("li").hover(function() {
+        $(this).toggleClass('scale-up').siblings('li').toggleClass('scale-down')
+    })
+
 })
 
 
