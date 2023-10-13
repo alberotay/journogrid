@@ -80,7 +80,7 @@ function moveNewsDown(containerId, button) {
     const container = document.getElementById(containerId);
     const newsItemHeight = container.querySelector('.news-item').offsetHeight; // Altura de un elemento de noticias
 
-    const columnId = container.closest('.news-column').id;
+    const columnId = container.closest('.news-container').id;
 
     clearInterval(columnIntervals[columnId]); // Detener el intervalo anterior
 
