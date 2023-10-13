@@ -353,3 +353,27 @@ h3 {
 }
 
 
+.fit {
+
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 0px 0px 10px 10px;
+    width: 220px;
+    line-height: 28px;
+    font-size: 22px;
+    margin-left: 2px;
+    margin-right:2px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: aliceblue;
+    transition: width 250ms, height 4s, background-color 250ms linear;
+
+
+}
+.hoverNew:hover {
+    background: white;
+    width: 800px;
+}
+
+
+
