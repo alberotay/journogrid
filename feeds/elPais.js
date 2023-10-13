@@ -6,7 +6,7 @@ const FRONTEND_IMAGE = "/elPais-svg.svg"
 async function getItems(){
 
     let elements = await myParser.parseMedia(feedUrl)
-    return utils.feedNormalizerMedia(elements,'El Mundo',FRONTEND_IMAGE)
+    return utils.feedNormalizerMedia(elements,'elPais',FRONTEND_IMAGE)
 
 }
 exports.getItems = getItems
