@@ -6,11 +6,12 @@ async function getRss(){
 
 getRss().then((res)=> {
 
-
+    $("body").append('<div id ="allFeeds" class="parent">');
     res.forEach((t,i) => {
+
         if(t.allFeeds.length > 0) {
             console.log('adding column for: ' + t.source)
-            $("body").append('<div id ="' + t.source + 'Column" class= "news-column">');
+            $('#allFeeds').append('<div id ="' + t.source + 'Column" class= "fit hoverNew">');
             $('#' + t.source + 'Column').append('<div id ="' + t.source + 'Header" class= "header" />');
             $('#' + t.source + 'Header').append('<button id ="' + t.source + 'ToggleButton" class="minimize-button"  />');
             $('body').on('click', '#' + t.source + 'ToggleButton', function () {
@@ -28,7 +29,7 @@ getRss().then((res)=> {
             $('body').on('click', '#' + t.source + 'MoveDownButton', function () {
                 moveNewsDown(t.source + 'News', this)
             });
-            $('#' + t.source + 'Column').append('<div id ="' + t.source + 'News" class= "news-container fit hoverNew" />');
+            $('#' + t.source + 'Column').append('<div id ="' + t.source + 'News" class= "news-container" />');
             t.allFeeds.forEach((y, j) => {
                 console.log(y)
                 $('#' + y.source + 'News').append('<div id ="' + y.source + 'New' + j + '" class= "news-item" />');
