@@ -212,7 +212,7 @@ h3 {
 
 /* Establecer una altura máxima para el contenedor de noticias */
 .news-container {
-    max-height: 4000px; /* Ajusta la altura máxima según tus necesidades */
+    max-height: 60vh; /* Ajusta la altura máxima según tus necesidades */
     
     
 }
@@ -357,25 +357,40 @@ h3 {
     border: 1px solid black;
     border-radius: 0px 0px 10px 10px;
     width: 250px;
+    top:20px;
     line-height: 28px;
     font-size: 22px;
     margin-left: 2px;
     margin-right:2px;
+    margin-top: 5%;
     font-weight: bold;
     cursor: pointer;
     background-color: aliceblue;
-    transition: width 250ms, height 4s, background-color 250ms linear;
+    transition: all 0.3s ease-in;
     box-sizing: border-box;
     display:inline-block;
 
 }
-.hoverNew:hover {
-    background: white;
-    width: 500px;
+
+.scale-up {
+    position:relative;
+    transform: scale(1.4);
+    opacity: 100%;
+    z-index: 1;
+
+}
+.scale-down {
+    position:relative;
+    opacity: 50%;
+    transform: scale(0.8);
+    z-index: 0;
 }
 
+
 .parent {
-      width: auto;
+    margin-left: 5%;
+    margin-right:5%;
+    width: auto;
 }
 
 
