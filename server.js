@@ -54,7 +54,6 @@ async function parserAll() {
 }
 
 app.get('/', function(req, res) {
-    console.log('llega')
     res.sendFile(path.join(__dirname, 'html', 'index.html'));
 })
 
