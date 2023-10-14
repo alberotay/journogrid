@@ -43,10 +43,11 @@ exports.feedNormalizer = function(elements,feedSource,frontEndImage){
         console.log("New feeds for: "+ feedSource)
     }
 
+;
 
     return {source : feedSource,
         type : "National",
-        allFeeds : fixedElements,
+        allFeeds : sortFixedElements(fixedElements),
         frontEndImage:frontEndImage,
         hasNewElements : hasNewElements
     }
@@ -90,11 +91,19 @@ exports.feedNormalizerMedia = function(elements,feedSource,frontEndImage){
 
    return    {source : feedSource,
               type : "National",
-              allFeeds : fixedElements,
+              allFeeds : sortFixedElements(fixedElements),
               frontEndImage:frontEndImage,
               hasNewElements:hasNewElements}
 }
 
+
+
+
+function sortFixedElements(arr){
+  return   arr.sort(function(a,b){
+           return new Date(b.pubDate) - new Date(a.pubDate);
+    })
+}
 
 exports.updateDate = function () {
     console.log("updateding date from " + lastUpdate.toString())
@@ -103,6 +112,3 @@ exports.updateDate = function () {
 }
 
 
-function updateHasNewElements(pudDate){
-    return Date.parse(pudDate) > lastUpdate;
-}
