@@ -1,6 +1,7 @@
 const express = require('express');
-const app = express();
 
+const app = express();
+const path = require('path');
 const cors = require('cors');
 const laVanguardiaItems = require('./feeds/laVanguardia.js')
 const araItems = require('./feeds/ara.js')
@@ -52,8 +53,13 @@ async function parserAll() {
 
 }
 
-app.get('/rss', (req, res) => {
+app.get('/', function(req, res) {
+    console.log('llega')
+    res.sendFile(path.join(__dirname, 'html', 'index.html'));
+})
 
+app.get('/rss', (req, res) => {
+    console.log('llega Peticion rss')
     res.setHeader('Access-Control-Allow-Origin', '*'); // Habilita CORS para cualquier origen
     res.setHeader('Access-Control-Allow-Methods', 'GET'); // Define los métodos permitidos
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); // Define los encabezados permitidos
