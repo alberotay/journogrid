@@ -80,7 +80,7 @@ function fillDesktopGrid(res){
 
 
 
-let minsRefresh = 2
+let minsRefresh = 1
 setInterval(()=>getRss().then((res)=> {
  fillDesktopGrid(res)
 }),1000*60*minsRefresh)

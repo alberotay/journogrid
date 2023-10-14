@@ -17,6 +17,8 @@ const elPuntAvuiItems = require('./feeds/elPuntAvui.js')
 const eNoticiesItems = require('./feeds/eNoticies.js')
 const europaItems = require('./feeds/europa.js')
 const nDigitalItems = require('./feeds/NDigital.js')
+const sportItems = require('./feeds/sport.js')
+const newYorkTimesItems = require('./feeds/newYorkTimes.js')
 
 
 //process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -47,6 +49,8 @@ async function parserAll() {
         combinedFeed.push(await eNoticiesItems.getItems())
         combinedFeed.push(await europaItems.getItems())
         combinedFeed.push(await nDigitalItems.getItems())
+   //     combinedFeed.push(await sportItems.getItems())
+        combinedFeed.push(await newYorkTimesItems.getItems())
         LAST_NEWS = combinedFeed;
 
         require('./utils.js').updateDate()

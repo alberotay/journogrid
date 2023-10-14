@@ -1,6 +1,7 @@
 let now  = new Date()
 //restamos unos dias para la carga inicial
 let lastUpdate =  now - 1000 * 60 * 60 * 24 * 4
+
 //restamos unos dias para la carga inicial
 
 
@@ -23,12 +24,9 @@ exports.feedNormalizer = function(elements,feedSource,frontEndImage){
         }catch(e){
             //console.log("error getrting image for "+feedSource)//
         }
-
-        if(Date.parse(element.pubDate) > lastUpdate){
+        if(compareDates(element.pubDate,lastUpdate)){
             hasNewElements = true
         }
-
-
             fixedElements.push({
             title:element.title,
             source:feedSource,
@@ -40,10 +38,8 @@ exports.feedNormalizer = function(elements,feedSource,frontEndImage){
         })})
 
     if(hasNewElements ===true){
-        console.log("New feeds for: "+ feedSource)
+        console.log("!!!!!!!!!!!!!!!!!!!!!New feeds for: "+ feedSource);
     }
-
-;
 
     return {source : feedSource,
         type : "National",
@@ -69,7 +65,7 @@ exports.feedNormalizerMedia = function(elements,feedSource,frontEndImage){
         }
         let image = getImage(element)
 
-        if(Date.parse(element.pubDate) > lastUpdate){
+        if(compareDates(element.pubDate,lastUpdate)){
             hasNewElements = true
         }
 
@@ -86,7 +82,7 @@ exports.feedNormalizerMedia = function(elements,feedSource,frontEndImage){
 
 
    if(hasNewElements ===true){
-       console.log("New feeds for: "+ feedSource)
+       console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!New feeds for: "+ feedSource)
    }
 
    return    {source : feedSource,
@@ -111,4 +107,15 @@ exports.updateDate = function () {
     console.log("to " + lastUpdate.toString())
 }
 
+const compareDates = (d1, d2) => {
+    let date1 = new Date(d1).getTime();
+    let date2 = new Date(d2).getTime();
+    console.log(date1)
+    console.log(date2)
+    console.log("Evaluating Dates")
+    if (date1 > date2) {
+        console.log(`pubdate  ${d1} is greater than ${d2}`);
+        return true
+    }
+};
 
