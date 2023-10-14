@@ -23,11 +23,14 @@ app.use(express.static('public')); // Sirve archivos estáticos desde la carpeta
 // Habilita CORS para todas las rutas
 app.use(cors());
 
-let LAST_NEWS
-
+let LAST_NEWS = []
 parserAll()
-//setInterval(parserAll, 20000)
+let MINS_TO_REQUEST_ALL_RSS = 1
+setInterval(parserAll, 1000*60*MINS_TO_REQUEST_ALL_RSS)
+
+
 async function parserAll() {
+
     let combinedFeed =[]
         combinedFeed.push(await elMundoItems.getItems())
         combinedFeed.push(await laVanguardiaItems.getItems())
@@ -44,8 +47,10 @@ async function parserAll() {
         combinedFeed.push(await europaItems.getItems())
         combinedFeed.push(await nDigitalItems.getItems())
         LAST_NEWS = combinedFeed;
-}
 
+        require('./utils.js').updateDate()
+
+}
 
 app.get('/rss', (req, res) => {
 
