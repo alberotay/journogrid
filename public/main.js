@@ -1,3 +1,5 @@
+let lastResponse
+
 async function getRss(){
         let fetched =  await fetch('/rss');
         return await fetched.json()
@@ -5,15 +7,13 @@ async function getRss(){
 
 
 getRss().then((res)=> {
-
+    lastResponse = res
     $("body").append('<div id ="allFeeds" class="parent">');
     res.forEach((t,i) => {
-
         if(t.allFeeds.length > 0) {
             console.log('adding column for: ' + t.source)
             $('#allFeeds').append('<li id ="' + t.source + 'Column" class= "fit">');
             $('#' + t.source + 'Column').append('<div id ="' + t.source + 'Header" class= "header" />');
-            $('#' + t.source + 'Header').append('<button id ="' + t.source + 'ToggleButton" class="minimize-button"  />');
             $('body').on('click', '#' + t.source + 'ToggleButton', function () {
                 toggleColumn(t.source + 'Column')
             });
@@ -23,8 +23,6 @@ getRss().then((res)=> {
             $('#' + t.source + 'H1').append('<button id ="' + t.source + 'MoveUpButton" class="move-up-button" />↑');
             $('body').on('click', '#' + t.source + 'MoveUpButton', function () {
                 moveNewsUp(t.source + 'News')
-
-
             });
             $('#' + t.source + 'H1').append('<button id ="' + t.source + 'MoveDownButton" class="move-down-button" />↓');
             //revisar esto de news
@@ -37,7 +35,6 @@ getRss().then((res)=> {
                 console.log(y)
                 $('#' + y.source + 'News').append('<div id ="' + y.source + 'New' + j + '" class= "news-item" />');
                 $('#' + y.source + 'New' + j).append('<h2 id ="' + y.source + 'h2_' + j + '" style = "color: black; font-weight: bold;"  class= "news-title" />');
-
                 $('#' + y.source + 'h2_' + j).append('<a id ="' + y.source + '_a_' + j + ' href= "' + y.link + '"  target="blank" />' + y.title + '');
                 $('#' + y.source + 'New' + j).append('<div id ="' + y.source + 'NewsImageContainer_' + j + '" class= "news-image-container" />');
                 $('#' + y.source + 'NewsImageContainer_' + j).append('<img id ="' + y.source + '_thumbNail_' + j + '" src="' + y.thumbnailUrl + '"  class= "news-image" />');
@@ -54,6 +51,33 @@ getRss().then((res)=> {
 
 })
 
+
+setInterval(()=>getRss().then((res)=> {
+    res.forEach((y) => {
+    if(y.hasNewElements === true) {
+        console.log(y.source)
+        let source = y.source
+        $("#"+source+"Column").addClass("newFeed")
+        setTimeout(()=>{$("#"+source+"Column").removeClass("newFeed")},500)
+        $('#' + source + 'News').empty()
+        console.log("borramos"+ source)
+        y.allFeeds.forEach((feed, j) => {
+            console.log("rellenamos noticia+ "+ feed.title )
+            $('#' + source + 'News').append('<div id ="' + source + 'New' + j + '" class= "news-item" />');
+            $('#' + source + 'New' + j).append('<h2 id ="' + source + 'h2_' + j + '" style = "color: black; font-weight: bold;"  class= "news-title" />');
+            $('#' + source + 'h2_' + j).append('<a id ="' + source + '_a_' + j + ' href= "' + feed.link + '"  target="blank" />' + feed.title + '');
+            $('#' + y.source + 'New' + j).append('<div id ="' + source + 'NewsImageContainer_' + j + '" class= "news-image-container" />');
+            $('#' + source + 'NewsImageContainer_' + j).append('<img id ="' + source + '_thumbNail_' + j + '" src="' + feed.thumbnailUrl + '"  class= "news-image" />');
+            $('#' + source + 'New' + j).append('<h3 id ="' + source + 'h3_' + j + '"  />');
+            $('#' + source + 'h3_' + j).append('<div id ="' + source + '_newsContent_' + j + '" class ="news-content" />');
+            $('#' + source + '_newsContent_' + j).append('<div id ="' + source + '_newsDescription_' + j + '" class ="news-desciption" />');
+            $('#' + source + '_newsDescription_' + j).append('<p  />' + new Date(feed.pubDate).toLocaleString() + ' fuente: ' + source);
+            $('#' + source + '_newsDescription_' + j).append('<p  />' + feed.description);
+        })
+    }
+
+    });
+}),60000)
 
 let scrollInterval;
 
