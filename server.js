@@ -15,9 +15,8 @@ app.use(express.static('public')); // Sirve archivos estáticos desde la carpeta
 app.use(cors());
 
 let LAST_NEWS = []
-parserAll()
-let MINS_TO_REQUEST_ALL_RSS = 1
-setInterval(parserAll, 1000*60*MINS_TO_REQUEST_ALL_RSS)
+parserAll().then(()=>console.log("Initial Start"))
+setInterval(parserAll, 1000*60*utils.MINS_TO_REQUEST_ALL_RSS)
 
 let allFeedsItemGetters =[]
 feedsConfig.feedConfig.forEach((config)=>{
@@ -26,18 +25,15 @@ feedsConfig.feedConfig.forEach((config)=>{
 })
 //let newYorkRimesFeedItems = new feedItems("newYorkTimes",true,'https://rss.nytimes.com/services/xml/rss/nyt/World.xml')
 
-
-
 async function parserAll() {
     await utils.sleep(100)
     let combinedFeed =[]
-    allFeedsItemGetters.forEach(
-        (itemGetter) => async function (){
-        combinedFeed.push(await itemGetter.getItems())
-    }())
-        LAST_NEWS = combinedFeed;
-        require('./utils.js').updateDate()
-
+    for await (const feedItemGetter of allFeedsItemGetters) {
+        //console.log("updateing item Getter")
+            combinedFeed.push(await feedItemGetter.getItems())
+    }
+    utils.updateDate()
+    LAST_NEWS = combinedFeed;
 }
 
 app.get('/', function(req, res) {

@@ -3,6 +3,7 @@ let now = new Date()
 let lastUpdate = now - 1000 * 60 * 60 * 24 * 4
 //restamos unos dias para la carga inicial
 
+exports.MINS_TO_REQUEST_ALL_RSS = 1
 
 exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage) {
     let fixedElements = []
@@ -13,6 +14,7 @@ exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage) {
         let description = removeTags(getDescription(element), "b", "br")
 
         if (compareDates(element.pubDate, lastUpdate)) {
+            console.log("Has New Elements: "+ feedSource)
             hasNewElements = true
         }
 
@@ -28,11 +30,11 @@ exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage) {
         })
     })
 
-
+    let allFeedsSorted = sortFixedElements(fixedElements)
     return {
         source: feedSource,
         type: "National",
-        allFeeds: sortFixedElements(fixedElements),
+        allFeeds: allFeedsSorted ,
         frontEndImage: frontEndImage,
         hasNewElements: hasNewElements
     }
@@ -45,8 +47,9 @@ function sortFixedElements(arr) {
     })
 }
 
-exports.updateDate = function () {
-    lastUpdate = new Date()
+exports.updateDate  =function () {
+//    console.log('Updating Date')
+    lastUpdate = new Date()-60000
 }
 
 const compareDates = (d1, d2) => {
@@ -105,8 +108,6 @@ function removeTags(_html) {
     }
 }
 
-console.log(removeTags('<html>Welcome to GeeksforGeeks.</html>'));
-;
 
 function timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));

@@ -1,7 +1,6 @@
 const parserMedia = require('rss-url-parser')
 
 const parseMedia = async url => {
-    console.log('Parseing with Media:' + url)
     try {
 
         const feed = await  parserMedia(url)
