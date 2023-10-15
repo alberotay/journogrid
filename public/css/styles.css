@@ -345,6 +345,7 @@ h3 {
 
 
 .fit {
+    position: relative;
     padding: 5px;
     border: 1px solid black;
     border-radius: 10px 10px 10px 10px;
@@ -395,4 +396,13 @@ h3 {
 
 .displayNone{
     display: none;
+}
+.newLabel{
+    position: absolute;
+    height: 100px;
+    width: 100px;
+    left:-12px;
+    top: -12px;
+    pointer-events: none;
+
 }
