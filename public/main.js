@@ -70,7 +70,7 @@ function fillDesktopGrid(res){
                 $('#' + source + 'New' + j).append('<h3 id ="' + source + 'h3_' + j + '"  />');
                 $('#' + source + 'h3_' + j).append('<div id ="' + source + '_newsContent_' + j + '" class ="news-content" />');
                 $('#' + source + '_newsContent_' + j).append('<div id ="' + source + '_newsDescription_' + j + '" class ="news-desciption" />');
-                $('#' + source + '_newsDescription_' + j).append('<p  />' + new Date(feed.pubDate).toLocaleString() + ' fuente: ' + source);
+                $('#' + source + '_newsDescription_' + j).append('<p  />' + new Date(feed.pubDate).toLocaleString() );
                 $('#' + source + '_newsDescription_' + j).append('<p  />' + feed.description);
             })
         }
