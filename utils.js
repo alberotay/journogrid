@@ -49,7 +49,7 @@ function sortFixedElements(arr) {
 
 exports.updateDate  =function () {
 //    console.log('Updating Date')
-    lastUpdate = new Date()-60000
+    lastUpdate = new Date()-30000
 }
 
 const compareDates = (d1, d2) => {
