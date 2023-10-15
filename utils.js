@@ -7,58 +7,35 @@ exports.MINS_TO_REQUEST_ALL_RSS = 1
 
 exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage) {
     let fixedElements = []
-    let hasNewElements = false
     elements.forEach((element) => {
-
         let image = getImage(element)
         let description = removeTags(getDescription(element), "b", "br")
-
-        if (compareDates(element.pubDate, lastUpdate)) {
-            console.log("Has New Elements: "+ feedSource)
-            hasNewElements = true
-        }
-
-
+        let pubDate = new Date(element.pubDate);
         fixedElements.push({
+            pubDate: pubDate.getTime(),
             title: element.title,
             source: feedSource,
-            date: element.pubDate,
             description: description,
             link: element.link,
-            pubDate: element.pubDate,
             thumbnailUrl: image
         })
     })
 
-    let allFeedsSorted = sortFixedElements(fixedElements)
+    let allFeedsSorted = sortBy(fixedElements, 'pubDate');
     return {
         source: feedSource,
         type: "National",
         allFeeds: allFeedsSorted ,
         frontEndImage: frontEndImage,
-        hasNewElements: hasNewElements
-    }
+   }
+}
+
+function sortBy(arr, prop) {
+    return arr.sort((a, b) => b[prop] - a[prop]);
 }
 
 
-function sortFixedElements(arr) {
-    return arr.sort(function (a, b) {
-        return new Date(b.pubDate) - new Date(a.pubDate);
-    })
-}
 
-exports.updateDate  =function () {
-//    console.log('Updating Date')
-    lastUpdate = new Date()-30000
-}
-
-const compareDates = (d1, d2) => {
-    let date1 = new Date(d1).getTime();
-    let date2 = new Date(d2).getTime();
-    if (date1 > date2) {
-        return true
-    }
-};
 
 function getImage(element) {
     let urlRegex = /(https?:\/\/[^ ]*)/;

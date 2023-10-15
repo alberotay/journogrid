@@ -14,7 +14,10 @@ let feedsConfig = [
     ["nacioDigital","https://www.naciodigital.cat/rss/"],
     ["euronews","https://es.euronews.com/rss"],
     ["europaPress","https://www.europapress.es/rss/rss.aspx?ch=284"],
-    ["sport","https://www.sport.es/es/rss/last-news/news.xml"]
+    ["sport","https://www.sport.es/es/rss/last-news/news.xml"],
+    ["marca","https://e00-marca.uecdn.es/rss/portada.xml"],
+    ["bbc",'https://www.bbc.com/mundo/ultimas_noticias/index.xml'],
+    ["okDiario","https://okdiario.com/feed"]
 ]
 
 exports.feedConfig=feedsConfig

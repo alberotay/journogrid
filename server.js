@@ -30,9 +30,10 @@ async function parserAll() {
     let combinedFeed =[]
     for await (const feedItemGetter of allFeedsItemGetters) {
         //console.log("updateing item Getter")
-            combinedFeed.push(await feedItemGetter.getItems())
+            let item = await feedItemGetter.getItems()
+            if (item.allFeeds.length > 0) {combinedFeed.push(item)}
+
     }
-    utils.updateDate()
     LAST_NEWS = combinedFeed;
 }
 
