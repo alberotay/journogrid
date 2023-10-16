@@ -95,3 +95,17 @@ function timeout(ms) {
 exports.sleep = async function (ms) {
     await timeout(ms);
 }
+
+exports.sortForClient = function (sortedForClient,lastView){
+    if (sortedForClient.length > 0) {
+        sortedForClient.forEach((y) => {
+            y.allFeeds.forEach((feed) => {
+                if (lastView < feed.pubDate) {
+                    feed.isNew = true
+                    y.hasNewElements = true
+                }
+            })
+        })
+    }
+    return sortedForClient
+}
