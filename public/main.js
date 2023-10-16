@@ -3,7 +3,7 @@ let lastRequestTimeMilis = Date.now()
 
 
 async function getRss(){
-        let fetched =  await fetch('/rss');
+        let fetched =  await fetch('/rss?lastView='+lastRequestTimeMilis);
         return await fetched.json()
 }
 
@@ -40,7 +40,6 @@ function fillDesktop(res){
             $('#allFeeds').append('<li id ="' + t.source + 'Column" class= "fit">');
             $('#' + t.source + 'Column').append('<div id ="' + t.source + 'Header" class= "header" />');
             $("#"+t.source+"Column").prepend('<img id ="' + t.source + '_newLabel' + '" src="/newLabel.png"  class= "newLabel" />');
-            $("#"+t.source + '_newLabel'+"").css("visibility", "hidden");
             $('body').on('click', '#' + t.source + 'ToggleButton', function () {
                 toggleColumn(t.source + 'Column')
             });
@@ -63,18 +62,16 @@ function fillDesktop(res){
 
 
 function fillDesktopGrid(res){
+
     res.forEach((y) => {
-        console.log(y.allFeeds[0].pubDate,"puubDate")
-        console.log("Dentro funcion, ha de ser igual de antes",lastRequestTimeMilis)
-        console.log(y.allFeeds[0].pubDate - lastRequestTimeMilis)
-        console.log (y.allFeeds[0].pubDate ,"first element pubDate")
-        $("#"+y.source + '_newLabel'+"").css("visibility", "hidden");
-        if( (y.allFeeds[0].pubDate > lastRequestTimeMilis) || $("#"+y.source+"News").find("div").length ===0) {
-            $("#"+y.source + '_newLabel'+"").css("visibility", "visible");
+        $("#"+y.source+"_newLabel").removeClass("showMeNewLabel")
+         if( y.hasNewElements || $("#"+y.source+"News").find("div").length ===0) {
            // console.log("new items")
             let source = y.source
+
             $("#"+source+"Column").addClass("newFeed")
             setTimeout(()=>{$("#"+source+"Column").removeClass("newFeed")},500)
+            $("#"+source+"_newLabel").addClass("showMeNewLabel")
             $('#' + source + 'News').empty()
             y.allFeeds.forEach((feed, j) => {
                 $('#' + source + 'News').append('<div id ="' + source + 'New' + j + '" class= "news-item" />');
@@ -99,11 +96,8 @@ function fillDesktopGrid(res){
 let minsRefresh = 2
 
 setInterval(()=>getRss().then((res)=> {
- console.log("antes update interval   ",lastRequestTimeMilis)
  fillDesktopGrid(res)
  updateLastRequestTimeInFront()
- console.log("despues update ",lastRequestTimeMilis)
- console.log('----------------')
 }),1000*60*minsRefresh)
 
 

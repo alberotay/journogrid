@@ -15,39 +15,58 @@ app.use(express.static('public')); // Sirve archivos estáticos desde la carpeta
 app.use(cors());
 
 let LAST_NEWS = []
-parserAll().then(()=>console.log("Initial Start"))
-setInterval(parserAll, 1000*60*utils.MINS_TO_REQUEST_ALL_RSS)
+parserAll().then(() => console.log("Initial Start"))
+setInterval(parserAll, 1000 * 60 * utils.MINS_TO_REQUEST_ALL_RSS)
 
-let allFeedsItemGetters =[]
-feedsConfig.feedConfig.forEach((config)=>{
-  let itemGetter =   new feedItems(config[0],config[1],config[2])
-  allFeedsItemGetters.push(itemGetter)
+let allFeedsItemGetters = []
+feedsConfig.feedConfig.forEach((config) => {
+    let itemGetter = new feedItems(config[0], config[1], config[2])
+    allFeedsItemGetters.push(itemGetter)
 })
+
 //let newYorkRimesFeedItems = new feedItems("newYorkTimes",true,'https://rss.nytimes.com/services/xml/rss/nyt/World.xml')
 
 async function parserAll() {
     await utils.sleep(100)
-    let combinedFeed =[]
+    let combinedFeed = []
     for await (const feedItemGetter of allFeedsItemGetters) {
         //console.log("updateing item Getter")
-            let item = await feedItemGetter.getItems()
-            if (item.allFeeds.length > 0) {combinedFeed.push(item)}
+        let item = await feedItemGetter.getItems()
+        if (item.allFeeds.length > 0) {
+            combinedFeed.push(item)
+        }
 
     }
     LAST_NEWS = combinedFeed;
 }
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'html', 'index.html'));
 })
 
 app.get('/rss', (req, res) => {
     console.log('llega Peticion rss')
+
+    let lastView = req.query.lastView
+
+    let sortedForClient = LAST_NEWS.slice()
+    if (LAST_NEWS.length > 0) {
+        sortedForClient.forEach((y) => {
+            y.allFeeds.forEach((feed) => {
+                if (lastView < feed.pubDate) {
+                    feed.isNew = true
+                    y.hasNewElements = true
+                }
+            })
+        })
+    }
+
+
     res.setHeader('Access-Control-Allow-Origin', '*'); // Habilita CORS para cualquier origen
     res.setHeader('Access-Control-Allow-Methods', 'GET'); // Define los métodos permitidos
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); // Define los encabezados permitidos
 
-    res.send(LAST_NEWS)
+    res.send(sortedForClient)
 
 
 });

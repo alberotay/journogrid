@@ -17,7 +17,8 @@ exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage) {
             source: feedSource,
             description: description,
             link: element.link,
-            thumbnailUrl: image
+            thumbnailUrl: image,
+            isNew: false
         })
     })
 
@@ -27,6 +28,7 @@ exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage) {
         type: "National",
         allFeeds: allFeedsSorted ,
         frontEndImage: frontEndImage,
+        hasNewElements: false
    }
 }
 
