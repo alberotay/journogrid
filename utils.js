@@ -47,6 +47,8 @@ function getImage(element) {
             return element.enclosures[0].url
         } else if (element["media:content"] && element["media:content"]["@"] && element["media:content"]["@"]["url"]) {
             return element["media:content"]["@"]["url"]
+        } else if (element.image && element.image.url) {
+            return element.image.url
         } else if (element.description.match(urlRegex)[0].split('.jpg')[0]) {
             return element.description.match(urlRegex)[0].split('.jpg')[0] + '.jpg'
         } else {

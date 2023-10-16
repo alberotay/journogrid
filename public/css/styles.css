@@ -1,5 +1,5 @@
 .barra-superior {
-        
+
     background-color: #333;
     color: #fff;
     padding: 5px 0;
@@ -185,6 +185,7 @@ h3 {
     scroll-behavior: smooth; /* Aplicar desplazamiento suave */
     max-width: 100%; /* Ajusta el ancho máximo al 100% */
     align-items: stretch;
+    max-height: 50vh; /* Ajusta la altura máxima según tus necesidades */
 
 }
 
@@ -204,76 +205,12 @@ h3 {
 
 /* Establecer una altura máxima para el contenedor de noticias */
 .news-container {
-    max-height: 60vh; /* Ajusta la altura máxima según tus necesidades */
-    
-    
-}
-
-/* Estilo para la flecha hacia abajo cuando está activa */
-.move-down-button.active {
-    background-color: rgb(3, 225, 3);
-    color: white;
-    border-radius: 5px;
-    border: 2px solid rgb(3, 225, 3);
-    margin-top: 5px; /* Márgen superior */
-    margin-bottom: 5px; /* Márgen inferior */
-    position: relative; /* Habilitar posicionamiento relativo */
-    
-    
-        
-}
-
-.imagen-con-fondo {
-    background-color: blue;
-    padding: 2px; /* Opcional: agregar relleno para dar espacio alrededor de la imagen */
-    display: inline-block; /* Opcional: mostrar la imagen como un elemento en línea */
-}
-
-.move-up-button .move-down-button {
-    margin-top: 5px; /* Márgen superior */
-    margin-bottom: 5px; /* Márgen inferior */
-    position: relative; /* Habilitar posicionamiento relativo */
-    border: 2px ;   
-}
-.move-up-button + .move-down-button {
-  margin-bottom: 5px;
-  margin-top: -5px;
-  
-}
-.news-column {
-        display: grid;
-        padding: 7px;
-        box-sizing: border-box;
-        transition: width 0.3s ease-in-out; /* Transición suave para la animación de minimizar/maximizar */
-        margin: 0;
-        margin-top: 20px; /* separacion con la barra*/
 
 
-        
-    }
-    .automatizarButton {
-  background-color: #007BFF; /* Color de fondo normal */
-  color: white; /* Color del texto */
-  border: none;
-  /*padding: 10px 20px;*/
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s, opacity 0.3s; /* Transición suave para cambios */
+
 }
 
-/* Cambiar el fondo cuando se pulsa el botón */
-.automatizarButton:active {
-  background-color: #00b36b; /* Cambia el color de fondo al hacer clic */
-}
 
-/* Cambiar la opacidad cuando el botón está enfocado (por ejemplo, al pulsar Tab) */
-.automatizarButton:focus {
-  opacity: 0.5; /* Reduce la opacidad cuando se enfoca */
-}
-
-.news-column-hidden {
-    display: none;
-}
 
 /* Estilos para dispositivos móviles (ejemplo: ancho máximo de 600px) */
 @media screen and (max-width: 600px) {
@@ -325,23 +262,6 @@ h3 {
     }
 }
 
-.cargando {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999; /* Asegura que esté encima de todo */
-}
-
-.cargando p {
-  font-size: 24px;
-  font-weight: bold;
-}
 
 
 .fit {
@@ -349,7 +269,6 @@ h3 {
     padding: 5px;
     border: 1px solid black;
     border-radius: 10px 10px 10px 10px;
-    width: 250px;
     top:20px;
     line-height: 28px;
     font-size: 22px;
@@ -367,7 +286,7 @@ h3 {
 
 .scale-up {
     position:relative;
-    transform: scale(1.4);
+    transform: scale(1.1);
     opacity: 100%;
     z-index: 1;
 
