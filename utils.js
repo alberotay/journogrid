@@ -5,7 +5,7 @@ let lastUpdate = now - 1000 * 60 * 60 * 24 * 4
 
 exports.MINS_TO_REQUEST_ALL_RSS = 1
 
-exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage) {
+exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage,category) {
     let fixedElements = []
     elements.forEach((element) => {
         let image = getImage(element)
@@ -25,7 +25,7 @@ exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage) {
     let allFeedsSorted = sortBy(fixedElements, 'pubDate');
     return {
         source: feedSource,
-        type: "National",
+        category: category,
         allFeeds: allFeedsSorted ,
         frontEndImage: frontEndImage,
         hasNewElements: false

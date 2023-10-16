@@ -1,5 +1,6 @@
 let lastResponse
 let lastRequestTimeMilis = Date.now()
+let allCategories =[]
 
 
 async function getRss() {
@@ -28,10 +29,28 @@ getRss().then((res) => {
         $(this).toggleClass('scale-up').siblings('li').toggleClass('scale-down')
      })
     res.forEach((element) => {
+        allCategories.indexOf(element.category) === -1 ? allCategories.push(element.category):null;
+
         $('#' + element.source + 'Column').hover(function () {
             $("#" + element.source + "_newLabel").removeClass("showMeNewLabel")
         })
     })
+
+    allCategories.forEach((value, index)=> {
+        $('#radios').append('<input type="checkbox"  checked value="'+value+'"  /> ' + value );
+
+    });
+    $('#radios').on('change', 'input', function() {
+        let elem = $(this);
+        if (elem.is(':checked')) {
+            $("[value|="+elem.val()+"Column]").show()
+        }
+        if (!elem.is(':checked')) {
+            $("[value|="+elem.val()+"Column]").hide()
+        }
+    });
+
+
 })
 
 
@@ -41,7 +60,8 @@ function fillDesktop(res) {
     res.forEach((t, i) => {
         if (t.allFeeds.length > 0) {
             //   console.log('adding column for: ' + t.source)
-            $('#allFeeds').append('<li id ="' + t.source + 'Column" class= "fit">');
+            $('#allFeeds').append('<li id ="' + t.source + 'Column" class= "fit" value = "'+t.category+'Column"> ');
+
             $('#' + t.source + 'Column').append('<div id ="' + t.source + 'Header" class= "header" />');
             $("#" + t.source + "Column").prepend('<img id ="' + t.source + '_newLabel' + '" src="/newLabel.png"  class= "newLabel" />');
             $('#' + t.source + 'Header').append('<h1 id ="' + t.source + 'H1"/>');
@@ -62,6 +82,9 @@ function fillDesktop(res) {
     })
 }
 
+function testHide(){
+    $('#allFeeds :input').filter(function(){return this.value=='Nacional'}).hide()
+}
 
 function fillDesktopGrid(res) {
 
@@ -103,21 +126,6 @@ setInterval(() => getRss().then((res) => {
     fillDesktopGrid(res)
     updateLastRequestTimeInFront()
 }), 1000 * 60 * minsRefresh)
-
-
-const compareDates = (d1, d2) => {
-    let date1 = new Date(d1).getTime();
-    let date2 = new Date(d2).getTime();
-    console.log("Comparamos pubDateª: ", date1)
-    console.log("Comparamos lastRequestª: ", lastRequestTimeMilis)
-    console.log(date1 > date2)
-    if (date1 > date2) {
-        console.log('publicacion mas reciente')
-        return true
-    } else {
-        return false
-    }
-}
 
 let scrollInterval;
 

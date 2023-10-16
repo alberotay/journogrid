@@ -35,7 +35,6 @@ async function parserAll() {
         if (item.allFeeds.length > 0) {
             combinedFeed.push(item)
         }
-
     }
     LAST_NEWS = combinedFeed;
 }
