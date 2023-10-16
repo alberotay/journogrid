@@ -48,25 +48,13 @@ app.get('/rss', (req, res) => {
     console.log('llega Peticion rss')
 
     let lastView = req.query.lastView
-
-    let sortedForClient = LAST_NEWS.slice()
-    if (LAST_NEWS.length > 0) {
-        sortedForClient.forEach((y) => {
-            y.allFeeds.forEach((feed) => {
-                if (lastView < feed.pubDate) {
-                    feed.isNew = true
-                    y.hasNewElements = true
-                }
-            })
-        })
-    }
+    let toSortForClient = LAST_NEWS.slice()
 
 
     res.setHeader('Access-Control-Allow-Origin', '*'); // Habilita CORS para cualquier origen
     res.setHeader('Access-Control-Allow-Methods', 'GET'); // Define los métodos permitidos
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); // Define los encabezados permitidos
-
-    res.send(sortedForClient)
+    res.send(utils.sortForClient(toSortForClient,lastView))
 
 
 });
