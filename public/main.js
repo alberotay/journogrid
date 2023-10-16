@@ -1,6 +1,6 @@
 let lastResponse
 let lastRequestTimeMilis = Date.now()
-let allCategories =[]
+let allCategories = []
 
 
 async function getRss() {
@@ -27,26 +27,27 @@ getRss().then((res) => {
     console.log('----------------')
     $("li").hover(function () {
         $(this).toggleClass('scale-up').siblings('li').toggleClass('scale-down')
-     })
+    })
+
     res.forEach((element) => {
-        allCategories.indexOf(element.category) === -1 ? allCategories.push(element.category):null;
+        allCategories.indexOf(element.category) === -1 ? allCategories.push(element.category) : null;
 
         $('#' + element.source + 'Column').hover(function () {
             $("#" + element.source + "_newLabel").removeClass("showMeNewLabel")
         })
     })
 
-    allCategories.forEach((value, index)=> {
-        $('#radios').append('<input type="checkbox"  checked value="'+value+'"  /> ' + value );
+    allCategories.forEach((value, index) => {
+        $('#radios').append('<input type="checkbox"  checked value="' + value + '"  /> ' + value);
 
     });
-    $('#radios').on('change', 'input', function() {
+    $('#radios').on('change', 'input', function () {
         let elem = $(this);
         if (elem.is(':checked')) {
-            $("[value|="+elem.val()+"Column]").show()
+            $("[value|=" + elem.val() + "Column]").show()
         }
         if (!elem.is(':checked')) {
-            $("[value|="+elem.val()+"Column]").hide()
+            $("[value|=" + elem.val() + "Column]").hide()
         }
     });
 
@@ -56,34 +57,45 @@ getRss().then((res) => {
 
 function fillDesktop(res) {
     $("body").append('<div id ="lastRequestTime" />');
-    $("#bodyDesktop").append('<div id ="allFeeds" class="parent">');
+    $("#bodyDesktop").append('<div id ="containerAllFeeds" class="container position-relative top-10 start-10"">')
+    let rowNumber = 0
     res.forEach((t, i) => {
+
         if (t.allFeeds.length > 0) {
+
+            if ((i % 6) == 0) {
+               rowNumber++
+               $("#containerAllFeeds").append('<div id ="allFeeds' + rowNumber + '" class="row">');
+            }
             //   console.log('adding column for: ' + t.source)
-            $('#allFeeds').append('<li id ="' + t.source + 'Column" class= "fit" value = "'+t.category+'Column"> ');
+            $('#allFeeds'+rowNumber).append('<li id ="' + t.source + 'Column" class= "fit col-sm-3" value = "'+t.category+'Column"> ');
 
             $('#' + t.source + 'Column').append('<div id ="' + t.source + 'Header" class= "header" />');
             $("#" + t.source + "Column").prepend('<img id ="' + t.source + '_newLabel' + '" src="/newLabel.png"  class= "newLabel" />');
             $('#' + t.source + 'Header').append('<h1 id ="' + t.source + 'H1"/>');
 
-            $('#' + t.source + 'H1').append('<img style="width: 100%;" src="' + t.frontEndImage + '" alt="' + t.source + 'Logo" />');
-            $('#' + t.source + 'H1').append('<button id ="' + t.source + 'MoveUpButton" class="move-up-button" />↑');
-            $('body').on('click', '#' + t.source + 'MoveUpButton', function () {
-                moveNewsUp(t.source + 'News')
-            });
-            $('#' + t.source + 'H1').append('<button id ="' + t.source + 'MoveDownButton" class="move-down-button" />↓');
-            //revisar esto de news
-            $('body').on('click', '#' + t.source + 'MoveDownButton', function () {
-                moveNewsDown(t.source + 'News', this)
-            });
+        $('#' + t.source + 'H1').append('<img style="width: 100%;" src="' + t.frontEndImage + '" alt="' + t.source + 'Logo" />');
+        $('#' + t.source + 'H1').append('<button id ="' + t.source + 'MoveUpButton" class="move-up-button" />↑');
+        $('body').on('click', '#' + t.source + 'MoveUpButton', function () {
+            moveNewsUp(t.source + 'News')
+        });
+        $('#' + t.source + 'H1').append('<button id ="' + t.source + 'MoveDownButton" class="move-down-button" />↓');
+        //revisar esto de news
+        $('body').on('click', '#' + t.source + 'MoveDownButton', function () {
+            moveNewsDown(t.source + 'News', this)
+        });
 
-            $('#' + t.source + 'Column').append('<div id ="' + t.source + 'News" class= "news-container" />');
-        }
-    })
+        $('#' + t.source + 'Column').append('<div id ="' + t.source + 'News" class= "news-container" />');
+    }
 }
 
-function testHide(){
-    $('#allFeeds :input').filter(function(){return this.value=='Nacional'}).hide()
+)
+}
+
+function testHide() {
+    $('#allFeeds :input').filter(function () {
+        return this.value == 'Nacional'
+    }).hide()
 }
 
 function fillDesktopGrid(res) {
@@ -106,12 +118,26 @@ function fillDesktopGrid(res) {
                 $('#' + source + 'h2_' + j).append('<a id ="' + source + '_a_' + j + ' href= "' + feed.link + '"  target="blank" />' + feed.title + '');
                 $('#' + y.source + 'New' + j).append('<div id ="' + source + 'NewsImageContainer_' + j + '" class= "news-image-container" />');
                 $('#' + source + 'NewsImageContainer_' + j).append('<img id ="' + source + '_thumbNail_' + j + '" src="' + feed.thumbnailUrl + '"  class= "news-image" />');
-
                 $('#' + source + 'New' + j).append('<h3 id ="' + source + 'h3_' + j + '"  />');
                 $('#' + source + 'h3_' + j).append('<div id ="' + source + '_newsContent_' + j + '" class ="news-content" />');
+                $('#' + source + '_newsContent_' + j).append('<p  />' + new Date(feed.pubDate).toLocaleString());
+                $('#' + source + '_newsContent_' + j).append('<div class="bi bi-box-arrow-down" id ="' + source + '_verMas_' + j + '"  /> ');
                 $('#' + source + '_newsContent_' + j).append('<div id ="' + source + '_newsDescription_' + j + '" class ="news-desciption" />');
-                $('#' + source + '_newsDescription_' + j).append('<p  />' + new Date(feed.pubDate).toLocaleString());
                 $('#' + source + '_newsDescription_' + j).append('<p  />' + feed.description);
+                $('#' + source + '_newsDescription_' + j).hide()
+
+                $('body').on('click', '#' + source + '_verMas_' + j, function () {
+                    if ($('#' + source + '_newsDescription_' + j).is(":visible")){
+                        $('#' + source + '_verMas_' + j).removeClass('bi bi-box-arrow-in-up')
+                        $('#' + source + '_verMas_' + j).addClass('bi bi-box-arrow-in-down')
+                         $('#' + source + '_newsDescription_' + j).hide()
+                    }else{
+                        $('#' + source + '_verMas_' + j).addClass('bi bi-box-arrow-in-up')
+                        $('#' + source + '_verMas_' + j).removeClass('bi bi-box-arrow-in-down')
+                        $('#' + source + '_newsDescription_' + j).show()
+
+                    }
+                });
             })
         }
 
