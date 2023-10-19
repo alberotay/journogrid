@@ -209,6 +209,45 @@ h3 {
 
 
 }
+/* Estilo para el contenedor que envuelve la fecha y el icono */
+.news-date-icon {
+    display: flex; /* Utiliza flexbox para alinear los elementos en línea */
+    align-items: center; /* Centra verticalmente los elementos */
+}
+/* Estilo para el texto pequeño */
+.news-date {
+    display: inline-block;
+    color: gray; /* Color de texto gris para news-date */
+    font-size: 14px; /* Tamaño de fuente más pequeño para la fecha */
+}
+
+/* Estilo para el icono */
+.news-icon  {
+    color: blue;
+    margin-left: 5px;
+    font-size: 20px; /* Tamaño de fuente para el icono */
+}
+
+/* Estilo para el botón cuadrado elegante */
+.move-down-button , .move-up-button  {
+    display: inline-block; /* Asegura que el botón no ocupe toda la línea */
+    padding: 4px 10px; /* Ajusta el relleno (padding) según tus necesidades */
+    background-color: rgb(47, 102, 252); /* Color de fondo azul para el botón */
+    color: white; /* olor de texto blanco */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    text-align: center; /* Alinea el texto en el centro del botón */
+    text-decoration: none; /* Quita el subrayado en el texto (enlace) */
+    font-size: 16px; /* Tamaño de fuente del texto */
+    cursor: pointer; /* Cambia el cursor al pasar por encima del botón */
+    margin-left: 5px;
+    transition: background-color 0.3s; /* Agrega una transición de color de fondo suave */
+}
+
+/* Cambia el color de fondo al pasar el cursor por encima */
+.move-down-button:hover {
+    background-color: darkblue; /* Cambia el color de fondo al pasar el cursor por encima */
+}
 
 
 

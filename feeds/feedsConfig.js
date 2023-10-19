@@ -19,7 +19,8 @@ let feedsConfig = [
     ["marca", "https://e00-marca.uecdn.es/rss/portada.xml", categories.SPORTS],
     ["bbc", 'https://www.bbc.com/mundo/ultimas_noticias/index.xml', categories.SPORTS],
     ["okDiario", "https://okdiario.com/feed", categories.SPORTS],
-    ["as", "https://as.com/rss/tags/ultimas_noticias.xml", categories.SPORTS]
+    ["as", "https://as.com/rss/tags/ultimas_noticias.xml", categories.SPORTS],
+    ["washingtonpPost","https://feeds.washingtonpost.com/rss/national?itid=lk_inline_manual_32",categories.ECONOMY]
 ]
 
 exports.feedConfig = feedsConfig
