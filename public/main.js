@@ -7,16 +7,16 @@ async function getRss() {
     let fetched = await fetch('/rss?lastView=' + lastRequestTimeMilis);
     return await fetched.json()
 }
-//
-//$(document).ready(function () {
-//    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|OperaMini/i.test(navigator.userAgent)) {
+
+$(document).ready(function () {
+ //   if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|OperaMini/i.test(navigator.userAgent)) {
 //        console.log("llega Mobile")
-//        $('#bodyMobile').show();
-//    } else {
-//        console.log("llega Desktop")
-//        $('#bodyDesktop').show();
-//    }
-//});
+ //       $('#bodyMobile').show();
+ //   } else {
+ //       console.log("llega Desktop")
+        $('#bodyDesktop').show();
+ //   }
+});
 
 getRss().then((res) => {
     console.log("antes update   ", lastRequestTimeMilis)
