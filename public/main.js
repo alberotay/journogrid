@@ -57,39 +57,29 @@ getRss().then((res) => {
 
 function fillDesktop(res) {
     $("body").append('<div id ="lastRequestTime" />');
-    $("#bodyDesktop").append('<div id ="containerAllFeeds" class="container position-relative top-10 start-10"">')
-    let rowNumber = 0
+    $("#bodyDesktop").append('<div id ="containerAllFeeds" class="container-fluid">')
+
+    $("#containerAllFeeds").append('<div id ="allFeeds' + '" class="row">');
     res.forEach((t, i) => {
-
         if (t.allFeeds.length > 0) {
-
-            if ((i % 6) == 0) {
-               rowNumber++
-               $("#containerAllFeeds").append('<div id ="allFeeds' + rowNumber + '" class="row">');
+            $('#allFeeds').append('<li id ="' + t.source + 'Column" class= "fit col-sm-1" value = "'+t.category+'Column"> ');
+                $('#' + t.source + 'Column').append('<div id ="' + t.source + 'Header" class= "header" />');
+                $("#" + t.source + "Column").prepend('<img id ="' + t.source + '_newLabel' + '" src="/newLabel.png"  class= "newLabel" />');
+                $('#' + t.source + 'Header').append('<h1 id ="' + t.source + 'H1"/>');
+                $('#' + t.source + 'H1').append('<img style="width: 100%;" src="' + t.frontEndImage + '" alt="' + t.source + 'Logo" />');
+                $('#' + t.source + 'H1').append('<button id ="' + t.source + 'MoveUpButton" class="move-up-button" />↑');
+                $('body').on('click', '#' + t.source + 'MoveUpButton', function () {
+                    moveNewsUp(t.source + 'News')
+                });
+                $('#' + t.source + 'H1').append('<button id ="' + t.source + 'MoveDownButton" class="move-down-button" />↓');
+                //revisar esto de news
+                $('body').on('click', '#' + t.source + 'MoveDownButton', function () {
+                    moveNewsDown(t.source + 'News', this)
+                });
+                $('#' + t.source + 'Column').append('<div id ="' + t.source + 'News" class= "news-container" />');
             }
-            //   console.log('adding column for: ' + t.source)
-            $('#allFeeds'+rowNumber).append('<li id ="' + t.source + 'Column" class= "fit col-sm-3" value = "'+t.category+'Column"> ');
-
-            $('#' + t.source + 'Column').append('<div id ="' + t.source + 'Header" class= "header" />');
-            $("#" + t.source + "Column").prepend('<img id ="' + t.source + '_newLabel' + '" src="/newLabel.png"  class= "newLabel" />');
-            $('#' + t.source + 'Header').append('<h1 id ="' + t.source + 'H1"/>');
-
-        $('#' + t.source + 'H1').append('<img style="width: 100%;" src="' + t.frontEndImage + '" alt="' + t.source + 'Logo" />');
-        $('#' + t.source + 'H1').append('<button id ="' + t.source + 'MoveUpButton" class="move-up-button" />↑');
-        $('body').on('click', '#' + t.source + 'MoveUpButton', function () {
-            moveNewsUp(t.source + 'News')
-        });
-        $('#' + t.source + 'H1').append('<button id ="' + t.source + 'MoveDownButton" class="move-down-button" />↓');
-        //revisar esto de news
-        $('body').on('click', '#' + t.source + 'MoveDownButton', function () {
-            moveNewsDown(t.source + 'News', this)
-        });
-
-        $('#' + t.source + 'Column').append('<div id ="' + t.source + 'News" class= "news-container" />');
-    }
-}
-
-)
+        }
+    )
 }
 
 function testHide() {
@@ -115,7 +105,7 @@ function fillDesktopGrid(res) {
             y.allFeeds.forEach((feed, j) => {
                 $('#' + source + 'News').append('<div id ="' + source + 'New' + j + '" class= "news-item" />');
                 $('#' + source + 'New' + j).append('<h2 id ="' + source + 'h2_' + j + '" style = "color: black; font-weight: bold;"  class= "news-title" />');
-                $('#' + source + 'h2_' + j).append('<a id ="' + source + '_a_' + j + ' href= "' + feed.link + '"  target="blank" />' + feed.title + '');
+                $('#' + source + 'h2_' + j).append('<a id ="' + source + '_a_' + j + ' href= "' + feed.link + '"  target="blank" href = "'+feed.link+'" />' + feed.title + '');
                 $('#' + y.source + 'New' + j).append('<div id ="' + source + 'NewsImageContainer_' + j + '" class= "news-image-container" />');
                 $('#' + source + 'NewsImageContainer_' + j).append('<img id ="' + source + '_thumbNail_' + j + '" src="' + feed.thumbnailUrl + '"  class= "news-image" />');
                 $('#' + source + 'New' + j).append('<h3 id ="' + source + 'h3_' + j + '"  />');
@@ -130,11 +120,11 @@ function fillDesktopGrid(res) {
                 $('#' + source + '_newsDescription_' + j).hide()
 
                 $('body').on('click', '#' + source + '_verMas_' + j, function () {
-                    if ($('#' + source + '_newsDescription_' + j).is(":visible")){
+                    if ($('#' + source + '_newsDescription_' + j).is(":visible")) {
                         $('#' + source + '_verMas_' + j).removeClass('bi bi-box-arrow-in-up')
                         $('#' + source + '_verMas_' + j).addClass('bi bi-box-arrow-in-down')
-                         $('#' + source + '_newsDescription_' + j).hide()
-                    }else{
+                        $('#' + source + '_newsDescription_' + j).hide()
+                    } else {
                         $('#' + source + '_verMas_' + j).addClass('bi bi-box-arrow-in-up')
                         $('#' + source + '_verMas_' + j).removeClass('bi bi-box-arrow-in-down')
                         $('#' + source + '_newsDescription_' + j).show()

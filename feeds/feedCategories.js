@@ -3,5 +3,7 @@ exports.CATEGORIES = {
     INTERNATIONAL: "Intertnacional",
     SPORTS: "Deportes",
     ECONOMY: "Economia",
-    EUROPE:"Europe"
+    EUROPE:"Europe",
+    CATALONIA:"Catalunya",
+    AGENCY:"Agencias"
 }
