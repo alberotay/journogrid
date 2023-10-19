@@ -38,10 +38,11 @@ getRss().then((res) => {
     })
 
     allCategories.forEach((value, index) => {
-        $('#radios').append('<input type="checkbox"  checked value="' + value + '"  /> ' + value);
+     //   <li><a className="dropdown-item" href="#">Something else here</a></li>
+        $('#selectorCategorias').append('<li><input class = "marginRow" checked type="checkbox"  value='+ value + '>'+"  "+value+'</input></li>');
 
     });
-    $('#radios').on('change', 'input', function () {
+    $('#selectorCategorias').on('change', 'input', function () {
         let elem = $(this);
         if (elem.is(':checked')) {
             $("[value|=" + elem.val() + "Column]").show()
