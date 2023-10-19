@@ -59,7 +59,7 @@ function fillDesktop(res) {
     $("body").append('<div id ="lastRequestTime" />');
     $("#bodyDesktop").append('<div id ="containerAllFeeds" class="container-fluid">')
 
-    $("#containerAllFeeds").append('<div id ="allFeeds' + '" class="row">');
+    $("#containerAllFeeds").append('<div id ="allFeeds' + '" class="row marginRow">');
     res.forEach((t, i) => {
         if (t.allFeeds.length > 0) {
             $('#allFeeds').append('<li id ="' + t.source + 'Column" class= "fit col-sm-1" value = "'+t.category+'Column"> ');
