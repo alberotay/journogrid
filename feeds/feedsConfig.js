@@ -20,7 +20,9 @@ let feedsConfig = [
     ["bbc", 'https://www.bbc.com/mundo/ultimas_noticias/index.xml', categories.INTERNATIONAL],
     ["okDiario", "https://okdiario.com/feed", categories.NATIONAL],
     ["as", "https://as.com/rss/tags/ultimas_noticias.xml", categories.SPORTS],
-    ["washingtonpPost","https://feeds.washingtonpost.com/rss/national?itid=lk_inline_manual_32",categories.INTERNATIONAL]
+    ["washingtonpPost","https://feeds.washingtonpost.com/rss/national?itid=lk_inline_manual_32",categories.INTERNATIONAL],
+    ["laTribuna","https://www.latribunadeciudadreal.es/RSS/TCRPortada.xml",categories.CASTILLALAMANCHA]
+
 ]
 
 exports.feedConfig = feedsConfig
