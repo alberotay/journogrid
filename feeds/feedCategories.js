@@ -1,6 +1,6 @@
 exports.CATEGORIES = {
     NATIONAL: "Nacional",
-    INTERNATIONAL: "Intertnacional",
+    INTERNATIONAL: "Internacional",
     SPORTS: "Deportes",
     ECONOMY: "Economia",
     EUROPE:"Europe",
