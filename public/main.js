@@ -9,13 +9,15 @@ async function getRss() {
 }
 
 $(document).ready(function () {
- //   if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|OperaMini/i.test(navigator.userAgent)) {
+    //   if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|OperaMini/i.test(navigator.userAgent)) {
 //        console.log("llega Mobile")
- //       $('#bodyMobile').show();
- //   } else {
- //       console.log("llega Desktop")
-        $('#bodyDesktop').show();
- //   }
+    //       $('#bodyMobile').show();
+    //   } else {
+    //       console.log("llega Desktop")
+    $('#bodyDesktop').show();
+
+
+    //   }
 });
 
 getRss().then((res) => {
@@ -23,6 +25,8 @@ getRss().then((res) => {
     fillDesktop(res)
     fillDesktopGrid(res)
     updateLastRequestTimeInFront()
+
+
     console.log("despues update ", lastRequestTimeMilis)
     console.log('----------------')
     $("li").hover(function () {
@@ -31,15 +35,14 @@ getRss().then((res) => {
 
     res.forEach((element) => {
         allCategories.indexOf(element.category) === -1 ? allCategories.push(element.category) : null;
-
         $('#' + element.source + 'Column').hover(function () {
             $("#" + element.source + "_newLabel").removeClass("showMeNewLabel")
         })
     })
 
     allCategories.forEach((value, index) => {
-     //   <li><a className="dropdown-item" href="#">Something else here</a></li>
-        $('#selectorCategorias').append('<li><input class = "marginRow" checked type="checkbox"  value='+ value + '>'+"  "+value.replaceAll("_"," ")+'</input></li>');
+        //   <li><a className="dropdown-item" href="#">Something else here</a></li>
+        $('#selectorCategorias').append('<li><input class = "marginRow" checked type="checkbox"  value=' + value + '>' + "  " + value.replaceAll("_", " ") + '</input></li>');
 
     });
     $('#selectorCategorias').on('change', 'input', function () {
@@ -60,10 +63,13 @@ function fillDesktop(res) {
     $("body").append('<div id ="lastRequestTime" />');
     $("#bodyDesktop").append('<div id ="containerAllFeeds" class="container-fluid">')
 
-    $("#containerAllFeeds").append('<div id ="allFeeds' + '" class="row marginRow">');
+    res = sortColumnsByLastPreference(res)
+
+
+    $("#containerAllFeeds").append('<div id ="allFeeds' + '" class="row marginRow list-group">');
     res.forEach((t, i) => {
-        if (t.allFeeds.length > 0) {
-            $('#allFeeds').append('<li id ="' + t.source + 'Column" class= "fit col-sm-1" value = "'+t.category+'Column"> ');
+            if (t.allFeeds.length > 0) {
+                $('#allFeeds').append('<li id ="' + t.source + 'Column" class= "fit col-sm-1 list-group-item" value = "' + t.category + 'Column"> ');
                 $('#' + t.source + 'Column').append('<div id ="' + t.source + 'Header" class= "header" />');
                 $("#" + t.source + "Column").prepend('<img id ="' + t.source + '_newLabel' + '" src="/newLabel.png"  class= "newLabel" />');
                 $('#' + t.source + 'Header').append('<h1 id ="' + t.source + 'H1"/>');
@@ -81,16 +87,15 @@ function fillDesktop(res) {
             }
         }
     )
-}
 
-function testHide() {
-    $('#allFeeds :input').filter(function () {
-        return this.value == 'Nacional'
-    }).hide()
+
+    if (window.localStorage.getItem("columnsOrder") === null) {
+        updateLocalStorageOrder()
+    }
 }
 
 function fillDesktopGrid(res) {
-
+    res = sortColumnsByLastPreference(res)
     res.forEach((y) => {
         $("#" + y.source + "_newLabel").removeClass("showMeNewLabel")
         if (y.hasNewElements || $("#" + y.source + "News").find("div").length === 0) {
@@ -106,7 +111,7 @@ function fillDesktopGrid(res) {
             y.allFeeds.forEach((feed, j) => {
                 $('#' + source + 'News').append('<div id ="' + source + 'New' + j + '" class= "news-item" />');
                 $('#' + source + 'New' + j).append('<h2 id ="' + source + 'h2_' + j + '" style = "color: black; font-weight: bold;"  class= "news-title" />');
-                $('#' + source + 'h2_' + j).append('<a id ="' + source + '_a_' + j + ' href= "' + feed.link + '"  target="blank" href = "'+feed.link+'" />' + feed.title + '');
+                $('#' + source + 'h2_' + j).append('<a id ="' + source + '_a_' + j + ' href= "' + feed.link + '"  target="blank" href = "' + feed.link + '" />' + feed.title + '');
                 $('#' + y.source + 'New' + j).append('<div id ="' + source + 'NewsImageContainer_' + j + '" class= "news-image-container" />');
                 $('#' + source + 'NewsImageContainer_' + j).append('<img id ="' + source + '_thumbNail_' + j + '" src="' + feed.thumbnailUrl + '"  class= "news-image" />');
                 $('#' + source + 'New' + j).append('<h3 id ="' + source + 'h3_' + j + '"  />');
@@ -135,6 +140,18 @@ function fillDesktopGrid(res) {
             })
         }
 
+    });
+    Sortable.create(allFeeds, {
+        animation: 100,
+        group: 'list-1',
+        draggable: '.list-group-item',
+        handle: '.list-group-item',
+        sort: true,
+        filter: '.sortable-disabled',
+        chosenClass: 'active',
+        onEnd: function(){
+            updateLocalStorageOrder()
+        }
     });
 
 }
@@ -199,3 +216,28 @@ function updateLastRequestTimeInFront() {
     $("#lastRequestTime").empty()
     $("#lastRequestTime").append(lastRequestTimeMilis)
 }
+
+
+function sortColumnsByLastPreference(res) {
+    if (JSON.parse(window.localStorage.getItem("columnsOrder"))){
+        let a = JSON.parse(window.localStorage.getItem("columnsOrder"))
+        let sortInsert = function (acc, cur) {
+            var toIdx = R.indexOf(cur.source, a);
+            acc[toIdx] = cur;
+            return acc;
+        };
+        let sort = R.reduce(sortInsert, []);
+        return sort(res)
+    } else {
+        return res
+    }
+}
+
+function updateLocalStorageOrder(){
+    let orderArray = []
+    console.log("recalculando orden")
+    document.querySelectorAll(".fit").forEach((data) => orderArray.push(data.id.replace("Column", "")))
+    window.localStorage.setItem("columnsOrder", JSON.stringify(orderArray))
+    console.log("nuevo orden: "+ window.localStorage.getItem("columnsOrder"))
+}
+
