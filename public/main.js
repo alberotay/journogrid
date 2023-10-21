@@ -122,8 +122,8 @@ function fillDesktopGrid(res) {
                 $('#' + source + '_newsContent_' + j).append('<div class="news-date-icon"><span class="news-date">' + new Date(feed.pubDate).toLocaleString() +
                     '</span><i class="bi bi-box-arrow-down news-icon" id="' + source + '_verMas_' + j + '"></i></div>');
 
-                $('#' + source + '_newsContent_' + j).append('<div id ="' + source + '_newsDescription_' + j + '" class ="news-desciption" />');
-                $('#' + source + '_newsDescription_' + j).append('<p  />' + feed.description);
+                $('#' + source + '_newsContent_' + j).append('<div id ="' + source + '_newsDescription_' + j + '" class ="news-desciption" />' );
+                $('#' + source + '_newsDescription_' + j).append('<p class = "justifyText" />' + feed.description);
                 $('#' + source + '_newsDescription_' + j).hide()
 
                 $('body').on('click', '#' + source + '_verMas_' + j, function () {
@@ -154,8 +154,6 @@ function fillDesktopGrid(res) {
             updateLocalStorageOrder()
         }
     });
-    const lastUpdate = new Date(lastRequestTimeMilis);
-    $("#lastUpdate").html("Última actualización: " + lastUpdate.toLocaleString())
 
 }
 
@@ -216,8 +214,7 @@ function moveNewsDown(containerId, button) {
 
 function updateLastRequestTimeInFront() {
     lastRequestTimeMilis = Date.now()
-    $("#lastRequestTime").empty()
-    $("#lastRequestTime").append(lastRequestTimeMilis)
+    $("#lastUpdate").html("Última actualización: " + new Date(lastRequestTimeMilis).toLocaleString())
 }
 
 
