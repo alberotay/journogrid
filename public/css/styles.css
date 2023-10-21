@@ -100,7 +100,12 @@
 
     .news-description {
         flex: 1; /* Ocupar el espacio restante para la descripción */
-        
+
+    }
+
+    .justifyText{
+        text-align: justify;
+        text-justify: inter-word;
     }
 
     h1 {
@@ -377,4 +382,10 @@ h3 {
     height:150px;
     position:fixed;
     z-index: 2;
+}
+
+.clock{
+    width: 30px;
+    height:30px;
+    margin-right: 5px;
 }
