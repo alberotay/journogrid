@@ -39,7 +39,7 @@ getRss().then((res) => {
 
     allCategories.forEach((value, index) => {
      //   <li><a className="dropdown-item" href="#">Something else here</a></li>
-        $('#selectorCategorias').append('<li><input class = "marginRow" checked type="checkbox"  value='+ value + '>'+"  "+value+'</input></li>');
+        $('#selectorCategorias').append('<li><input class = "marginRow" checked type="checkbox"  value='+ value + '>'+"  "+value.replaceAll("_"," ")+'</input></li>');
 
     });
     $('#selectorCategorias').on('change', 'input', function () {
