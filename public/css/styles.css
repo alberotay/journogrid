@@ -370,3 +370,11 @@ h3 {
     margin-left: 10px!important;
     flex-direction: row!important;
 }
+
+
+.imgAl {
+    width: 150px;
+    height:150px;
+    position:fixed;
+    z-index: 2;
+}
