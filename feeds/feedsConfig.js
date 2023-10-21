@@ -21,7 +21,8 @@ let feedsConfig = [
     ["okDiario", "https://okdiario.com/feed", categories.NATIONAL],
     ["as", "https://as.com/rss/tags/ultimas_noticias.xml", categories.SPORTS],
     ["washingtonpPost","https://feeds.washingtonpost.com/rss/national?itid=lk_inline_manual_32",categories.INTERNATIONAL],
-    ["laTribuna","https://www.latribunadeciudadreal.es/RSS/TCRPortada.xml",categories.CASTILLALAMANCHA]
+    ["laTribuna","https://www.latribunadeciudadreal.es/RSS/TCRPortada.xml",categories.CASTILLALAMANCHA],
+    ["elMundo","https://e00-elmundo.uecdn.es/elmundo/rss/portada.xml",categories.NATIONAL]
 
 ]
 
