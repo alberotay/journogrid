@@ -153,6 +153,8 @@ function fillDesktopGrid(res) {
             updateLocalStorageOrder()
         }
     });
+    const lastUpdate = new Date(lastRequestTimeMilis);
+    $("#lastUpdate").html("Última actualización: " + lastUpdate.toLocaleString())
 
 }
 
