@@ -302,12 +302,10 @@ h3 {
     padding: 5px;
     border: 1px solid black;
     border-radius: 10px 10px 10px 10px;
-    top:20px;
     line-height: 28px;
     font-size: 22px;
-    margin-left: 2px;
-    margin-right:2px;
-    margin-top: 5%;
+    margin-top: 5px!important;
+    margin-right:5px;
     font-weight: bold;
     cursor: pointer;
     background-color: aliceblue;
@@ -325,12 +323,14 @@ h3 {
     opacity: 100%;
     z-index: 1;
 
+
 }
 .scale-down {
     position:relative;
     opacity: 50%;
     transform: scale(0.8);
     z-index: 0;
+
 }
 
 
