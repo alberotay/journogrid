@@ -226,7 +226,7 @@ function sortColumnsByLastPreference(res) {
         let a = JSON.parse(window.localStorage.getItem("columnsOrder"))
         res.forEach((data) =>resSources.push(data.source))
         let filtered = resSources.filter(x => !a.includes(x))
-        filtered.forEach((data,i)=>{a.push(res.source)})
+        filtered.forEach((data,i)=>{a.push(data)})
         console.log(filtered)
         let sortInsert = function (acc, cur) {
             var toIdx = R.indexOf(cur.source, a);
