@@ -16,7 +16,6 @@ $(document).ready(function () {
     //       $('#bodyMobile').show();
     //   } else {
     //       console.log("llega Desktop")
-    $('#imgAlbert').hide()
     $('#bodyDesktop').show();
 
 
