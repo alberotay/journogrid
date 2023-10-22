@@ -313,7 +313,7 @@ h3 {
     margin-right:5px;
     font-weight: bold;
     cursor: pointer;
-    background-color: aliceblue;
+    background-color: aliceblue!important;
     transition: all 0.3s ease-in;
     box-sizing: border-box;
     display:inline-block;
@@ -349,7 +349,7 @@ h3 {
 
 .newFeed{
     transform: scale(1.1);
-    background-color: firebrick;
+    background-color: firebrick!important;
 }
 
 
