@@ -1,0 +1,9 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="36" height="36">
+	<title>Proyecto nuevo</title>
+	<defs>
+		<image  width="36" height="36" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAAAXNSR0IB2cksfwAAAGZQTFRFAAAAAAAAAAAAAAAAAgICAAAAAAAAAAAAAAAADAwMAAAAAAAABwcHAAAACAgIAAAAAgICpKSkUlJSERERpaWlS0tLAAAAPDw8hISEh4eHT09PAAAAk5OTjo6OAAAAmJiYjY2NJCQkrvl1zwAAACJ0Uk5TADUawGmz/xYHpE/ukFwhbth4ZrCsnEPFnCKufISM4nyS9slQzi8AAAEJSURBVHiczZJhU8MgDIZDYe8KjM6pTXWdm/7/P2kC3dyqJ9PbneYDIS/PJSFA9F/NNE2Vsa6eZ4HljSDAytrmfVscXToxD4RA0XsRgZVKCcZQRxQXR6gD1us7AJ4iMhXEYXNvbSlyNdTI1ubzhzaKEyVJ8Ci0UNMIBXJO88FR3ytELMHARE/Aslz9WctN0HaboVGC3RmUNPUM0pbw8lNIW72EjNn7GRTCvCeZ+mYGfdn44XfQ+Zwm6HO5Ru9iFEInkLwr9Tony/x6gmil5+OoExwG1awKWvINfPosrjxkQtT/xIxBM8mb7z8+1HWQ6MVlTW6RGzfM9J0dR1CF+htBKZkatEsV4M/tHdpSFQ9WVzA5AAAAAElFTkSuQmCC"/>
+	</defs>
+	<style>
+	</style>
+	<use id="Capa 21" href="#img1" x="0" y="0"/>
+</svg>

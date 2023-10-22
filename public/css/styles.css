@@ -1,6 +1,14 @@
 .body{
     background-color: lightgray;
 }
+.ia-letters {
+    color: #ff6600; /* Color al que cambian las letras */
+    transition: color 1s; /* Transición suave de 0.3 segundos para el cambio de color */
+  }
+  
+  .ia-letters:hover {
+    color: #333; /* Color al que vuelven las letras al pasar el ratón por encima */
+  }
 
 
 .barra-superior {
