@@ -22,7 +22,10 @@ let feedsConfig = [
     ["as", "https://as.com/rss/tags/ultimas_noticias.xml", categories.SPORTS],
     ["washingtonpPost","https://feeds.washingtonpost.com/rss/national?itid=lk_inline_manual_32",categories.INTERNATIONAL],
     ["laTribuna","https://www.latribunadeciudadreal.es/RSS/TCRPortada.xml",categories.CASTILLALAMANCHA],
-    ["elMundo","https://e00-elmundo.uecdn.es/elmundo/rss/portada.xml",categories.NATIONAL]
+    ["elMundo","https://e00-elmundo.uecdn.es/elmundo/rss/portada.xml",categories.NATIONAL],
+    ["miCiudadReal","https://www.miciudadreal.es/feed/",categories.CASTILLALAMANCHA],
+    ["enCastilla","https://www.encastillalamancha.es/feed/",categories.CASTILLALAMANCHA]
+    
 
 ]
 
