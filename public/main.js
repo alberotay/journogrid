@@ -1,3 +1,5 @@
+
+
 let lastResponse
 let lastRequestTimeMilis = Date.now()
 let allCategories = []
@@ -219,14 +221,21 @@ function updateLastRequestTimeInFront() {
 
 
 function sortColumnsByLastPreference(res) {
+    let resSources = []
     if (JSON.parse(window.localStorage.getItem("columnsOrder"))){
+
         let a = JSON.parse(window.localStorage.getItem("columnsOrder"))
+        res.forEach((data) =>resSources.push(data.source))
+        let filtered = resSources.filter(x => !a.includes(x))
+        filtered.forEach((data,i)=>{a.push(res.source)})
+        console.log(filtered)
         let sortInsert = function (acc, cur) {
             var toIdx = R.indexOf(cur.source, a);
             acc[toIdx] = cur;
             return acc;
         };
-        let sort = R.reduce(sortInsert, []);
+        let sort = R.reduceRight(sortInsert, []);
+
         return sort(res)
     } else {
         return res
