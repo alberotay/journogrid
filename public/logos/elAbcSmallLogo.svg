@@ -1,0 +1,11 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="36" height="36">
+	<title>Proyecto nuevo</title>
+	<defs>
+		<image  width="36" height="36" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkAQMAAADbzgrbAAAAAXNSR0IB2cksfwAAAANQTFRF////p8QbyAAAAAxJREFUeJxjYBieAAAA2AABOXA/oAAAAABJRU5ErkJggg=="/>
+		<image  width="28" height="28" id="img2" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAAXNSR0IB2cksfwAAAGBQTFRF////+/z8hpGcucDG0NTZfYmUl6GqnKWuoquz8vT1wsjNnaiyx8zRPVJmNEleFzhS2t3gTV9xbHqJ6+3vY3OBJkFYLEZd4eTmrbS7cX+MjJWfV2d3ACtHXW18kZukIDtTGnGQ/QAAAJNJREFUeJztkMsSwiAMRYNACbFYLKW8bP3/vxQ6TrU7F+70LjKZnExyE4C/PhE78RqF7BTqmpA6U/+C5lKjHizglcGIzqlph4S+duo5gBt0TK1kd5hYnhqMQY1Q8LAyZAg3VyEnMm5ZD3BNOd9xGwslotfvXhdgEP1myM6WFdNbzp8wimZVUjulq0YYl6v4woN+QA/8BgZpJtiRJwAAAABJRU5ErkJggg=="/>
+	</defs>
+	<style>
+	</style>
+	<use id="Background" href="#img1" x="0" y="0"/>
+	<use id="Capa 5" href="#img2" x="4" y="4"/>
+</svg>

@@ -1,0 +1,9 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="36" height="36">
+	<title>Proyecto nuevo</title>
+	<defs>
+		<image  width="36" height="36" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAAAXNSR0IB2cksfwAAAGBQTFRF/ywz/ysy/xoj/yEp/ygv/zk//6yu/6Wn/5qc/4KF/1JW/wAS/xYg/0VK//////b2/7W2/zE3/42O/w8b/2Fk/yQs/9XW/3F0/+vs/+bn//Dx/8rL/5GT/2Vo/wAE/2pubp+gkwAAAKZJREFUeJzl09sOgjAMgOF2KzDsnOgAAQXe/y2BGPBASBc13vhfLcuXbFk6gClUT2lNCEt4W2MUx8k9k6Y7tpbeQLR3rx2y7KgkNHXiAOQS72Xk8rz4EipLLyPnLAag8TwZnX+LQL54VbH8BEHIGCWimhklVBORNAUxkzxPAmqay1Upi1vj27Zecdd5jcunWqO+Lx6+3IcI/hEBRHPj3hZCmsOVCUUD4yAonwV9s8gAAAAASUVORK5CYII="/>
+	</defs>
+	<style>
+	</style>
+	<use id="Capa 6" href="#img1" x="0" y="0"/>
+</svg>
