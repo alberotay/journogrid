@@ -18,7 +18,8 @@ exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage,cate
             description: description,
             link: element.link,
             thumbnailUrl: image,
-            isNew: false
+            isNew: false,
+            category: category
         })
     })
 
