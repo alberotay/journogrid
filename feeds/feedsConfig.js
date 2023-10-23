@@ -25,8 +25,6 @@ let feedsConfig = [
     ["elMundo","https://e00-elmundo.uecdn.es/elmundo/rss/portada.xml",categories.NATIONAL],
     ["miCiudadReal","https://www.miciudadreal.es/feed/",categories.CASTILLALAMANCHA],
     ["enCastilla","https://www.encastillalamancha.es/feed/",categories.CASTILLALAMANCHA]
-    
-
 ]
 
 exports.feedConfig = feedsConfig

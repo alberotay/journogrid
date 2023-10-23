@@ -41,13 +41,16 @@ getRss().then((res) => {
             $("#" + element.source + "_newLabel").removeClass("showMeNewLabel")
         })
     })
+    document.querySelector('.dropdown-menu').addEventListener('click', function(event) {
+        event.stopPropagation();
+    });
+
 
     allCategories.forEach((value, index) => {
-        //   <li><a className="dropdown-item" href="#">Something else here</a></li>
-        $('#selectorCategorias').append('<li><input class = "marginRow" checked type="checkbox"  value=' + value + '>' + "  " + value.replaceAll("_", " ") + '</input></li>');
-
+        $('#categoriasDropdown').append('<lu><a class="dropdown-item"> <div class="form-check" > <input  checked value=' + value + ' class="form-check-input" type="checkbox" id="flexCheckDefault'+value+'">' +
+            '  <label class="form-check-label" for="flexCheckDefault'+value+'">'+value.replaceAll("_", " ")+' </label></div></a></lu>');
     });
-    $('#selectorCategorias').on('change', 'input', function () {
+    $('#categoriasDropdown').on('change', 'input', function () {
         let elem = $(this);
         if (elem.is(':checked')) {
             $("[value|=" + elem.val() + "Column]").show()
