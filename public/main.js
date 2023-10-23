@@ -20,9 +20,10 @@ $(document).ready(function () {
 
 getRss().then((res) => {
     console.log("antes update   ", lastRequestTimeMilis)
-    fillMobileGrid(res)
+
     fillDesktop(res)
     fillDesktopGrid(res)
+    fillMobileGrid(res)
     updateLastRequestTimeInFront()
 
 
@@ -169,6 +170,7 @@ function fillMobileGrid(res) {
     let mergedNews = onlyNews.flat(1)
     mergedNews = mergedNews.sort((a, b) => b.pubDate - parseFloat(a.pubDate));
     console.log(mergedNews)
+    $("#bodyMobile").empty()
     mergedNews.forEach((data, i) => {
         let image = '<img style="width: 18px; height: 18px; border-radius: 4px;" src="./logos/' + data.source + 'SmallLogo.svg" alt="" />';
         $("#bodyMobile").append('  <div className="row" class = "news-item-mobile"/>' +
