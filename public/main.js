@@ -124,8 +124,8 @@ function fillDesktopGrid(res) {
 
                 // Coloca la fecha y el icono en el mismo elemento y ahora tmb el iconito chuli
                 
-                var image = '<img style="width: 18px; height: 18px; border-radius: 4px;" src="./logos/' + feed.source + 'SmallLogo.svg" alt="" />';
-                $('#' + source + '_newsContent_' + j).append('<div class="news-date-icon"><span class="news-date">' + image + new Date(feed.pubDate).toLocaleString() +
+                let image = '<img style="width: 18px; height: 18px; border-radius: 4px;" src="./logos/' + feed.source + 'SmallLogo.svg" alt="" />';
+                $('#' + source + '_newsContent_' + j).append('<div class="news-date-icon"><span class="news-date">' + image +" "+ new Date(feed.pubDate).toLocaleString() +
                     '</span><i class="bi bi-box-arrow-down news-icon" id="' + source + '_verMas_' + j + '"></i></div>');
 
                 $('#' + source + '_newsContent_' + j).append('<div id ="' + source + '_newsDescription_' + j + '" class ="news-desciption" />' );
