@@ -171,10 +171,10 @@ function fillMobileGrid(res) {
     console.log(mergedNews)
     mergedNews.forEach((data, i) => {
         let image = '<img style="width: 18px; height: 18px; border-radius: 4px;" src="./logos/' + data.source + 'SmallLogo.svg" alt="" />';
-        $("#bodyMobile").append('  <div className="row" class = " news-item marginRowMobile"/>' +
+        $("#bodyMobile").append('  <div className="row" class = "news-item-mobile"/>' +
             '            <div className="col-2">'+
             '<h2 href= "' + data.link + '"  class = "news-title" target="blank" href = "' + data.link + '" />' + data.title +
-            '<img src="' + data.thumbnailUrl + '"  class= "news-image" />'+
+            '<img src="' + data.thumbnailUrl + '"  class= "news-image marginTopMogileImage" />'+
             '<div class="news-date-icon"><span class="news-date">' + image + " " + new Date(data.pubDate).toLocaleString() +
             '</span><i class="bi bi-box-arrow-down news-icon" id="verMasMobile_' + i + '"></i></div>'+
             '<div id ="newsDescriptionMobile_' + i + '" class ="news-desciption" >'+

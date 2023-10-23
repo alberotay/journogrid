@@ -83,6 +83,14 @@
         padding: 15px;
     }
 
+.news-item-mobile {
+    display: flex; /* Mostrar como fila */
+    flex-wrap: wrap; /* Romper en múltiples líneas si es necesario */
+    border-bottom: 1px solid black;
+    padding: 15px;
+    background: white;
+}
+
    
     .news-title a {
     color: #000;
@@ -384,7 +392,6 @@ h3 {
     flex-direction: row!important;
 }
 .marginRowMobile{
-    margin-top: 10px;
     margin-right: 5px;
     margin-left: 5px;
 }
@@ -411,4 +418,8 @@ h3 {
 
     line-height: 7px;
 
+}
+
+.marginTopMobileImage {
+    margin-top: 5px;
 }
