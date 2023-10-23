@@ -59,5 +59,5 @@ app.get('/rss', (req, res) => {
 });
 
 app.listen(80, () => {
-    console.log('Servidor iniciado en el puerto 3000');
+    console.log('Servidor iniciado en el puerto 80');
 });
