@@ -6,5 +6,5 @@ exports.CATEGORIES = {
     EUROPE:"Europe",
     CATALONIA:"Catalunya",
     AGENCY:"Agencias",
-    CASTILLALAMANCHA:"C_la_Mancha"
+    CASTILLALAMANCHA:"Castilla_la_Mancha"
 }

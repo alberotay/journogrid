@@ -52,9 +52,11 @@ getRss().then((res) => {
         let elem = $(this);
         if (elem.is(':checked')) {
             $("[value|=" + elem.val() + "Column]").show()
+            $("[value|=" + elem.val() + "Mobile]").show()
         }
         if (!elem.is(':checked')) {
             $("[value|=" + elem.val() + "Column]").hide()
+            $("[value|=" + elem.val() + "Mobile]").hide()
         }
     });
 
@@ -172,11 +174,12 @@ function fillMobileGrid(res) {
     $("#bodyMobile").empty()
     mergedNews.forEach((data, i) => {
         let image = '<img style="width: 18px; height: 18px; border-radius: 4px;" src="./logos/' + data.source + 'SmallLogo.svg" alt="" />';
-        $("#bodyMobile").append('  <div className="row" class = "news-item-mobile"/>' +
+        $("#bodyMobile").append('  <div className="row" value = "'+data.category+'Mobile" class = "news-item-mobile"/>' +
             '            <div className="col-2">'+
+            '<p />' + data.category.replaceAll("_", " ") +
             '<h2 href= "' + data.link + '"  class = "news-title" target="blank" href = "' + data.link + '" />' + data.title +
             '<img src="' + data.thumbnailUrl + '"  class= "news-image marginTopMobileImage" />'+
-            '<div class="news-date-icon"><span class="news-date">' + image + " " + new Date(data.pubDate).toLocaleString() +
+            '<div class="news-date-icon marginTopMobileImage"><span class="news-date">' + image + " " + new Date(data.pubDate).toLocaleString() +
             '</span><i class="bi bi-box-arrow-down news-icon" id="verMasMobile_' + i + '"></i></div>'+
             '<div id ="newsDescriptionMobile_' + i + '" class ="news-desciption" >'+
             '<p class = "justifyText" />' + data.description+
