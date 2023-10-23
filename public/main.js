@@ -44,8 +44,8 @@ getRss().then((res) => {
 
 
     allCategories.forEach((value, index) => {
-        $('#categoriasDropdown').append('<lu><a class="dropdown-item"> <div class="form-check" > <input  checked value=' + value + ' class="form-check-input" type="checkbox" id="flexCheckDefault' + value + '">' +
-            '  <label class="form-check-label" for="flexCheckDefault' + value + '">' + value.replaceAll("_", " ") + ' </label></div></a></lu>');
+        $('#categoriasDropdown').append('<a class="dropdown-item"> <div class="form-check" > <input  checked value=' + value + ' class="form-check-input" type="checkbox" id="flexCheckDefault' + value + '">' +
+            '  <label class="form-check-label" for="flexCheckDefault' + value + '">' + value.replaceAll("_", " ") + ' </label></div></a>');
     });
     $('#categoriasDropdown').on('change', 'input', function () {
         let elem = $(this);
@@ -293,4 +293,5 @@ function updateLocalStorageOrder() {
     window.localStorage.setItem("columnsOrder", JSON.stringify(orderArray))
     console.log("nuevo orden: " + window.localStorage.getItem("columnsOrder"))
 }
+
 
