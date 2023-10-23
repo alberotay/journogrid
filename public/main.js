@@ -1,5 +1,3 @@
-
-
 let lastResponse
 let lastRequestTimeMilis = Date.now()
 let allCategories = []
@@ -11,19 +9,18 @@ async function getRss() {
 }
 
 $(document).ready(function () {
-    //   if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|OperaMini/i.test(navigator.userAgent)) {
-//        console.log("llega Mobile")
-    //       $('#bodyMobile').show();
-    //   } else {
-    //       console.log("llega Desktop")
-    $('#bodyDesktop').show();
-
-
-    //   }
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|OperaMini/i.test(navigator.userAgent)) {
+        console.log("llega Mobile")
+        $('#bodyMobile').show();
+    } else {
+        console.log("llega Desktop")
+        $('#bodyDesktop').show();
+    }
 });
 
 getRss().then((res) => {
     console.log("antes update   ", lastRequestTimeMilis)
+    fillMobileGrid(res)
     fillDesktop(res)
     fillDesktopGrid(res)
     updateLastRequestTimeInFront()
@@ -41,14 +38,14 @@ getRss().then((res) => {
             $("#" + element.source + "_newLabel").removeClass("showMeNewLabel")
         })
     })
-    document.querySelector('.dropdown-menu').addEventListener('click', function(event) {
+    document.querySelector('.dropdown-menu').addEventListener('click', function (event) {
         event.stopPropagation();
     });
 
 
     allCategories.forEach((value, index) => {
-        $('#categoriasDropdown').append('<lu><a class="dropdown-item"> <div class="form-check" > <input  checked value=' + value + ' class="form-check-input" type="checkbox" id="flexCheckDefault'+value+'">' +
-            '  <label class="form-check-label" for="flexCheckDefault'+value+'">'+value.replaceAll("_", " ")+' </label></div></a></lu>');
+        $('#categoriasDropdown').append('<lu><a class="dropdown-item"> <div class="form-check" > <input  checked value=' + value + ' class="form-check-input" type="checkbox" id="flexCheckDefault' + value + '">' +
+            '  <label class="form-check-label" for="flexCheckDefault' + value + '">' + value.replaceAll("_", " ") + ' </label></div></a></lu>');
     });
     $('#categoriasDropdown').on('change', 'input', function () {
         let elem = $(this);
@@ -123,12 +120,12 @@ function fillDesktopGrid(res) {
                 $('#' + source + 'h3_' + j).append('<div id ="' + source + '_newsContent_' + j + '" class ="news-content" />');
 
                 // Coloca la fecha y el icono en el mismo elemento y ahora tmb el iconito chuli
-                
+
                 let image = '<img style="width: 18px; height: 18px; border-radius: 4px;" src="./logos/' + feed.source + 'SmallLogo.svg" alt="" />';
-                $('#' + source + '_newsContent_' + j).append('<div class="news-date-icon"><span class="news-date">' + image +" "+ new Date(feed.pubDate).toLocaleString() +
+                $('#' + source + '_newsContent_' + j).append('<div class="news-date-icon"><span class="news-date">' + image + " " + new Date(feed.pubDate).toLocaleString() +
                     '</span><i class="bi bi-box-arrow-down news-icon" id="' + source + '_verMas_' + j + '"></i></div>');
 
-                $('#' + source + '_newsContent_' + j).append('<div id ="' + source + '_newsDescription_' + j + '" class ="news-desciption" />' );
+                $('#' + source + '_newsContent_' + j).append('<div id ="' + source + '_newsDescription_' + j + '" class ="news-desciption" />');
                 $('#' + source + '_newsDescription_' + j).append('<p class = "justifyText" />' + feed.description);
                 $('#' + source + '_newsDescription_' + j).hide()
 
@@ -156,10 +153,51 @@ function fillDesktopGrid(res) {
         sort: true,
         filter: '.sortable-disabled',
         chosenClass: 'active',
-        onEnd: function(){
+        onEnd: function () {
             updateLocalStorageOrder()
         }
     });
+
+}
+
+
+function fillMobileGrid(res) {
+    let onlyNews = []
+    res.forEach((data) => {
+        onlyNews.push(data.allFeeds)
+    })
+    let mergedNews = onlyNews.flat(1)
+    mergedNews = mergedNews.sort((a, b) => b.pubDate - parseFloat(a.pubDate));
+    console.log(mergedNews)
+    mergedNews.forEach((data, i) => {
+        let image = '<img style="width: 18px; height: 18px; border-radius: 4px;" src="./logos/' + data.source + 'SmallLogo.svg" alt="" />';
+        $("#bodyMobile").append('  <div className="row" class = " news-item marginRowMobile"/>' +
+            '            <div className="col-2">'+
+            '<h2 href= "' + data.link + '"  class = "news-title" target="blank" href = "' + data.link + '" />' + data.title +
+            '<img src="' + data.thumbnailUrl + '"  class= "news-image" />'+
+            '<div class="news-date-icon"><span class="news-date">' + image + " " + new Date(data.pubDate).toLocaleString() +
+            '</span><i class="bi bi-box-arrow-down news-icon" id="verMasMobile_' + i + '"></i></div>'+
+            '<div id ="newsDescriptionMobile_' + i + '" class ="news-desciption" >'+
+            '<p class = "justifyText" />' + data.description+
+            '</div>'+
+            '</div>')
+
+        $('#newsDescriptionMobile_' + i).hide()
+
+        $('body').on('click', '#verMasMobile_' + i, function () {
+            if ($('#newsDescriptionMobile_' + i).is(":visible")) {
+                $('#verMasMobile_' + i).removeClass('bi bi-box-arrow-in-up')
+                $('#verMasMobile_' + i).addClass('bi bi-box-arrow-in-down')
+                $('#newsDescriptionMobile_' + i).hide()
+            } else {
+                $('#verMasMobile_' + i).addClass('bi bi-box-arrow-in-up')
+                $('#verMasMobile_' + i).removeClass('bi bi-box-arrow-in-down')
+                $('#newsDescriptionMobile_' + i).show()
+
+            }
+        });
+
+    })
 
 }
 
@@ -226,12 +264,14 @@ function updateLastRequestTimeInFront() {
 
 function sortColumnsByLastPreference(res) {
     let resSources = []
-    if (JSON.parse(window.localStorage.getItem("columnsOrder"))){
+    if (JSON.parse(window.localStorage.getItem("columnsOrder"))) {
 
         let a = JSON.parse(window.localStorage.getItem("columnsOrder"))
-        res.forEach((data) =>resSources.push(data.source))
+        res.forEach((data) => resSources.push(data.source))
         let filtered = resSources.filter(x => !a.includes(x))
-        filtered.forEach((data,i)=>{a.push(data)})
+        filtered.forEach((data, i) => {
+            a.push(data)
+        })
         console.log(filtered)
         let sortInsert = function (acc, cur) {
             var toIdx = R.indexOf(cur.source, a);
@@ -246,11 +286,11 @@ function sortColumnsByLastPreference(res) {
     }
 }
 
-function updateLocalStorageOrder(){
+function updateLocalStorageOrder() {
     let orderArray = []
     console.log("recalculando orden")
     document.querySelectorAll(".fit").forEach((data) => orderArray.push(data.id.replace("Column", "")))
     window.localStorage.setItem("columnsOrder", JSON.stringify(orderArray))
-    console.log("nuevo orden: "+ window.localStorage.getItem("columnsOrder"))
+    console.log("nuevo orden: " + window.localStorage.getItem("columnsOrder"))
 }
 
