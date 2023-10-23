@@ -19,7 +19,7 @@ $(document).ready(function () {
 });
 
 getRss().then((res) => {
-    console.log("antes update   ", lastRequestTimeMilis)
+   // console.log("antes update   ", lastRequestTimeMilis)
 
     fillDesktop(res)
     fillDesktopGrid(res)
@@ -27,8 +27,8 @@ getRss().then((res) => {
     updateLastRequestTimeInFront()
 
 
-    console.log("despues update ", lastRequestTimeMilis)
-    console.log('----------------')
+   // console.log("despues update ", lastRequestTimeMilis)
+   // console.log('----------------')
     $("li").hover(function () {
         $(this).toggleClass('scale-up').siblings('li').toggleClass('scale-down')
     })
@@ -169,7 +169,6 @@ function fillMobileGrid(res) {
     })
     let mergedNews = onlyNews.flat(1)
     mergedNews = mergedNews.sort((a, b) => b.pubDate - parseFloat(a.pubDate));
-    console.log(mergedNews)
     $("#bodyMobile").empty()
     mergedNews.forEach((data, i) => {
         let image = '<img style="width: 18px; height: 18px; border-radius: 4px;" src="./logos/' + data.source + 'SmallLogo.svg" alt="" />';
@@ -274,7 +273,7 @@ function sortColumnsByLastPreference(res) {
         filtered.forEach((data, i) => {
             a.push(data)
         })
-        console.log(filtered)
+       // console.log(filtered)
         let sortInsert = function (acc, cur) {
             var toIdx = R.indexOf(cur.source, a);
             acc[toIdx] = cur;
@@ -290,10 +289,10 @@ function sortColumnsByLastPreference(res) {
 
 function updateLocalStorageOrder() {
     let orderArray = []
-    console.log("recalculando orden")
+   // console.log("recalculando orden")
     document.querySelectorAll(".fit").forEach((data) => orderArray.push(data.id.replace("Column", "")))
     window.localStorage.setItem("columnsOrder", JSON.stringify(orderArray))
-    console.log("nuevo orden: " + window.localStorage.getItem("columnsOrder"))
+  //  console.log("nuevo orden: " + window.localStorage.getItem("columnsOrder"))
 }
 
 
