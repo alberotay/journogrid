@@ -210,6 +210,7 @@ let minsRefresh = 2
 
 setInterval(() => getRss().then((res) => {
     fillDesktopGrid(res)
+    fillMobileGrid(res)
     updateLastRequestTimeInFront()
 }), 1000 * 60 * minsRefresh)
 
