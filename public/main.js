@@ -187,14 +187,21 @@ function fillMobileGrid(res) {
     mergedNews.forEach((data, i) => {
 
         if (data.pubDate > oneDayBefore) {
-            let image = '<img style="width: 18px; height: 18px; border-radius: 4px;" src="./logos/' + data.source + 'SmallLogo.svg" alt="" />';
+            let image = '<img style="width: 20px; height: 20px; border-radius: 4px;" src="./logos/' + data.source + 'SmallLogo.svg" alt="" />';
             $("#bodyMobile").append('  <div className="row" value = "' + data.category + 'Mobile" class = "news-item-mobile"/>' +
                 '            <div className="col-2">' +
                 '<p />' + data.category.replaceAll("_", " ") +
                 '<h2 href= "' + data.link + '"  class = "news-title" target="blank" href = "' + data.link + '" />' + data.title +
                 '<img src="' + data.thumbnailUrl + '"  class= "news-image marginTopMobileImage" />' +
                 '<div class="news-date-icon marginTopMobileImage"><span class="news-date">' + image + " " + new Date(data.pubDate).toLocaleString() +
-                '</span><i class="bi bi-box-arrow-down news-icon" id="verMasMobile_' + i + '"></i></div>' +
+                '</span><i class="bi bi-box-arrow-down news-icon" id="verMasMobile_' + i + '"></i>'  +
+                '<a href="https://api.whatsapp.com/send?text=¡Visto en JournaGrid en ACOSTA.FUN !' + encodeURIComponent(linkToShare) + '" target="_blank">' +
+                '<i class="bi bi-whatsapp news-icon-wats"></i>' +
+                '</a>' + 
+                '<a href="https://t.me/share/url?url=' + encodeURIComponent(linkToShare) + '&text=¡Visto en JournaGrid en ACOSTA.FUN !" target="_blank">' +
+                '<i class="bi bi-telegram news-icon-telegram"></i>' +
+                '</a>' +
+                '</div>' +
                 '<div id ="newsDescriptionMobile_' + i + '" class ="news-desciption" >' +
                 '<p class = "justifyText" />' + data.description +
                 '</div>' +
