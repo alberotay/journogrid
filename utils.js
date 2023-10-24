@@ -50,7 +50,10 @@ function getImage(element) {
             return element["media:content"]["@"]["url"]
         } else if (element.image && element.image.url) {
             return element.image.url
-        } else if (element.description.match(urlRegex)) {
+
+    }else if(element["atom:link"] && element["atom:link"]["media:content"]&& element["atom:link"]["media:content"]["media:thumbnail"]){
+            return element["atom:link"]["media:content"]["media:thumbnail"][0]["@"].url
+    }else if (element.description.match(urlRegex)) {
             return element.description.match(urlRegex)[1]
         } else {
             return ""
