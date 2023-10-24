@@ -37,6 +37,16 @@
             </ul>
         </div>
         <div>
+            <script>
+                $(document).ready(function() {
+                    // Supongamos que "bodyMobile" está presente y "bodyDesktop" está oculto por defecto.
+                    if ($('#bodyMobile').is(':visible')) {
+                        // Si "#bodyMobile" es visible, significa que es una vista móvil, entonces oculta la imagen con la clase "clock".
+                        $('.clock').remove();
+                        $('.navbar-text').remove();
+                    }
+                });
+                </script>
             <img src="/rotate.gif" class ="clock" />
         </div>
         <span id="lastUpdate"class="navbar-text" />

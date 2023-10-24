@@ -57,7 +57,13 @@ button[title]:hover::after {
     font-size: 25px; /* Tamaño de fuente 19px */
     border-radius: 50%; /* Establece un borde redondeado para que sea similar al icono de WhatsApp */
     padding: 0px; /* Añade espacio alrededor del icono */
-    
+    position: relative; /* Permite ajustar la posición */
+    top: -4px; /* Sube 2px */
+    margin-left: 3px;
+    margin-right: 3px; /* Deja espacio a la izquierda */
+    padding-left: 4px; /* 20px de relleno a la izquierda */
+    padding-right: 4px; /* 20px de relleno a la derecha */
+    padding-top: -1px; /* 10px de relleno arriba */
 }
 .news-icon-telegramMobile{
     font-size: 32px;
