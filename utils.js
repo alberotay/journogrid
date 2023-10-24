@@ -10,7 +10,7 @@ exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage,cate
     elements.forEach((element) => {
         let image = getImage(element)
         let description = removeTags(getDescription(element), "b", "br")
-        let pubDate = new Date(element.pubDate);
+        let pubDate = new Date(getDate(element));
         fixedElements.push({
             pubDate: pubDate.getTime(),
             title: element.title,
@@ -74,6 +74,14 @@ function getDescription(element) {
     }
 }
 
+
+function getDate(element){
+    if(element["dc:created"]){
+        return element["dc:created"]["#"]
+    }else{
+        return element.pubDate
+    }
+}
 
 function removeTags(_html) {
     let _tags = [], _tag = "";
