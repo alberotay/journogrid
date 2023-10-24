@@ -165,6 +165,9 @@ function fillDesktopGrid(res) {
 
 
 function fillMobileGrid(res) {
+    let now = new Date()
+    //Variable to Setup Only News from last 12h in order to avoid the news flooding
+    let oneDayBefore = now - 1000 * 60 * 60 * 12
     let onlyNews = []
     res.forEach((data) => {
         onlyNews.push(data.allFeeds)
@@ -173,34 +176,37 @@ function fillMobileGrid(res) {
     mergedNews = mergedNews.sort((a, b) => b.pubDate - parseFloat(a.pubDate));
     $("#bodyMobile").empty()
     mergedNews.forEach((data, i) => {
-        let image = '<img style="width: 18px; height: 18px; border-radius: 4px;" src="./logos/' + data.source + 'SmallLogo.svg" alt="" />';
-        $("#bodyMobile").append('  <div className="row" value = "' + data.category + 'Mobile" class = "news-item-mobile"/>' +
-            '            <div className="col-2">' +
-            '<p />' + data.category.replaceAll("_", " ") +
-            '<h2 href= "' + data.link + '"  class = "news-title" target="blank" href = "' + data.link + '" />' + data.title +
-            '<img src="' + data.thumbnailUrl + '"  class= "news-image marginTopMobileImage" />' +
-            '<div class="news-date-icon marginTopMobileImage"><span class="news-date">' + image + " " + new Date(data.pubDate).toLocaleString() +
-            '</span><i class="bi bi-box-arrow-down news-icon" id="verMasMobile_' + i + '"></i></div>' +
-            '<div id ="newsDescriptionMobile_' + i + '" class ="news-desciption" >' +
-            '<p class = "justifyText" />' + data.description +
-            '</div>' +
-            '</div>')
 
-        $('#newsDescriptionMobile_' + i).hide()
+        if (data.pubDate > oneDayBefore) {
+            let image = '<img style="width: 18px; height: 18px; border-radius: 4px;" src="./logos/' + data.source + 'SmallLogo.svg" alt="" />';
+            $("#bodyMobile").append('  <div className="row" value = "' + data.category + 'Mobile" class = "news-item-mobile"/>' +
+                '            <div className="col-2">' +
+                '<p />' + data.category.replaceAll("_", " ") +
+                '<h2 href= "' + data.link + '"  class = "news-title" target="blank" href = "' + data.link + '" />' + data.title +
+                '<img src="' + data.thumbnailUrl + '"  class= "news-image marginTopMobileImage" />' +
+                '<div class="news-date-icon marginTopMobileImage"><span class="news-date">' + image + " " + new Date(data.pubDate).toLocaleString() +
+                '</span><i class="bi bi-box-arrow-down news-icon" id="verMasMobile_' + i + '"></i></div>' +
+                '<div id ="newsDescriptionMobile_' + i + '" class ="news-desciption" >' +
+                '<p class = "justifyText" />' + data.description +
+                '</div>' +
+                '</div>')
 
-        $('body').on('click', '#verMasMobile_' + i, function () {
-            if ($('#newsDescriptionMobile_' + i).is(":visible")) {
-                $('#verMasMobile_' + i).removeClass('bi bi-box-arrow-in-up')
-                $('#verMasMobile_' + i).addClass('bi bi-box-arrow-in-down')
-                $('#newsDescriptionMobile_' + i).hide()
-            } else {
-                $('#verMasMobile_' + i).addClass('bi bi-box-arrow-in-up')
-                $('#verMasMobile_' + i).removeClass('bi bi-box-arrow-in-down')
-                $('#newsDescriptionMobile_' + i).show()
+            $('#newsDescriptionMobile_' + i).hide()
 
-            }
-        });
+            $('body').on('click', '#verMasMobile_' + i, function () {
+                if ($('#newsDescriptionMobile_' + i).is(":visible")) {
+                    $('#verMasMobile_' + i).removeClass('bi bi-box-arrow-in-up')
+                    $('#verMasMobile_' + i).addClass('bi bi-box-arrow-in-down')
+                    $('#newsDescriptionMobile_' + i).hide()
+                } else {
+                    $('#verMasMobile_' + i).addClass('bi bi-box-arrow-in-up')
+                    $('#verMasMobile_' + i).removeClass('bi bi-box-arrow-in-down')
+                    $('#newsDescriptionMobile_' + i).show()
 
+                }
+            });
+
+        }
     })
 
 }
