@@ -4,7 +4,7 @@ exports.CATEGORIES = {
     SPORTS: "Deportes",
     ECONOMY: "Economia",
     EUROPE:"Europe",
-    CATALONIA:"Catalunya",
+    CATALONIA:"Cataluña",
     AGENCY:"Agencias",
     CASTILLALAMANCHA:"Castilla_la_Mancha"
 }
