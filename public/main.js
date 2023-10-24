@@ -187,7 +187,7 @@ function fillMobileGrid(res) {
     mergedNews.forEach((data, i) => {
 
         if (data.pubDate > oneDayBefore) {
-            let linkToShare = feed.link;
+            let linkToShare = data.link;
             let image = '<img style="width: 20px; height: 20px; border-radius: 4px;" src="./logos/' + data.source + 'SmallLogo.svg" alt="" />';
             $("#bodyMobile").append('  <div className="row" value = "' + data.category + 'Mobile" class = "news-item-mobile"/>' +
                 '            <div className="col-2">' +
