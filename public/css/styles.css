@@ -51,6 +51,31 @@ button[title]:hover::after {
     background-color:#fff ;
     color: #079df4; /* Texto blanco */
 }
+.news-icon-watsMobile{
+    background-color: #25d366; /* Fondo verde similar al de WhatsApp */
+    color: #fff; /* Texto blanco */
+    font-size: 25px; /* Tamaño de fuente 19px */
+    border-radius: 50%; /* Establece un borde redondeado para que sea similar al icono de WhatsApp */
+    padding: 0px; /* Añade espacio alrededor del icono */
+    position: relative; /* Permite ajustar la posición */
+    top: -4px; /* Sube 2px */
+    margin-left: 3px;
+    margin-right: 3px; /* Deja espacio a la izquierda */
+    padding-left: 4px; /* 20px de relleno a la izquierda */
+    padding-right: 4px; /* 20px de relleno a la derecha */
+    padding-top: -1px; /* 10px de relleno arriba */
+}
+.news-icon-telegramMobile{
+    font-size: 32px;
+    position: relative;
+    top: -2px; /* Sube 2px */
+    background-color:#fff ;
+    color: #079df4; /* Texto blanco */
+}
+.icons-right{
+    text-align: right; /* Alinea los íconos a la derecha */
+    margin-left: auto;
+}
 
 .barra-superior {
 
@@ -278,10 +303,10 @@ h3 {
 }
 
 /* Estilo para el icono */
-.news-icon  {
+.news-iconMobile  {
     color: blue;
     margin-left: 5px;
-    font-size: 20px; /* Tamaño de fuente para el icono */
+    font-size: 27px; /* Tamaño de fuente para el icono */
 }
 
 /* Estilo para el botón cuadrado elegante */
