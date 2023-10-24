@@ -5,7 +5,7 @@ let lastUpdate = now - 1000 * 60 * 60 * 24 * 4
 
 exports.MINS_TO_REQUEST_ALL_RSS = 1
 
-exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage,category) {
+exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage, category) {
     let fixedElements = []
     elements.forEach((element) => {
         let image = getImage(element)
@@ -27,17 +27,15 @@ exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage,cate
     return {
         source: feedSource,
         category: category,
-        allFeeds: allFeedsSorted ,
+        allFeeds: allFeedsSorted,
         frontEndImage: frontEndImage,
         hasNewElements: false
-   }
+    }
 }
 
 function sortBy(arr, prop) {
     return arr.sort((a, b) => b[prop] - a[prop]);
 }
-
-
 
 
 function getImage(element) {
@@ -50,10 +48,9 @@ function getImage(element) {
             return element["media:content"]["@"]["url"]
         } else if (element.image && element.image.url) {
             return element.image.url
-
-    }else if(element["atom:link"] && element["atom:link"]["media:content"]&& element["atom:link"]["media:content"]["media:thumbnail"]){
+        } else if (element["atom:link"] && element["atom:link"]["media:content"] && element["atom:link"]["media:content"]["media:thumbnail"]) {
             return element["atom:link"]["media:content"]["media:thumbnail"][0]["@"].url
-    }else if (element.description.match(urlRegex)) {
+        } else if (element.description.match(urlRegex)) {
             return element.description.match(urlRegex)[1]
         } else {
             return ""
@@ -78,10 +75,10 @@ function getDescription(element) {
 }
 
 
-function getDate(element){
-    if(element["dc:created"]){
+function getDate(element) {
+    if (element["dc:created"]) {
         return element["dc:created"]["#"]
-    }else{
+    } else {
         return element.pubDate
     }
 }
@@ -110,7 +107,7 @@ exports.sleep = async function (ms) {
     await timeout(ms);
 }
 
-exports.sortForClient = function (sortedForClient,lastView){
+exports.sortForClient = function (sortedForClient, lastView) {
     if (sortedForClient.length > 0) {
         sortedForClient.forEach((y) => {
             y.allFeeds.forEach((feed) => {
