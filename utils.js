@@ -41,7 +41,7 @@ function sortBy(arr, prop) {
 
 
 function getImage(element) {
-    let urlRegex = /(https?:\/\/[^ ]*)/;
+    let urlRegex = "<img[^>]* src=\"([^\"]*)\"[^>]*>";
 
     try {
         if (element.enclosures[0] && element.enclosures[0].url) {
@@ -50,8 +50,8 @@ function getImage(element) {
             return element["media:content"]["@"]["url"]
         } else if (element.image && element.image.url) {
             return element.image.url
-        } else if (element.description.match(urlRegex)[0].split('.jpg')[0]) {
-            return element.description.match(urlRegex)[0].split('.jpg')[0] + '.jpg'
+        } else if (element.description.match(urlRegex)) {
+            return element.description.match(urlRegex)[1]
         } else {
             return ""
         }
