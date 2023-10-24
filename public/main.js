@@ -79,11 +79,13 @@ function fillDesktop(res) {
                 $("#" + t.source + "Column").prepend('<img id ="' + t.source + '_newLabel' + '" src="/newLabel.png"  class= "newLabel" />');
                 $('#' + t.source + 'Header').append('<h1 id ="' + t.source + 'H1"/>');
                 $('#' + t.source + 'H1').append('<img style="width: 100%;" src="' + t.frontEndImage + '" alt="' + t.source + 'Logo" />');
-                $('#' + t.source + 'H1').append('<button id ="' + t.source + 'MoveUpButton" class="move-up-button" />↑');
+                $('#' + t.source + 'H1').append('<button title="Primera noticia" id ="' + t.source + 'MoveUpButton" class="move-up-button" />↑');
                 $('body').on('click', '#' + t.source + 'MoveUpButton', function () {
                     moveNewsUp(t.source + 'News')
                 });
-                $('#' + t.source + 'H1').append('<button id ="' + t.source + 'MoveDownButton" class="move-down-button" />↓');
+                $('#' + t.source + 'H1').append('<button title="Automático" id ="' + t.source + 'MoveDownButton" class="move-down-button" />↓');
+                $('#' + t.source + 'H1').append('<button title="Arrastra el contenedor" class="move-down-button" />↔');
+                
                 //revisar esto de news
                 $('body').on('click', '#' + t.source + 'MoveDownButton', function () {
                     moveNewsDown(t.source + 'News', this)
