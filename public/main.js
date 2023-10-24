@@ -193,15 +193,17 @@ function fillMobileGrid(res) {
                 '            <div className="col-2">' +
                 '<p />' + data.category.replaceAll("_", " ") +
                 '<h2 href= "' + data.link + '"  class = "news-title" target="blank" href = "' + data.link + '" />' + data.title +
-                '<img src="' + data.thumbnailUrl + '"  class= "news-image marginTopMobileImage" />' +
+                '<img src="' + data.thumbnailUrl + '"  class= "news-image marginTopMobileImage" />' + 
                 '<div class="news-date-icon marginTopMobileImage"><span class="news-date">' + image + " " + new Date(data.pubDate).toLocaleString() +
-                '</span><i class="bi bi-box-arrow-down news-icon" id="verMasMobile_' + i + '"></i>'  +
-                '<a href="https://api.whatsapp.com/send?text=¡Visto en JournaGrid en ACOSTA.FUN !' + encodeURIComponent(linkToShare) + '" target="_blank">' +
-                '<i class="bi bi-whatsapp news-icon-wats"></i>' +
+                '</span><i class="bi bi-box-arrow-down news-iconMobile" id="verMasMobile_' + i + '"></i>'  +
+                '<div class="icons-right">' +
+                '<a  href="https://api.whatsapp.com/send?text=¡Visto en JournaGrid en ACOSTA.FUN !' + encodeURIComponent(linkToShare) + '" target="_blank">' +
+                '<i class="bi bi-whatsapp news-icon-watsMobile"></i>' +
                 '</a>' + 
                 '<a href="https://t.me/share/url?url=' + encodeURIComponent(linkToShare) + '&text=¡Visto en JournaGrid en ACOSTA.FUN !" target="_blank">' +
-                '<i class="bi bi-telegram news-icon-telegram"></i>' +
+                '<i class="bi bi-telegram news-icon-telegramMobile"></i>' +
                 '</a>' +
+                '</div>' +
                 '</div>' +
                 '<div id ="newsDescriptionMobile_' + i + '" class ="news-desciption" >' +
                 '<p class = "justifyText" />' + data.description +
