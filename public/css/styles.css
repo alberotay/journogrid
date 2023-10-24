@@ -30,6 +30,23 @@ button[title]:hover::after {
     visibility: visible;
 }
 
+.news-icon-wats{
+    background-color: #25d366; /* Fondo verde similar al de WhatsApp */
+    color: #fff; /* Texto blanco */
+    font-size: 17px; /* Tamaño de fuente 19px */
+    border-radius: 15%; /* Establece un borde redondeado para que sea similar al icono de WhatsApp */
+    padding: 1px; /* Añade espacio alrededor del icono */
+    position: relative; /* Permite ajustar la posición */
+    top: -4px; /* Sube 2px */
+    margin-left: 3px;
+    margin-right: 3px; /* Deja espacio a la izquierda */
+}
+.news-icon-telegram{
+    font-size: 22px;
+    position: relative;
+    top: -2px; /* Sube 2px */
+}
+
 .barra-superior {
 
     background-color: #333;

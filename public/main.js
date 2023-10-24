@@ -125,10 +125,17 @@ function fillDesktopGrid(res) {
                 $('#' + source + 'h3_' + j).append('<div id ="' + source + '_newsContent_' + j + '" class ="news-content" />');
 
                 // Coloca la fecha y el icono en el mismo elemento y ahora tmb el iconito chuli
-
-                let image = '<img style="width: 18px; height: 18px; border-radius: 4px;" src="./logos/' + feed.source + 'SmallLogo.svg" alt="" />';
+                let linkToShare = feed.link;
+                let image = '<img style="width: 19px; height: 19px; border-radius: 4px;" src="./logos/' + feed.source + 'SmallLogo.svg" alt="" />';
                 $('#' + source + '_newsContent_' + j).append('<div class="news-date-icon"><span class="news-date">' + image + " " + new Date(feed.pubDate).toLocaleString() +
-                    '</span><i class="bi bi-box-arrow-down news-icon" id="' + source + '_verMas_' + j + '"></i></div>');
+                    '</span><i class="bi bi-box-arrow-down news-icon" id="' + source + '_verMas_' + j + '"></i>'  +
+                    '<a href="https://api.whatsapp.com/send?text=¡Visto en JournaGrid en ACOSTA.FUN !' + encodeURIComponent(linkToShare) + '" target="_blank">' +
+                    '<i class="bi bi-whatsapp news-icon-wats"></i>' +
+                    '</a>' + 
+                    '<a href="https://t.me/share/url?url=' + encodeURIComponent(linkToShare) + '&text=¡Visto en JournaGrid en ACOSTA.FUN !" target="_blank">' +
+                    '<i class="bi bi-telegram news-icon-telegram"></i>' +
+                    '</a>' +
+                    '</div>');
 
                 $('#' + source + '_newsContent_' + j).append('<div id ="' + source + '_newsDescription_' + j + '" class ="news-desciption" />');
                 $('#' + source + '_newsDescription_' + j).append('<p class = "justifyText" />' + feed.description);
