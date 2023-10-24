@@ -5,12 +5,12 @@ let lastUpdate = now - 1000 * 60 * 60 * 24 * 4
 
 exports.MINS_TO_REQUEST_ALL_RSS = 1
 
-exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage,category) {
+exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage, category) {
     let fixedElements = []
     elements.forEach((element) => {
         let image = getImage(element)
         let description = removeTags(getDescription(element), "b", "br")
-        let pubDate = new Date(element.pubDate);
+        let pubDate = new Date(getDate(element));
         fixedElements.push({
             pubDate: pubDate.getTime(),
             title: element.title,
@@ -18,7 +18,8 @@ exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage,cate
             description: description,
             link: element.link,
             thumbnailUrl: image,
-            isNew: false
+            isNew: false,
+            category: category
         })
     })
 
@@ -26,10 +27,10 @@ exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage,cate
     return {
         source: feedSource,
         category: category,
-        allFeeds: allFeedsSorted ,
+        allFeeds: allFeedsSorted,
         frontEndImage: frontEndImage,
         hasNewElements: false
-   }
+    }
 }
 
 function sortBy(arr, prop) {
@@ -37,10 +38,8 @@ function sortBy(arr, prop) {
 }
 
 
-
-
 function getImage(element) {
-    let urlRegex = /(https?:\/\/[^ ]*)/;
+    let urlRegex = "<img[^>]* src=\"([^\"]*)\"[^>]*>";
 
     try {
         if (element.enclosures[0] && element.enclosures[0].url) {
@@ -49,8 +48,10 @@ function getImage(element) {
             return element["media:content"]["@"]["url"]
         } else if (element.image && element.image.url) {
             return element.image.url
-        } else if (element.description.match(urlRegex)[0].split('.jpg')[0]) {
-            return element.description.match(urlRegex)[0].split('.jpg')[0] + '.jpg'
+        } else if (element["atom:link"] && element["atom:link"]["media:content"] && element["atom:link"]["media:content"]["media:thumbnail"]) {
+            return element["atom:link"]["media:content"]["media:thumbnail"][0]["@"].url
+        } else if (element.description.match(urlRegex)) {
+            return element.description.match(urlRegex)[1]
         } else {
             return ""
         }
@@ -73,6 +74,14 @@ function getDescription(element) {
     }
 }
 
+
+function getDate(element) {
+    if (element["dc:created"]) {
+        return element["dc:created"]["#"]
+    } else {
+        return element.pubDate
+    }
+}
 
 function removeTags(_html) {
     let _tags = [], _tag = "";
@@ -98,7 +107,7 @@ exports.sleep = async function (ms) {
     await timeout(ms);
 }
 
-exports.sortForClient = function (sortedForClient,lastView){
+exports.sortForClient = function (sortedForClient, lastView) {
     if (sortedForClient.length > 0) {
         sortedForClient.forEach((y) => {
             y.allFeeds.forEach((feed) => {
