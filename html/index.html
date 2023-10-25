@@ -20,7 +20,7 @@
     <meta property="og:image" content="http://aspas.myqnapcloud.com/logos/journowat.png" />
 </head>
 <header>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex flex-row">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">JournoGrid Notic<span class="ia-letters">IA</span>'s</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,12 +37,15 @@
                 </lu>
             </ul>
         </div>
+        <div id = "timer" class="timer"></div>
+        <span id="lastUpdate"class="navbar-text" />
     </div>
-    <div id = "timer" class="timer">
-    </div>
-    <span id="lastUpdate"class="navbar-text" />
+
+
 </nav>
 </header>
+
+
 <body class="body">
 <div id="radios"></div>
 <div id="bodyDesktop" class ="displayNone"></div>
