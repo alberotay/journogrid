@@ -12,9 +12,15 @@ $(document).ready(function () {
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|OperaMini/i.test(navigator.userAgent)) {
         console.log("llega Mobile")
         $('#bodyMobile').show();
+        // Si "#bodyMobile" es visible, significa que es una vista móvil, entonces oculta la imagen con la clase "clock".
+        $('.clock').hide();
+        $('.navbar-text').hide();
+
     } else {
         console.log("llega Desktop")
         $('#bodyDesktop').show();
+        $('.clock').show();
+        $('.navbar-text').show();
     }
 });
 
@@ -85,7 +91,7 @@ function fillDesktop(res) {
                 });
                 $('#' + t.source + 'H1').append('<button title="Automático" id ="' + t.source + 'MoveDownButton" class="move-down-button" />↓');
                 $('#' + t.source + 'H1').append('<button title="Arrastra el contenedor" class="move-down-button" />↔');
-                
+
                 //revisar esto de news
                 $('body').on('click', '#' + t.source + 'MoveDownButton', function () {
                     moveNewsDown(t.source + 'News', this)
@@ -128,10 +134,10 @@ function fillDesktopGrid(res) {
                 let linkToShare = feed.link;
                 let image = '<img style="width: 19px; height: 19px; border-radius: 4px;" src="./logos/' + feed.source + 'SmallLogo.svg" alt="" />';
                 $('#' + source + '_newsContent_' + j).append('<div class="news-date-icon"><span class="news-date">' + image + " " + new Date(feed.pubDate).toLocaleString() +
-                    '</span><i class="bi bi-box-arrow-down news-icon" id="' + source + '_verMas_' + j + '"></i>'  +
+                    '</span><i class="bi bi-box-arrow-down news-icon" id="' + source + '_verMas_' + j + '"></i>' +
                     '<a href="https://api.whatsapp.com/send?text=¡Visto en JournaGrid en ACOSTA.FUN !' + encodeURIComponent(linkToShare) + '" target="_blank">' +
                     '<i class="bi bi-whatsapp news-icon-wats"></i>' +
-                    '</a>' + 
+                    '</a>' +
                     '<a href="https://t.me/share/url?url=' + encodeURIComponent(linkToShare) + '&text=¡Visto en JournaGrid en ACOSTA.FUN !" target="_blank">' +
                     '<i class="bi bi-telegram news-icon-telegram"></i>' +
                     '</a>' +
@@ -141,21 +147,9 @@ function fillDesktopGrid(res) {
                 $('#' + source + '_newsDescription_' + j).append('<p class = "justifyText" />' + feed.description);
                 $('#' + source + '_newsDescription_' + j).hide()
 
-                $('body').on('click', '#' + source + '_verMas_' + j, function () {
-                    if ($('#' + source + '_newsDescription_' + j).is(":visible")) {
-                        $('#' + source + '_verMas_' + j).removeClass('bi bi-box-arrow-in-up')
-                        $('#' + source + '_verMas_' + j).addClass('bi bi-box-arrow-in-down')
-                        $('#' + source + '_newsDescription_' + j).hide()
-                    } else {
-                        $('#' + source + '_verMas_' + j).addClass('bi bi-box-arrow-in-up')
-                        $('#' + source + '_verMas_' + j).removeClass('bi bi-box-arrow-in-down')
-                        $('#' + source + '_newsDescription_' + j).show()
-
-                    }
-                });
+                enableDescriptionToggle('#' + source + '_newsDescription_' + j, '#' + source + '_verMas_' + j)
             })
         }
-
     });
     Sortable.create(allFeeds, {
         animation: 100,
@@ -193,13 +187,13 @@ function fillMobileGrid(res) {
                 '            <div className="col-2">' +
                 '<p />' + data.category.replaceAll("_", " ") +
                 '<h2 href= "' + data.link + '"  class = "news-title" target="blank" href = "' + data.link + '" />' + data.title +
-                '<img src="' + data.thumbnailUrl + '"  class= "news-image marginTopMobileImage" />' + 
+                '<img src="' + data.thumbnailUrl + '"  class= "news-image marginTopMobileImage" />' +
                 '<div class="news-date-icon marginTopMobileImage"><span class="news-date">' + image + " " + new Date(data.pubDate).toLocaleString() +
-                '</span><i class="bi bi-box-arrow-down news-iconMobile" id="verMasMobile_' + i + '"></i>'  +
+                '</span><i class="bi bi-box-arrow-down news-iconMobile" id="verMasMobile_' + i + '"></i>' +
                 '<div class="icons-right">' +
                 '<a  href="https://api.whatsapp.com/send?text=¡Visto en JournaGrid en ACOSTA.FUN !' + encodeURIComponent(linkToShare) + '" target="_blank">' +
                 '<i class="bi bi-whatsapp news-icon-watsMobile"></i>' +
-                '</a>' + 
+                '</a>' +
                 '<a href="https://t.me/share/url?url=' + encodeURIComponent(linkToShare) + '&text=¡Visto en JournaGrid en ACOSTA.FUN !" target="_blank">' +
                 '<i class="bi bi-telegram news-icon-telegramMobile"></i>' +
                 '</a>' +
@@ -211,23 +205,9 @@ function fillMobileGrid(res) {
                 '</div>')
 
             $('#newsDescriptionMobile_' + i).hide()
-
-            $('body').on('click', '#verMasMobile_' + i, function () {
-                if ($('#newsDescriptionMobile_' + i).is(":visible")) {
-                    $('#verMasMobile_' + i).removeClass('bi bi-box-arrow-in-up')
-                    $('#verMasMobile_' + i).addClass('bi bi-box-arrow-in-down')
-                    $('#newsDescriptionMobile_' + i).hide()
-                } else {
-                    $('#verMasMobile_' + i).addClass('bi bi-box-arrow-in-up')
-                    $('#verMasMobile_' + i).removeClass('bi bi-box-arrow-in-down')
-                    $('#newsDescriptionMobile_' + i).show()
-
-                }
-            });
-
+            enableDescriptionToggle('#newsDescriptionMobile_' + i, '#verMasMobile_' + i)
         }
     })
-
 }
 
 
@@ -295,33 +275,42 @@ function updateLastRequestTimeInFront() {
 function sortColumnsByLastPreference(res) {
     let resSources = []
     if (JSON.parse(window.localStorage.getItem("columnsOrder"))) {
-
         let a = JSON.parse(window.localStorage.getItem("columnsOrder"))
         res.forEach((data) => resSources.push(data.source))
         let filtered = resSources.filter(x => !a.includes(x))
         filtered.forEach((data, i) => {
             a.push(data)
         })
-        // console.log(filtered)
         let sortInsert = function (acc, cur) {
             var toIdx = R.indexOf(cur.source, a);
             acc[toIdx] = cur;
             return acc;
         };
         let sort = R.reduceRight(sortInsert, []);
-
         return sort(res)
     } else {
         return res
     }
 }
 
+function enableDescriptionToggle(newsDescriptionSelector, verMasSelector) {
+    $('body').on('click', verMasSelector, function () {
+        if ($(newsDescriptionSelector).is(":visible")) {
+            $(verMasSelector).removeClass('bi bi-box-arrow-in-up').addClass('bi bi-box-arrow-in-down')
+            $(newsDescriptionSelector).hide()
+        } else {
+            $(verMasSelector).addClass('bi bi-box-arrow-in-up').removeClass('bi bi-box-arrow-in-down')
+            $(newsDescriptionSelector).show()
+        }
+    });
+}
+
+
 function updateLocalStorageOrder() {
     let orderArray = []
-    // console.log("recalculando orden")
     document.querySelectorAll(".fit").forEach((data) => orderArray.push(data.id.replace("Column", "")))
     window.localStorage.setItem("columnsOrder", JSON.stringify(orderArray))
-    //  console.log("nuevo orden: " + window.localStorage.getItem("columnsOrder"))
 }
+
 
 

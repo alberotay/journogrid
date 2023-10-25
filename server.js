@@ -2,12 +2,12 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const cors = require('cors');
-
-
 const feedItems = require('./feeds/feed')
 const feedsConfig = require('./feeds/feedsConfig')
-
 const utils = require('./utils')
+
+
+let MINS_TO_REQUEST_ALL_RSS = 5
 
 //process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 app.use(express.static('public')); // Sirve archivos estáticos desde la carpeta 'public'
@@ -16,7 +16,7 @@ app.use(cors());
 
 let LAST_NEWS = []
 parserAll().then(() => console.log("Initial Start"))
-setInterval(parserAll, 1000 * 60 * utils.MINS_TO_REQUEST_ALL_RSS)
+setInterval(parserAll, 1000 * 60 * MINS_TO_REQUEST_ALL_RSS)
 
 let allFeedsItemGetters = []
 feedsConfig.feedConfig.forEach((config) => {

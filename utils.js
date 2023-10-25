@@ -1,10 +1,3 @@
-let now = new Date()
-//restamos unos dias para la carga inicial
-let lastUpdate = now - 1000 * 60 * 60 * 24 * 4
-//restamos unos dias para la carga inicial
-
-exports.MINS_TO_REQUEST_ALL_RSS = 1
-
 exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage, category) {
     let fixedElements = []
     elements.forEach((element) => {
