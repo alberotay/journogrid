@@ -432,6 +432,7 @@ h3 {
 .newFeed{
     transform: scale(1.1);
     background-color: firebrick!important;
+    z-index: 10;
 }
 
 
@@ -493,4 +494,11 @@ h3 {
 
 .dropdown-backdrop {
     position: static;
+}
+
+
+.timer{
+    position: relative;
+    left:-16px;
+    top: -0px;
 }
