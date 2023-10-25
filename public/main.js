@@ -154,7 +154,7 @@ function fillMobileGrid(res) {
     mergedNews.forEach((data, i) => {
         if (data.pubDate > now - 1000 * 60 * 60 * acceptNewsFromHoursBefore) {
             $("#bodyMobile").append('<div id ="rowMobile' + i + '"  value = "' + data.category + 'Mobile" class = "news-item-mobile"/>')
-            $("#rowMobile" + i).append('<p />' + data.category.replaceAll("_", " "))
+            $("#rowMobile" + i).append('<div class="col-8"><p />' + data.category.replaceAll("_", " ")+'</div>')
                 .append('<h2 href= "' + data.link + '"  class = "news-title" target="blank" href = "' + data.link + '" />' + data.title)
                 .append('<img src="' + data.thumbnailUrl + '"  class= "news-image marginTopMobileImage" />')
                 .append(addMinimalistInfo(data.source, data, true, i))
