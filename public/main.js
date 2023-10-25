@@ -1,6 +1,7 @@
 let lastResponse
 let lastRequestTimeMilis = Date.now()
 let allCategories = []
+let minsRefresh = 5
 
 
 async function getRss() {
@@ -24,21 +25,19 @@ $(document).ready(function () {
     }
 });
 
+
 getRss().then((res) => {
     // console.log("antes update   ", lastRequestTimeMilis)
 
+    setTimer()
     fillDesktop(res)
     fillDesktopGrid(res)
     fillMobileGrid(res)
     updateLastRequestTimeInFront()
 
-
-    // console.log("despues update ", lastRequestTimeMilis)
-    // console.log('----------------')
     $("li").hover(function () {
         $(this).toggleClass('scale-up').siblings('li').toggleClass('scale-down')
     })
-
     res.forEach((element) => {
         allCategories.indexOf(element.category) === -1 ? allCategories.push(element.category) : null;
         $('#' + element.source + 'Column').hover(function () {
@@ -48,8 +47,6 @@ getRss().then((res) => {
     document.querySelector('.dropdown-menu').addEventListener('click', function (event) {
         event.stopPropagation();
     });
-
-
     allCategories.forEach((value, index) => {
         $('#categoriasDropdown').append('<a class="dropdown-item"> <div class="form-check" > <input  checked value=' + value + ' class="form-check-input" type="checkbox" id="flexCheckDefault' + value + '">' +
             '  <label class="form-check-label" for="flexCheckDefault' + value + '">' + value.replaceAll("_", " ") + ' </label></div></a>');
@@ -65,18 +62,13 @@ getRss().then((res) => {
             $("[value|=" + elem.val() + "Mobile]").hide()
         }
     });
-
-
 })
 
 
 function fillDesktop(res) {
     $("body").append('<div id ="lastRequestTime" />');
     $("#bodyDesktop").append('<div id ="containerAllFeeds" class="container-fluid">')
-
     res = sortColumnsByLastPreference(res)
-
-
     $("#containerAllFeeds").append('<div id ="allFeeds' + '" class="row marginRow list-group">');
     res.forEach((t, i) => {
             if (t.allFeeds.length > 0) {
@@ -109,11 +101,8 @@ function fillDesktopGrid(res) {
         if (y.hasNewElements || $("#" + y.source + "News").find("div").length === 0) {
             // console.log("new items")
             let source = y.source
-            $("#" + source + "Column").addClass("newFeed")
-            setTimeout(() => {
-                $("#" + source + "Column").removeClass("newFeed")
-            }, 500)
-            $("#" + source + "_newLabel").addClass("showMeNewLabel")
+
+
             $('#' + source + 'News').empty()
             y.allFeeds.forEach((feed, j) => {
                 $('#' + source + 'News').append('<div id ="' + source + 'New' + j + '" class= "news-item" />');
@@ -128,6 +117,12 @@ function fillDesktopGrid(res) {
                 $('#' + source + '_newsDescription_' + j).append('<p class = "justifyText" />' + feed.description);
                 enableDescriptionToggle('#' + source + '_newsDescription_' + j, '#' + source + '_verMas_' + j)
             })
+
+            $("#" + source + "Column").addClass("newFeed")
+            setTimeout(() => {
+                $("#" + source + "Column").removeClass("newFeed")
+            }, 1000)
+            $("#" + source + "_newLabel").addClass("showMeNewLabel")
         }
     });
     Sortable.create(allFeeds, {
@@ -158,7 +153,6 @@ function fillMobileGrid(res) {
     $("#bodyMobile").empty()
     mergedNews.forEach((data, i) => {
         if (data.pubDate > now - 1000 * 60 * 60 * acceptNewsFromHoursBefore) {
-
             $("#bodyMobile").append('<div id ="rowMobile' + i + '"  value = "' + data.category + 'Mobile" class = "news-item-mobile"/>')
             $("#rowMobile" + i).append('<p />' + data.category.replaceAll("_", " "))
                 .append('<h2 href= "' + data.link + '"  class = "news-title" target="blank" href = "' + data.link + '" />' + data.title)
@@ -172,7 +166,7 @@ function fillMobileGrid(res) {
 }
 
 
-let minsRefresh = 2
+
 
 setInterval(() => getRss().then((res) => {
     fillDesktopGrid(res)
@@ -289,5 +283,24 @@ function updateLocalStorageOrder() {
     window.localStorage.setItem("columnsOrder", JSON.stringify(orderArray))
 }
 
+function setTimer(){
+    var countdown = $("#timer").countdown360({
+        radius: 25,
+        strokeStyle: "#ffffff",
+        strokeWidth: undefined,
+        fillStyle: "#212529",
+        fontColor: "#ffffff",
+        fontFamily: "sans-serif",
+        fontSize: undefined,
+        fontWeight: 900,
+        autostart: true,
+        seconds: minsRefresh*60,
+        //label: ["segundo", "segundos"],
+        startOverAfterAdding: true,
+        smooth: true,
+        onComplete  : function () {  countdown.start() }
+    });
 
+    countdown.start()
+}
 
