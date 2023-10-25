@@ -147,6 +147,7 @@ button[title]:hover::after {
         flex-wrap: wrap; /* Romper en múltiples líneas si es necesario */
         border-bottom: 1px solid #ddd;
         padding: 15px;
+
     }
 
 .news-item-mobile {
@@ -173,6 +174,7 @@ button[title]:hover::after {
     font-weight: bold;
     color: #000;
     margin-bottom: 5px;
+    text-decoration:none;
 }
 .news-description img {
     display: block;  
