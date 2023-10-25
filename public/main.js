@@ -121,7 +121,7 @@ function fillDesktopGrid(res) {
             $("#" + source + "Column").addClass("newFeed")
             setTimeout(() => {
                 $("#" + source + "Column").removeClass("newFeed")
-            }, 1000)
+            }, 2000)
             $("#" + source + "_newLabel").addClass("showMeNewLabel")
         }
     });
