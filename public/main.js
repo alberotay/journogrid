@@ -109,7 +109,7 @@ function fillDesktopGrid(res) {
                 $('#' + source + 'New' + j).append('<h2 id ="' + source + 'h2_' + j + '" style = "color: black; font-weight: bold;"  class= "news-title" />')
                     .append('<div id ="' + source + 'NewsImageContainer_' + j + '" class= "news-image-container" />')
                     .append('<h3 id ="' + source + 'h3_' + j + '"  />');
-                $('#' + source + 'h2_' + j).append('<a id ="' + source + '_a_' + j + ' href= "' + feed.link + '"  target="blank" href = "' + feed.link + '" />' + feed.title + '');
+                $('#' + source + 'h2_' + j).append('<a id ="' + source + '_a_' + j + '" class= "news-title" href= "' + feed.link + '"  target="blank" href = "' + feed.link + '" />' + feed.title + '');
                 $('#' + source + 'NewsImageContainer_' + j).append('<img id ="' + source + '_thumbNail_' + j + '" src="' + feed.thumbnailUrl + '"  class= "news-image" />');
                 $('#' + source + 'h3_' + j).append('<div id ="' + source + '_newsContent_' + j + '" class ="news-content" />');
                 $('#' + source + '_newsContent_' + j).append(addMinimalistInfo(feed, false, j))
