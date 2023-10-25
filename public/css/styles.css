@@ -1,15 +1,17 @@
-.body{
+.body {
     background-color: lightgray;
 }
+
 .ia-letters {
     color: #ff6600; /* Color al que cambian las letras */
     transition: color 1s; /* Transición suave de 0.3 segundos para el cambio de color */
-  }
-  
-  .ia-letters:hover {
+}
+
+.ia-letters:hover {
     color: #333; /* Color al que vuelven las letras al pasar el ratón por encima */
-  }
-  button[title]::after {
+}
+
+button[title]::after {
     content: attr(title);
     background-color: #333;
     color: #fff;
@@ -30,7 +32,7 @@ button[title]:hover::after {
     visibility: visible;
 }
 
-.news-icon-wats{
+.news-icon-wats {
     background-color: #25d366; /* Fondo verde similar al de WhatsApp */
     color: #fff; /* Texto blanco */
     font-size: 17px; /* Tamaño de fuente 19px */
@@ -44,14 +46,16 @@ button[title]:hover::after {
     padding-right: 2px; /* 20px de relleno a la derecha */
     padding-top: -1px; /* 10px de relleno arriba */
 }
-.news-icon-telegram{
+
+.news-icon-telegram {
     font-size: 22px;
     position: relative;
     top: -2px; /* Sube 2px */
-    background-color:#fff ;
+    background-color: #fff;
     color: #079df4; /* Texto blanco */
 }
-.news-icon-watsMobile{
+
+.news-icon-watsMobile {
     background-color: #25d366; /* Fondo verde similar al de WhatsApp */
     color: #fff; /* Texto blanco */
     font-size: 25px; /* Tamaño de fuente 19px */
@@ -65,90 +69,39 @@ button[title]:hover::after {
     padding-right: 4px; /* 20px de relleno a la derecha */
     padding-top: -1px; /* 10px de relleno arriba */
 }
-.news-icon-telegramMobile{
+
+.news-icon-telegramMobile {
     font-size: 32px;
     position: relative;
     top: -2px; /* Sube 2px */
-    background-color:#fff ;
+    background-color: #fff;
     color: #079df4; /* Texto blanco */
 }
-.icons-right{
+
+.icons-right {
     text-align: right; /* Alinea los íconos a la derecha */
     margin-left: auto;
 }
 
-.barra-superior {
 
-    background-color: #333;
-    color: #fff;
-    padding: 5px 0;
-    text-align: right;
+
+.news-image {
     width: 100%;
-    position: fixed; /* Fijar la barra en la parte superior */
-    top: 0; /* Colocarla en la parte superior */
-    z-index: 9999; /* Valor alto para que esté por encima de otros elementos */
-}
-
-    .boton-desplegable {
-    position: relative;
-    display: inline-block;
-    margin-right: 20px; /* Espaciado entre el botón y otros elementos */
-}
-
-.boton-desplegable .automatizarButton {
-    background-color: transparent;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-}
-
-.contenido-desplegable {
-    display: none;
-    position: absolute;
-    background-color: #333;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-.boton-desplegable:hover .contenido-desplegable {
-    display: block;
-}
-
-.contenido-desplegable a {
-    color: #fff;
-    padding: 10px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.contenido-desplegable a:hover {
-    background-color: #555;
-}
-
-/* Estilos para cuando se hace clic */
-.boton-desplegable.active .contenido-desplegable {
-    display: block;
-}
-
-        
-
-    .news-image {
-    width: 100%; /* Ajusta el ancho de la imagen según tus preferencias *5
-    height: auto; /* Mantén la proporción original */
+    /* Ajusta el ancho de la imagen según tus preferencias *5
+       height: auto; /* Mantén la proporción original */
     border-radius: 5px; /* Agrega bordes redondeados */
     /*margin-right: 30px;  Espacio entre la imagen y el texto 
     margin-left: 40px*/
 }
 
 
-    .news-item {
-        display: flex; /* Mostrar como fila */
-        flex-wrap: wrap; /* Romper en múltiples líneas si es necesario */
-        border-bottom: 1px solid #ddd;
-        padding: 15px;
+.news-item {
+    display: flex; /* Mostrar como fila */
+    flex-wrap: wrap; /* Romper en múltiples líneas si es necesario */
+    border-bottom: 1px solid #ddd;
+    padding: 15px;
 
-    }
+}
 
 .news-item-mobile {
     display: flex; /* Mostrar como fila */
@@ -158,62 +111,54 @@ button[title]:hover::after {
     background: white;
 }
 
-   
-    .news-title a {
-    color: #000;
-    text-decoration: none; /* Elimina la subrayado predeterminado de los enlaces */
-    
+
+.news-content {
+    flex: 1; /* Ocupar el espacio restante */
 }
 
-    .news-content {
-        flex: 1; /* Ocupar el espacio restante */
-    }
-
-    .news-title {
+.news-title {
     font-size: 1.2rem;
     font-weight: bold;
     color: #000;
     margin-bottom: 5px;
-    text-decoration:none;
+    text-decoration: none;
 }
+
 .news-description img {
-    display: block;  
+    display: block;
     margin: 0 auto; /* Centrar la imagen horizontalmente */
 }
 
 
-    .news-description {
-        flex: 1; /* Ocupar el espacio restante para la descripción */
 
-    }
 
-    .justifyText{
-        text-align: justify;
-        text-justify: inter-word;
-    }
+.justifyText {
+    text-align: justify;
+    text-justify: inter-word;
+}
 
-    h1 {
+h1 {
     margin: 0;
     font-size: 1.5rem;
     font-weight: bold; /* Agregar estilo más elegante al título */
     margin-bottom: 10px;
     color: #000; /* Cambiar el color del título a negro */
 }
+
 h3 {
     font-family: Arial, sans-serif; /* Cambia la fuente según tus preferencias */
     font-size: 1rem; /* Tamaño pequeño de fuente */
-    
+
     font-weight: normal; /* Puedes ajustar el peso de la fuente según tus preferencias */
     color: #333; /* Color del texto, puedes personalizarlo */
-    
+
 }
 
-    p {
-        margin: 5px 0;
-        color: #777;
-        font-size: 0.9rem;
-    }
-
+p {
+    margin: 5px 0;
+    color: #777;
+    font-size: 0.9rem;
+}
 
 
 /* Añade estilos para la clase "header" que envuelve el botón y el título */
@@ -221,28 +166,7 @@ h3 {
     display: flex;
     align-items: center; /* Alinear verticalmente */
 }
-.minimize-button {
-    background-color: transparent;
-    border: 0px solid #007BFF; /* Contorno azul */
-    /*border-radius: 15px; /* Bordes redondeados */
-    /*padding: 5px 5px; /* Espacio interno */
-    cursor: pointer;
-    margin-right: 1px; /* Espacio entre el botón y el título */
-    display: flex;
-    align-items: center;
-}
 
-.minimize-button span {
-    font-size: 20px; /* Tamaño del icono */
-    line-height: 1;
-    transition: transform 0.3s ease-in-out;
-    color: #0665ea; /* Cambiar el color del icono a azul */
-}
-
-.minimize-button.collapsed {
-    background-color: transparent; /* Fondo transparente cuando se minimiza */
-    border: 0px solid 1px solid #007BFF; /* Contorno azul cuando se minimiza */
-}
 
 .minimize-button.collapsed span {
     transform: rotate(90deg);
@@ -258,6 +182,7 @@ h3 {
     color: #000;
     margin-bottom: 0; /* Elimina el margen inferior del título */
 }
+
 /* Aplicar scroll suave a los contenedores de noticias */
 .news-container {
     background-color: #fff;
@@ -290,13 +215,14 @@ h3 {
 .news-container {
 
 
-
 }
+
 /* Estilo para el contenedor que envuelve la fecha y el icono */
 .news-date-icon {
     display: flex; /* Utiliza flexbox para alinear los elementos en línea */
     align-items: center; /* Centra verticalmente los elementos */
 }
+
 /* Estilo para el texto pequeño */
 .news-date {
     display: inline-block;
@@ -305,14 +231,14 @@ h3 {
 }
 
 /* Estilo para el icono */
-.news-iconMobile  {
+.news-iconMobile {
     color: blue;
     margin-left: 5px;
     font-size: 27px; /* Tamaño de fuente para el icono */
 }
 
 /* Estilo para el botón cuadrado elegante */
-.move-down-button , .move-up-button  {
+.move-down-button, .move-up-button {
     display: inline-block; /* Asegura que el botón no ocupe toda la línea */
     padding: 4px 10px; /* Ajusta el relleno (padding) según tus necesidades */
     background-color: rgb(47, 102, 252); /* Color de fondo azul para el botón */
@@ -332,60 +258,6 @@ h3 {
     background-color: darkblue; /* Cambia el color de fondo al pasar el cursor por encima */
 }
 
-
-
-/* Estilos para dispositivos móviles (ejemplo: ancho máximo de 600px) */
-@media screen and (max-width: 600px) {
-    .boton-desplegable .automatizarButton {
-        /* Agrega los estilos que desees para dispositivos móviles */
-        background-color: #333;
-        color: #fff;
-        border: 1px solid #fff;
-        padding: 5px 10px;
-        margin-right: 5px; /* Espacio entre el botón y el desplegable en dispositivos móviles */
-        display: none;
-    }
-
-    .boton-desplegable:hover .contenido-desplegable {
-        /* Agrega los estilos que desees para dispositivos móviles */
-        display: none;
-        position: relative; /* Cambia la posición a relativa para que se ajuste al botón */
-    }
-
-    .contenido-desplegable {
-        /* Agrega los estilos que desees para dispositivos móviles */
-        display: none;
-        background-color: #333;
-        min-width: auto; /* Ancho automático en dispositivos móviles */
-        box-shadow: none; /* Elimina la sombra en dispositivos móviles */
-        z-index: 1; /* Asegura que esté encima del botón en dispositivos móviles */
-        position: absolute; /* Ajusta la posición absoluta para que se ajuste al botón */
-    }
-    #todasLasNoticiasColumn{
-        display: grid;
-
-    }
-
-    .contenido-desplegable a {
-        /* Agrega los estilos que desees para dispositivos móviles */
-        color: #fff;
-        padding: 5px 10px;
-        text-decoration: none;
-        display: block;
-    }
-    .news-column {
-        display: none; 
-    }
-    #grid {
-        display: none; 
-    }
-    #auto {
-        display: none; 
-    }
-}
-
-
-
 .fit {
     position: relative;
     padding: 5px;
@@ -393,29 +265,30 @@ h3 {
     border-radius: 10px 10px 10px 10px;
     line-height: 28px;
     font-size: 22px;
-    margin-top: 5px!important;
-    margin-right:5px;
+    margin-top: 5px !important;
+    margin-right: 5px;
     font-weight: bold;
     cursor: pointer;
-    background-color: aliceblue!important;
+    background-color: aliceblue !important;
     transition: all 0.3s ease-in;
     box-sizing: border-box;
-    display:inline-block;
+    display: inline-block;
     min-width: 300px;
 
 
 }
 
 .scale-up {
-    position:relative;
+    position: relative;
     transform: scale(1.1);
     opacity: 100%;
     z-index: 1;
 
 
 }
+
 .scale-down {
-    position:relative;
+    position: relative;
     opacity: 50%;
     transform: scale(0.8);
     z-index: 0;
@@ -425,27 +298,27 @@ h3 {
 
 .parent {
     margin-left: 5%;
-    margin-right:5%;
+    margin-right: 5%;
     width: auto;
 }
 
 
-
-.newFeed{
+.newFeed {
     transform: scale(1.1);
-    background-color: firebrick!important;
+    background-color: firebrick !important;
     z-index: 10;
 }
 
 
-.displayNone{
+.displayNone {
     display: none;
 }
-.newLabel{
+
+.newLabel {
     position: absolute;
     height: 40px;
     width: 40px;
-    left:-12px;
+    left: -12px;
     top: -12px;
     pointer-events: none;
     opacity: 0;
@@ -453,20 +326,22 @@ h3 {
 
 }
 
-.fecha-navbar{
+.fecha-navbar {
     width: 14%;
     text-align: right;
     padding-right: 2%;
 }
 
-.showMeNewLabel{
+.showMeNewLabel {
     opacity: 1;
 }
-.marginRow{
-    margin-left: 10px!important;
-    flex-direction: row!important;
+
+.marginRow {
+    margin-left: 10px !important;
+    flex-direction: row !important;
 }
-.marginRowMobile{
+
+.marginRowMobile {
     margin-right: 5px;
     margin-left: 5px;
 }
@@ -474,8 +349,8 @@ h3 {
 
 .imgAl {
     width: 150px;
-    height:150px;
-    position:fixed;
+    height: 150px;
+    position: fixed;
     z-index: 2;
 }
 
@@ -500,8 +375,8 @@ h3 {
 }
 
 
-.timer{
+.timer {
     position: relative;
-    top:4px;
+    top: 4px;
     right: 4px;
 }
