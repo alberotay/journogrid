@@ -1,7 +1,7 @@
 let lastResponse
 let lastRequestTimeMilis = Date.now()
 let allCategories = []
-let minsRefresh = 5
+let minsRefresh = 1.5
 
 
 async function getRss() {
@@ -285,11 +285,11 @@ function updateLocalStorageOrder() {
 
 function setTimer(){
     var countdown = $("#timer").countdown360({
-        radius: 25,
+        radius: 11,
         strokeStyle: "#ffffff",
-        strokeWidth: undefined,
+        strokeWidth: 6,
         fillStyle: "#212529",
-        fontColor: "#ffffff",
+        fontColor: "#212529",
         fontFamily: "sans-serif",
         fontSize: undefined,
         fontWeight: 900,
