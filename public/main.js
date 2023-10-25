@@ -266,8 +266,8 @@ function addMinimalistInfo(feed, isMobile, i) {
     let stringVerMas = isMobile ? "_verMasMobile_" : "_verMas_"
     let linkToShare = feed.link;
     let image = '<img style="width: 19px; height: 19px; border-radius: 4px;" src="./logos/' + feed.source + 'SmallLogo.svg" alt="" />';
-    return '<div class="news-date-icon"><span class="news-date">' + image + " " + new Date(feed.pubDate).toLocaleString() +
-        '</span><i class="bi bi-box-arrow-down news-icon" id="' + feed.source + stringVerMas + i + '"></i>' +
+    return '<div class="news-date-icon" style="width: 100%;"><span class="news-date">' + image + " " + new Date(feed.pubDate).toLocaleString() +
+        '</span><i class="bi bi-box-arrow-down news-icon" id="' + feed.source + stringVerMas + i + '"></i>' + '<div class=icons-right>'+
         '<a href="https://api.whatsapp.com/send?text=¡Visto en JournaGrid en ACOSTA.FUN !' + encodeURIComponent(linkToShare) + '" target="_blank">' +
         '<i class="bi bi-whatsapp news-icon-wats"></i>' +
         '</a>' +
