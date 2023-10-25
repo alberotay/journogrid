@@ -14,13 +14,13 @@ $(document).ready(function () {
         console.log("llega Mobile")
         $('#bodyMobile').show();
         // Si "#bodyMobile" es visible, significa que es una vista móvil, entonces oculta la imagen con la clase "clock".
-        $('.clock').hide();
+        $('.timer').hide();
         $('.navbar-text').hide();
 
     } else {
         console.log("llega Desktop")
         $('#bodyDesktop').show();
-        $('.clock').show();
+        $('.timer').show();
         $('.navbar-text').show();
     }
 });
