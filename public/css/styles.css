@@ -35,11 +35,11 @@ button[title]:hover::after {
 .news-icon-wats {
     background-color: #25d366; /* Fondo verde similar al de WhatsApp */
     color: #fff; /* Texto blanco */
-    font-size: 17px; /* Tamaño de fuente 19px */
-    border-radius: 15%; /* Establece un borde redondeado para que sea similar al icono de WhatsApp */
+    /*font-size: 17px; /* Tamaño de fuente 19px */
+    border-radius: 50%; /* Establece un borde redondeado para que sea similar al icono de WhatsApp */
     padding: 0px; /* Añade espacio alrededor del icono */
     position: relative; /* Permite ajustar la posición */
-    top: -4px; /* Sube 2px */
+    top: 2px; /* Sube 2px */
     margin-left: 3px;
     margin-right: 3px; /* Deja espacio a la izquierda */
     padding-left: 2px; /* 20px de relleno a la izquierda */
@@ -48,9 +48,9 @@ button[title]:hover::after {
 }
 
 .news-icon-telegram {
-    font-size: 22px;
+   /* font-size: 22px;*/
     position: relative;
-    top: -2px; /* Sube 2px */
+    top: 2px; /* Sube 2px */
     background-color: #fff;
     color: #079df4; /* Texto blanco */
 }
@@ -77,6 +77,22 @@ button[title]:hover::after {
     background-color: #fff;
     color: #079df4; /* Texto blanco */
 }
+.bi.bi-box-arrow-down {
+    position: relative;
+    top: 4px;
+    color: rgb(0, 4, 255);
+    font-size: 25px;
+    margin-left: 3px;
+    margin-right: 9px;
+  }
+  .bi-box-arrow-in-up {
+    position: relative;
+    top: 4px;
+    color: rgb(19, 192, 0);
+    font-size: 25px;
+    margin-left: 3px;
+    margin-right: 9px;
+  }
 
 .icons-right {
     text-align: right; /* Alinea los íconos a la derecha */
@@ -227,7 +243,7 @@ p {
 .news-date {
     display: inline-block;
     color: gray; /* Color de texto gris para news-date */
-    font-size: 14px; /* Tamaño de fuente más pequeño para la fecha */
+    font-size: 12px; /* Tamaño de fuente más pequeño para la fecha */
 }
 
 /* Estilo para el icono */
