@@ -269,10 +269,10 @@ function addMinimalistInfo(feed, isMobile, i) {
     return '<div class="news-date-icon" style="width: 100%;"><span class="news-date">' + image + " " + new Date(feed.pubDate).toLocaleString() +
         '</span><i class="bi bi-box-arrow-down news-icon" id="' + feed.source + stringVerMas + i + '"></i>' + '<div class=icons-right>'+
         '<a href="https://api.whatsapp.com/send?text=¡Visto en JournaGrid en ACOSTA.FUN !' + encodeURIComponent(linkToShare) + '" target="_blank">' +
-        '<i class="bi bi-whatsapp news-icon-wats"></i>' +
+        '<img style="width: 26px; height: 26px;" src="./logos/whatsapp.svg" class="news-icon-wats" alt="">' +
         '</a>' +
         '<a href="https://t.me/share/url?url=' + encodeURIComponent(linkToShare) + '&text=¡Visto en JournaGrid en ACOSTA.FUN !" target="_blank">' +
-        '<i class="bi bi-telegram news-icon-telegram"></i>' +
+        '<img style="width: 26px; height: 26px;" src="./logos/telegram.svg" class="news-icon-telegram" alt="">' +
         '</a>' +
         '</div>';
 }
