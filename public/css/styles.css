@@ -45,6 +45,8 @@ button[title]:hover::after {
     padding-left: 2px; /* 20px de relleno a la izquierda */
     padding-right: 2px; /* 20px de relleno a la derecha */
     padding-top: -1px; /* 10px de relleno arriba */
+    width: 26px;
+    height: 26px;
 }
 
 .news-icon-telegram {
@@ -53,6 +55,8 @@ button[title]:hover::after {
     top: 2px; /* Sube 2px */
     background-color: #fff;
     color: #079df4; /* Texto blanco */
+    width: 26px;
+    height: 26px;
 }
 
 .news-icon-watsMobile {
@@ -289,7 +293,7 @@ p {
     transition: all 0.3s ease-in;
     box-sizing: border-box;
     display: inline-block;
-    min-width: 300px;
+    min-width: 305px;
 
 
 }
