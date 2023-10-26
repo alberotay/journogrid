@@ -112,8 +112,8 @@ function fillDesktopGrid(res) {
                 $('#' + source + 'h2_' + j).append('<a id ="' + source + '_a_' + j + '" class= "news-title" href= "' + feed.link + '"  target="blank" href = "' + feed.link + '" />' + feed.title + '');
                 $('#' + source + 'NewsImageContainer_' + j).append('<img id ="' + source + '_thumbNail_' + j + '" src="' + feed.thumbnailUrl + '"  class= "news-image" />');
                 $('#' + source + 'h3_' + j).append('<div id ="' + source + '_newsContent_' + j + '" class ="news-content" />');
-                $('#' + source + '_newsContent_' + j).append(addMinimalistInfo(feed, false, j))
-                    .append('<div id ="' + source + '_newsDescription_' + j + '" class ="news-desciption" />');
+                addMinimalistInfo('#' + source + '_newsContent_' + j, feed, false, j)
+                $('#' + source + '_newsContent_' + j).append('<div id ="' + source + '_newsDescription_' + j + '" class ="news-desciption" />');
                 $('#' + source + '_newsDescription_' + j).append('<p class = "justifyText" />' + feed.description);
                 enableDescriptionToggle('#' + source + '_newsDescription_' + j, '#' + source + '_verMas_' + j)
             })
@@ -154,18 +154,17 @@ function fillMobileGrid(res) {
     mergedNews.forEach((data, i) => {
         if (data.pubDate > now - 1000 * 60 * 60 * acceptNewsFromHoursBefore) {
             $("#bodyMobile").append('<div id ="rowMobile' + i + '"  value = "' + data.category + 'Mobile" class = "news-item-mobile"/>')
-            $("#rowMobile" + i).append('<div class="col-8"><p />' + data.category.replaceAll("_", " ")+'</div>')
+            $("#rowMobile" + i).append('<div class="col-8"><p />' + data.category.replaceAll("_", " ") + '</div>')
                 .append('<a href= "' + data.link + '"  class = "news-title" target="blank" href = "' + data.link + '" />' + data.title)
                 .append('<img src="' + data.thumbnailUrl + '"  class= "news-image marginTopMobileImage" />')
-                .append(addMinimalistInfo(data, true, i))
-                .append('<div id ="' + data.source + '_newsDescriptionMobile_' + i + '" class ="news-desciption" >')
+            addMinimalistInfo("#rowMobile" + i, data, true, i)
+            $("#rowMobile" + i).append('<div id ="' + data.source + '_newsDescriptionMobile_' + i + '" class ="news-desciption" >')
             $("#" + data.source + "_newsDescriptionMobile_" + i).append('<p class = "justifyText" />' + data.description)
+
             enableDescriptionToggle('#' + data.source + '_newsDescriptionMobile_' + i, '#' + data.source + '_verMasMobile_' + i)
         }
     })
 }
-
-
 
 
 setInterval(() => getRss().then((res) => {
@@ -262,19 +261,18 @@ function enableDescriptionToggle(newsDescriptionSelector, verMasSelector) {
 }
 
 
-function addMinimalistInfo(feed, isMobile, i) {
+function addMinimalistInfo(parentElementId, feed, isMobile, i) {
     let stringVerMas = isMobile ? "_verMasMobile_" : "_verMas_"
+    let stringMinimalist = isMobile ? "_minMobile_" : "_min_"
     let linkToShare = feed.link;
     let image = '<img style="width: 19px; height: 19px; border-radius: 4px;" src="./logos/' + feed.source + 'SmallLogo.svg" alt="" />';
-    return '<div class="news-date-icon" style="width: 100%;"><span class="news-date">' + image + " " + new Date(feed.pubDate).toLocaleString() +
-        '</span><i class="bi bi-box-arrow-down news-icon" id="' + feed.source + stringVerMas + i + '"></i>' + '<div class=icons-right>'+
-        '<a href="https://api.whatsapp.com/send?text=¡Visto en JournaGrid en ACOSTA.FUN !' + encodeURIComponent(linkToShare) + '" target="_blank">' +
-        '<img style="width: 26px; height: 26px;" src="./logos/whatsapp.svg" class="news-icon-wats" alt="">' +
-        '</a>' +
-        '<a href="https://t.me/share/url?url=' + encodeURIComponent(linkToShare) + '&text=¡Visto en JournaGrid en ACOSTA.FUN !" target="_blank">' +
-        '<img style="width: 26px; height: 26px;" src="./logos/telegram.svg" class="news-icon-telegram" alt="">' +
-        '</a>' +
-        '</div>';
+
+    $(parentElementId).append('<div id="' + feed.source + stringMinimalist + i + '" class="minimalist-data" style="width: 100%;"/>')
+    $('#' + feed.source + stringMinimalist + i).append('<span class="news-date"  />' + image + " " + new Date(feed.pubDate).toLocaleString())
+        .append('<i class="bi bi-box-arrow-down news-icon" id="' + feed.source + stringVerMas + i + '" />')
+        .append('<div class="icons-right" id="' + feed.source + stringVerMas + i + 'ShareIcons" />')
+    $('#' + feed.source + stringVerMas + i + 'ShareIcons').append('<a href="https://api.whatsapp.com/send?text=¡Visto en JournaGrid en ACOSTA.FUN !' + encodeURIComponent(linkToShare) + '" target="_blank" class="no-decoration"><img style="width: 26px; height: 26px;" src="./logos/whatsapp.svg" class="news-icon-wats" alt=""/> </a>')
+        .append('<a href="https://t.me/share/url?url=' + encodeURIComponent(linkToShare) + '&text=¡Visto en JournaGrid en ACOSTA.FUN !" target="_blank" class="no-decoration"> <img style="width: 26px; height: 26px;" src="./logos/telegram.svg" class="news-icon-telegram" alt=""/></a>')
 }
 
 function updateLocalStorageOrder() {
@@ -283,7 +281,7 @@ function updateLocalStorageOrder() {
     window.localStorage.setItem("columnsOrder", JSON.stringify(orderArray))
 }
 
-function setTimer(){
+function setTimer() {
     let countdown = $("#timer").countdown360({
         radius: 11,
         strokeStyle: "#ffffff",
@@ -294,11 +292,13 @@ function setTimer(){
         fontSize: undefined,
         fontWeight: 900,
         autostart: true,
-        seconds: minsRefresh*60,
+        seconds: minsRefresh * 60,
         //label: ["segundo", "segundos"],
         startOverAfterAdding: true,
         smooth: true,
-        onComplete  : function () {  countdown.start() }
+        onComplete: function () {
+            countdown.start()
+        }
     });
     countdown.start()
 }
