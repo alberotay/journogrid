@@ -9,59 +9,65 @@ async function getRss() {
     return await fetched.json()
 }
 
-$(document).ready(function () {
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|OperaMini/i.test(navigator.userAgent)) {
-        console.log("llega Mobile")
-        $('#bodyMobile').show();
-        // Si "#bodyMobile" es visible, significa que es una vista móvil, entonces oculta la imagen con la clase "clock".
-        $('.timer').hide();
-        $('.navbar-text').hide();
 
-    } else {
-        console.log("llega Desktop")
-        $('#bodyDesktop').show();
-        $('.timer').show();
-        $('.navbar-text').show();
-    }
-});
 
 
 getRss().then((res) => {
     // console.log("antes update   ", lastRequestTimeMilis)
 
+    $(document).ready(function () {
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|OperaMini/i.test(navigator.userAgent)) {
+            console.log("llega Mobile")
+            fillMobileGrid(res)
+            $('#bodyMobile').show();
+            // Si "#bodyMobile" es visible, significa que es una vista móvil, entonces oculta la imagen con la clase "clock".
+            $('.timer').hide();
+            $('.navbar-text').hide();
+
+        } else {
+            console.log("llega Desktop")
+            fillDesktop(res)
+            fillDesktopGrid(res)
+            $('#bodyDesktop').show();
+            $('.timer').show();
+            $('.navbar-text').show();
+        }
+
+        $("li").hover(function () {
+            $(this).toggleClass('scale-up').siblings('li').toggleClass('scale-down')
+        })
+        res.forEach((element) => {
+            allCategories.indexOf(element.category) === -1 ? allCategories.push(element.category) : null;
+            $('#' + element.source + 'Column').hover(function () {
+                $("#" + element.source + "_newLabel").removeClass("showMeNewLabel")
+            })
+        })
+        document.querySelector('.dropdown-menu').addEventListener('click', function (event) {
+            event.stopPropagation();
+        });
+        allCategories.forEach((value, index) => {
+            $('#categoriasDropdown').append('<a class="dropdown-item"> <div class="form-check" > <input  checked value=' + value + ' class="form-check-input" type="checkbox" id="flexCheckDefault' + value + '">' +
+                '  <label class="form-check-label" for="flexCheckDefault' + value + '">' + value.replaceAll("_", " ") + ' </label></div></a>');
+        });
+        $('#categoriasDropdown').on('change', 'input', function () {
+            let elem = $(this);
+            if (elem.is(':checked')) {
+                $("[value|=" + elem.val() + "Column]").show()
+                $("[value|=" + elem.val() + "Mobile]").show()
+            }
+            if (!elem.is(':checked')) {
+                $("[value|=" + elem.val() + "Column]").hide()
+                $("[value|=" + elem.val() + "Mobile]").hide()
+            }
+        });
+
+
+    });
+
     setTimer()
-    fillDesktop(res)
-    fillDesktopGrid(res)
-    fillMobileGrid(res)
     updateLastRequestTimeInFront()
 
-    $("li").hover(function () {
-        $(this).toggleClass('scale-up').siblings('li').toggleClass('scale-down')
-    })
-    res.forEach((element) => {
-        allCategories.indexOf(element.category) === -1 ? allCategories.push(element.category) : null;
-        $('#' + element.source + 'Column').hover(function () {
-            $("#" + element.source + "_newLabel").removeClass("showMeNewLabel")
-        })
-    })
-    document.querySelector('.dropdown-menu').addEventListener('click', function (event) {
-        event.stopPropagation();
-    });
-    allCategories.forEach((value, index) => {
-        $('#categoriasDropdown').append('<a class="dropdown-item"> <div class="form-check" > <input  checked value=' + value + ' class="form-check-input" type="checkbox" id="flexCheckDefault' + value + '">' +
-            '  <label class="form-check-label" for="flexCheckDefault' + value + '">' + value.replaceAll("_", " ") + ' </label></div></a>');
-    });
-    $('#categoriasDropdown').on('change', 'input', function () {
-        let elem = $(this);
-        if (elem.is(':checked')) {
-            $("[value|=" + elem.val() + "Column]").show()
-            $("[value|=" + elem.val() + "Mobile]").show()
-        }
-        if (!elem.is(':checked')) {
-            $("[value|=" + elem.val() + "Column]").hide()
-            $("[value|=" + elem.val() + "Mobile]").hide()
-        }
-    });
+
 })
 
 
@@ -271,8 +277,8 @@ function addMinimalistInfo(parentElementId, feed, isMobile, i) {
     $('#' + feed.source + stringMinimalist + i).append('<span class="news-date"  />' + image + " " + new Date(feed.pubDate).toLocaleString())
         .append('<i class="bi bi-box-arrow-down news-icon" id="' + feed.source + stringVerMas + i + '" />')
         .append('<div class="icons-right" id="' + feed.source + stringVerMas + i + 'ShareIcons" />')
-    $('#' + feed.source + stringVerMas + i + 'ShareIcons').append('<a href="https://api.whatsapp.com/send?text=¡Visto en JournaGrid en ACOSTA.FUN !' + encodeURIComponent(linkToShare) + '" target="_blank" class="no-decoration"><img style="width: 26px; height: 26px;" src="./logos/whatsapp.svg" class="news-icon-wats" alt=""/> </a>')
-        .append('<a href="https://t.me/share/url?url=' + encodeURIComponent(linkToShare) + '&text=¡Visto en JournaGrid en ACOSTA.FUN !" target="_blank" class="no-decoration"> <img style="width: 26px; height: 26px;" src="./logos/telegram.svg" class="news-icon-telegram" alt=""/></a>')
+    $('#' + feed.source + stringVerMas + i + 'ShareIcons').append('<a href="https://api.whatsapp.com/send?text=¡Visto en JournaGrid en ACOSTA.FUN !' + encodeURIComponent(linkToShare) + '" target="_blank" class="no-decoration"><img src="./logos/whatsapp.svg" class="news-icon-wats" alt=""/> </a>')
+        .append('<a href="https://t.me/share/url?url=' + encodeURIComponent(linkToShare) + '&text=¡Visto en JournaGrid en ACOSTA.FUN !" target="_blank" class="no-decoration"> <img src="./logos/telegram.svg" class="news-icon-telegram" alt=""/></a>')
 }
 
 function updateLocalStorageOrder() {
