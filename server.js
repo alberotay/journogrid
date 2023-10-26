@@ -18,6 +18,8 @@ let LAST_NEWS = []
 parserAll().then(() => console.log("Initial Start"))
 setInterval(parserAll, 1000 * 60 * MINS_TO_REQUEST_ALL_RSS)
 
+let uniqueIPs = new Set()
+
 let allFeedsItemGetters = []
 feedsConfig.feedConfig.forEach((config) => {
     let itemGetter = new feedItems(config[0], config[1], config[2])
@@ -44,7 +46,11 @@ app.get('/', function (req, res) {
 })
 
 app.get('/rss', (req, res) => {
-    console.log('llega Peticion rss')
+    console.log('LLEGA PETICION RSS DESDE ' + req.ip )
+    uniqueIPs.add(req.ip)
+    // Imprimir el total de direcciones IP únicas
+    console.log(`Total de direcciones IP únicas conectadas: ${uniqueIPs.size}`);
+
 
     let lastView = req.query.lastView
     let toSortForClient = LAST_NEWS.slice()
