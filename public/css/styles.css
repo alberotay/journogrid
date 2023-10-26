@@ -234,7 +234,7 @@ p {
 }
 
 /* Estilo para el contenedor que envuelve la fecha y el icono */
-.news-date-icon {
+.minimalist-data {
     display: flex; /* Utiliza flexbox para alinear los elementos en línea */
     align-items: center; /* Centra verticalmente los elementos */
 }
@@ -395,4 +395,8 @@ p {
     position: relative;
     top: 4px;
     right: 4px;
+}
+
+.no-decoration{
+    text-decoration: none;
 }
