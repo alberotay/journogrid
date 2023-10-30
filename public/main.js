@@ -2,6 +2,7 @@ let lastResponse
 let lastRequestTimeMilis = Date.now()
 let allCategories = []
 let minsRefresh = 1.5
+let device
 
 
 async function getRss() {
@@ -10,13 +11,18 @@ async function getRss() {
 }
 
 
-
-
 getRss().then((res) => {
     // console.log("antes update   ", lastRequestTimeMilis)
 
     $(document).ready(function () {
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|OperaMini/i.test(navigator.userAgent)) {
+            device = "mobile"
+        } else {
+            device = "desktop"
+        }
+
+
+        if (device === "mobile") {
             console.log("llega Mobile")
             fillMobileGrid(res)
             $('#bodyMobile').show();
@@ -31,11 +37,12 @@ getRss().then((res) => {
             $('#bodyDesktop').show();
             $('.timer').show();
             $('.navbar-text').show();
+            $("li").hover(function () {
+                $(this).toggleClass('scale-up').siblings('li').toggleClass('scale-down')
+            })
         }
 
-        $("li").hover(function () {
-            $(this).toggleClass('scale-up').siblings('li').toggleClass('scale-down')
-        })
+
         res.forEach((element) => {
             allCategories.indexOf(element.category) === -1 ? allCategories.push(element.category) : null;
             $('#' + element.source + 'Column').hover(function () {
@@ -62,12 +69,11 @@ getRss().then((res) => {
         });
 
 
-    });
-
-    setTimer()
-    updateLastRequestTimeInFront()
+        setTimer()
+        updateLastRequestTimeInFront()
 
 
+    })
 })
 
 
@@ -174,8 +180,11 @@ function fillMobileGrid(res) {
 
 
 setInterval(() => getRss().then((res) => {
-    fillDesktopGrid(res)
-    fillMobileGrid(res)
+    if (device === "mobile") {
+        fillMobileGrid(res)
+    } else {
+        fillDesktopGrid(res)
+    }
     updateLastRequestTimeInFront()
 }), 1000 * 60 * minsRefresh)
 
