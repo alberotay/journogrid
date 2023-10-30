@@ -155,7 +155,7 @@ function fillDesktopGrid(res) {
 function fillMobileGrid(res) {
     let now = new Date()
     //Variable to Setup Only News from last 12h in order to avoid the news flooding
-    let acceptNewsFromHoursBefore = 12
+    let acceptNewsFromHoursBefore = 6
     let onlyNews = []
     res.forEach((data) => {
         onlyNews.push(data.allFeeds)
