@@ -7,6 +7,7 @@ let device
 
 async function getRss() {
     let fetched = await fetch('/rss?lastView=' + lastRequestTimeMilis);
+    $('#bodyMobile').append('<img id="loading" src="/logos/loading.webp "/>');
     return await fetched.json()
 }
 
