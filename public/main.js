@@ -1,7 +1,7 @@
 let lastResponse
 let lastRequestTimeMilis = Date.now()
 let allCategories = []
-let minsRefresh = 1.5
+let minsRefresh = 5
 let device
 
 
