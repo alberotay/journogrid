@@ -5,7 +5,7 @@ let feedsConfig = [
     ["laVanguardia", "https://www.lavanguardia.com/rss/home.xml", categories.NATIONAL],
     ["elAbc", "https://www.abc.es/rss/2.0/portada/", categories.NATIONAL],
     ["20Minutos", "https://www.20minutos.es/rss/", categories.CATALONIA],
-    ["ara", "'https://www.ara.cat/rss/'", categories.CATALONIA],
+    ["ara", "https://www.ara.cat/rss/", categories.CATALONIA],
     ["elPeriodico", "https://www.elperiodico.com/es/rss/rss_portada.xml", categories.NATIONAL],
     ["elPuntAvui", "https://www.elpuntavui.cat/barcelona/nacional.feed?type=rss", categories.CATALONIA],
     ["elNacional", "https://www.elnacional.cat/uploads/feeds/feed_es.xml", categories.CATALONIA],
