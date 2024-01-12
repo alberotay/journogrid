@@ -1,3 +1,2 @@
-﻿# EGGS
-# SPARTANS
+
 # APOLONIOS
