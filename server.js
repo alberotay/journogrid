@@ -64,6 +64,33 @@ app.get('/rss', (req, res) => {
 
 });
 
-app.listen(80, () => {
-    console.log('Servidor iniciado en el puerto 80');
+app.listen(3000, () => {
+    console.log('Servidor iniciado en el puerto 3000');
+});
+app.get('/debug/last-news', (req, res) => {
+    res.json(LAST_NEWS); // Devuelve el contenido de LAST_NEWS como JSON
+     console.log('http://localhost:3000/debug/last-news');
+});
+
+app.get('/all-items', async (req, res) => {
+    try {
+        let allItems = []; // Lista de todos los items disponibles
+
+        for (const feedItemGetter of allFeedsItemGetters) {
+            // Asegúrate de llamar a getItems para llenar los elementos
+            await feedItemGetter.getItems();
+            // Agrega los elementos directamente a la lista
+            allItems = allItems.concat(feedItemGetter.elements);
+        }
+
+        // Responder con todos los elementos disponibles
+        res.json({
+            success: true,
+            totalItems: allItems.length,
+            items: allItems,
+        });
+    } catch (error) {
+        console.error("Error al obtener los items:", error);
+        res.status(500).json({ success: false, message: "Error al obtener los items" });
+    }
 });
