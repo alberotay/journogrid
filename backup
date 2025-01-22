@@ -1,0 +1,10 @@
+"xml2js": "^0.6.2"
+"rss-parser": "^3.13.0",
+"axios": "^1.5.0",
+"bootstrap": "^5.3.2",
+    "bootstrap-icons": "^1.11.1",
+    "cheerio": "^1.0.0-rc.12",
+    --------------BIEN
+
+    "http-proxy-middleware": "^2.0.6",
+    
