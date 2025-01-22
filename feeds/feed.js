@@ -9,7 +9,7 @@ class feedItems {
         this.frontendImage = "/logos/"+this.elementSource+".svg";
         this.elements = [];
         this.category = category;
-        this.categories= [];
+        
     }
 
     async getItems() {
