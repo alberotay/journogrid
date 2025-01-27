@@ -78,6 +78,16 @@ getRss().then((res) => {
 
 
 function fillDesktop(res) {
+    console.log("AQUI ESTA EL RES"+res+"TOMA YA"); // Verifica que `res` tenga datos
+    if (!Array.isArray(res) || res.length === 0) {
+        console.error("Error: La respuesta `res` no es un arreglo o está vacía.");
+        return;
+    }
+    console.log("Elementos en res: ", res.length);
+    res.forEach((y, index) => {
+        console.log("Elemento " + index + ": ", JSON.stringify(y, null, 2));
+    });
+
     $("body").append('<div id ="lastRequestTime" />');
     $("#bodyDesktop").append('<div id ="containerAllFeeds" class="container-fluid">')
     res = sortColumnsByLastPreference(res)
@@ -150,6 +160,7 @@ function fillDesktopGrid(res) {
         }
     });
 }
+
 
 
 function fillMobileGrid(res) {

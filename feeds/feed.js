@@ -15,7 +15,7 @@ class feedItems {
     async getItems() {
 
             this.elements = await myParser.parseMedia(this.url)
-            console.log(`Items obtenidos de ${this.url}:`, this.elements); // Imprimir los items obtenidos
+            //console.log(`Items obtenidos de ${this.url}:`, this.elements); // Imprimir los items obtenidos
             return utils.feedNormalizerMedia(this.elements, this.elementSource,this.frontendImage,this.category)
     }
 }
