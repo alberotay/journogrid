@@ -5,6 +5,8 @@ const cors = require('cors');
 const feedItems = require('./feeds/feed')
 const feedsConfig = require('./feeds/feedsConfig')
 const utils = require('./utils')
+const mongoConnect = require('./db/connection'); // Archivo de conexión a MongoDB
+mongoConnect()
 
 
 let MINS_TO_REQUEST_ALL_RSS = 5
@@ -30,35 +32,41 @@ feedsConfig.feedConfig.forEach((config) => {
 
 async function parserAll() {
     await utils.sleep(100)
-    let combinedFeed = []
     for await (const feedItemGetter of allFeedsItemGetters) {
         //console.log("updateing item Getter")
-        let item = await feedItemGetter.getItems()
-        if (item.allFeeds.length > 0) {
-            combinedFeed.push(item)
-        }
+        await feedItemGetter.parseItems()
     }
-    LAST_NEWS = combinedFeed;
 }
 
 app.get('/', function (req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*'); // Habilita CORS para cualquier origen
+    res.setHeader('Access-Control-Allow-Methods', 'GET'); // Define los métodos permitidos
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); // Define los encabezados permitidos
+
     res.sendFile(path.join(__dirname, 'html', 'index.html'));
 })
 
-app.get('/rss', (req, res) => {
+app.get('/rss',async (req, res) => {
     console.log('LLEGA PETICION RSS DESDE ' + req.ip )
     uniqueIPs.add(req.ip)
     // Imprimir el total de direcciones IP únicas
     console.log(`Total de direcciones IP únicas conectadas: ${uniqueIPs.size}`);
 
 
+    let combinedFeed = []
+    for  (const feedItemGetter of allFeedsItemGetters) {
+        //console.log("updateing item Getter")
+        let item =  await feedItemGetter.getItems()
+        if (item.allFeeds.length > 0) {
+            combinedFeed.push(item)
+        }
+    }
+    LAST_NEWS = combinedFeed;
+
     let lastView = req.query.lastView
     let toSortForClient = LAST_NEWS.slice()
 
 
-    res.setHeader('Access-Control-Allow-Origin', '*'); // Habilita CORS para cualquier origen
-    res.setHeader('Access-Control-Allow-Methods', 'GET'); // Define los métodos permitidos
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); // Define los encabezados permitidos
     res.send(utils.sortForClient(toSortForClient,lastView))
 
 
@@ -69,7 +77,7 @@ app.listen(3000, () => {
 });
 app.get('/debug/last-news', (req, res) => {
     res.json(LAST_NEWS); // Devuelve el contenido de LAST_NEWS como JSON
-     console.log('http://localhost:3000/debug/last-news');
+    console.log('http://localhost:3000/debug/last-news');
 });
 
 app.get('/all-items', async (req, res) => {
