@@ -2,9 +2,11 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "feedparser": "^2.2.10",
-    "request": "^2.88.2",
     "express-http-proxy": "^2.0.0",
+    "feedparser": "^2.2.10",
+    "md5": "^2.3.0",
+    "mongoose": "^8.9.5",
+    "request": "^2.88.2",
     "rss-url-parser": "^3.0.0"
   }
 }

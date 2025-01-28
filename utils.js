@@ -1,3 +1,5 @@
+const md5 = require("md5")
+
 exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage, category) {
     let fixedElements = []
     elements.forEach((element) => {
@@ -5,6 +7,7 @@ exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage, cat
         let description = removeTags(getDescription(element), "b", "br")
         let pubDate = new Date(getDate(element));
         fixedElements.push({
+            id:md5(element.title),
             pubDate: pubDate.getTime(),
             title: element.title,
             source: feedSource,
@@ -17,14 +20,12 @@ exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage, cat
     })
 
     let allFeedsSorted = sortBy(fixedElements, 'pubDate');
-    return {
-        source: feedSource,
-        category: category,
-        allFeeds: allFeedsSorted,
-        frontEndImage: frontEndImage,
-        hasNewElements: false
-    }
+
+    return allFeedsSorted
 }
+
+
+
 
 function sortBy(arr, prop) {
     return arr.sort((a, b) => b[prop] - a[prop]);
