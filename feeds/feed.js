@@ -37,7 +37,7 @@ class feedItems {
 
     async getNews(){
         let toReturn = await mongoWrapper.getNewsBySource(this.elementSource)
-        console.log("enGetNews: " +toReturn)
+        //console.log("enGetNews: " +toReturn)
         return toReturn
     }
 }
