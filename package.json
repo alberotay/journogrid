@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.18.2",
+    "express": "^4.21.2",
     "express-http-proxy": "^2.0.0",
     "feedparser": "^2.2.10",
     "md5": "^2.3.0",

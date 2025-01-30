@@ -21,11 +21,16 @@ class feedItems {
 
     }
 
-    async getItems() {
-            return {
+    async getItems(filter) {
+        if (!filter){
+            filter = {source : this.elementSource}
+        }else{
+            filter.source = this.elementSource
+        }
+        return {
             source: this.elementSource,
             category: this.category,
-            allFeeds: await this.getNews(this.elementSource),
+            allFeeds: await this.getNews(filter),
             frontEndImage: this.frontendImage,
             hasNewElements: false
         }
@@ -35,10 +40,8 @@ class feedItems {
             mongoWrapper.storeNewsByArray(newsArray)
     }
 
-    async getNews(){
-        let toReturn = await mongoWrapper.getNewsBySource(this.elementSource)
-        //console.log("enGetNews: " +toReturn)
-        return toReturn
+    async getNews(filter){
+        return await mongoWrapper.getNewsByFilter(filter)
     }
 }
 
