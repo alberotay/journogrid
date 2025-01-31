@@ -67,8 +67,6 @@ getRss().then((res) => {
                 $("[value|=" + elem.val() + "Mobile]").hide()
             }
         });
-
-
         setTimer()
         updateLastRequestTimeInFront()
 
@@ -76,33 +74,40 @@ getRss().then((res) => {
     })
 })
 
-
 function fillDesktop(res) {
     $("body").append('<div id ="lastRequestTime" />');
-    $("#bodyDesktop").append('<div id ="containerAllFeeds" class="container-fluid">')
-    res = sortColumnsByLastPreference(res)
-    $("#containerAllFeeds").append('<div id ="allFeeds' + '" class="row marginRow list-group">');
-    res.forEach((t, i) => {
-            if (t.allFeeds.length > 0) {
-                $('#allFeeds').append('<li id ="' + t.source + 'Column" class= "fit col-sm-1 list-group-item" value = "' + t.category + 'Column"> ')
-                $('#' + t.source + 'Column').append('<div id ="' + t.source + 'Header" class= "header" />')
-                    .append('<div id ="' + t.source + 'News" class= "news-container" />')
-                    .prepend('<img id ="' + t.source + '_newLabel' + '" src="/newLabel.png"  class= "newLabel" />');
-                $('#' + t.source + 'Header').append('<h1 id ="' + t.source + 'H1"/>');
-                $('#' + t.source + 'H1').append('<img style="width: 100%;" src="' + t.frontEndImage + '" alt="' + t.source + 'Logo" />')
-                    .append('<button title="Primera noticia" id ="' + t.source + 'MoveUpButton" class="move-up-button" />↑')
-                    .append('<button title="Automático" id ="' + t.source + 'MoveDownButton" class="move-down-button" />↓')
-                    .append('<button title="Arrastra el contenedor" class="move-down-button" />↔');
-                $('body').on('click', '#' + t.source + 'MoveUpButton', function () {
-                    moveNewsUp(t.source + 'News')
-                }).on('click', '#' + t.source + 'MoveDownButton', function () {
-                    moveNewsDown(t.source + 'News', this)
-                });
-            }
+    $("#bodyDesktop").append('<div id ="containerAllFeeds" class="container-fluid">');
+    res = sortColumnsByLastPreference(res); // Assuming this function is defined elsewhere
+    const $allFeeds = $('<div id ="allFeeds" class="row marginRow list-group">'); // Create the container element first
+    $("#containerAllFeeds").append($allFeeds); // Append the container to the DOM
+
+    res.forEach(t => {
+        if (t.allFeeds.length > 0) {
+            const $li = $(`<li name="newsColumn" id="${t.source}Column" class="fit col-sm-1 list-group-item" value="${t.category}Column">`);
+            const $header = $(`<div id ="${t.source}Header" class= "header" />`);
+            const $newsContainer = $(`<div id ="${t.source}News" class= "news-container" />`);
+            const $newLabel = $(`<img id ="${t.source}_newLabel" src="/newLabel.png"  class= "newLabel" />`);
+            const $h1 = $(`<h1 id ="${t.source}H1"/>`);
+            const $img = $(`<img style="width: 100%;" src="${t.frontEndImage}" alt="${t.source}Logo" />`);
+            const $moveUpButton = $(`<button title="Primera noticia" id ="${t.source}MoveUpButton" class="btn btn-default"><span class="bi bi-arrow-up""></span></button>`);
+            const $moveDownButton = $(`<button title="Automático" id ="${t.source}MoveDownButton"  class="btn btn-default bi bi-chevron-double-down"" />`);
+            const $moveContainerButton = $(`<button type="button" title="Arrastra el contenedor" class="btn btn-default" /><span class="bi bi-arrows-move""></span></button>`);
+
+
+            $h1.append($img).append($moveUpButton).append($moveDownButton).append($moveContainerButton);
+            $header.append($h1);
+            $li.append($header).append($newsContainer).prepend($newLabel);
+            $allFeeds.append($li); // Append the <li> to the pre-created container
+
+            $('body').off('click', '#' + t.source + 'MoveUpButton').on('click', '#' + t.source + 'MoveUpButton', () => moveNewsUp(t.source + 'News')); // Arrow function, .off() to prevent duplicate event handlers
+            $('body').off('click', '#' + t.source + 'MoveDownButton').on('click', '#' + t.source + 'MoveDownButton', function () { // .off() to prevent duplicate event handlers
+                moveNewsDown(t.source + 'News', this);
+            });
         }
-    )
-    if (window.localStorage.getItem("columnsOrder") === null) {
-        updateLocalStorageOrder()
+    });
+
+    if (localStorage.getItem("columnsOrder") === null) {
+        updateLocalStorageOrder(); // Assuming this function is defined elsewhere
     }
 }
 
@@ -122,7 +127,7 @@ function fillDesktopGrid(res) {
                     .append('<div id ="' + source + 'NewsImageContainer_' + j + '" class= "news-image-container" />')
                     .append('<h3 id ="' + source + 'h3_' + j + '"  />');
                 $('#' + source + 'h2_' + j).append('<a id ="' + source + '_a_' + j + '" class= "news-title" href= "' + feed.link + '"  target="blank" href = "' + feed.link + '" />' + feed.title + '');
-                $('#' + source + 'NewsImageContainer_' + j).append('<img id ="' + source + '_thumbNail_' + j + '" src="' + feed.thumbnailUrl + '"  class= "news-image" />');
+                $('#' + source + 'NewsImageContainer_' + j).append('<img id ="' + source + '_thumbNail_' + j + '" loading="lazy" src="' + feed.thumbnailUrl + '"  class= "news-image" />');
                 $('#' + source + 'h3_' + j).append('<div id ="' + source + '_newsContent_' + j + '" class ="news-content" />');
                 addMinimalistInfo('#' + source + '_newsContent_' + j, feed, false, j)
                 $('#' + source + '_newsContent_' + j).append('<div id ="' + source + '_newsDescription_' + j + '" class ="news-desciption" />');
@@ -164,11 +169,11 @@ function fillMobileGrid(res) {
     mergedNews = mergedNews.sort((a, b) => b.pubDate - parseFloat(a.pubDate));
     $("#bodyMobile").empty()
     mergedNews.forEach((data, i) => {
-        if (data.pubDate > now - 1000 * 60 * 60 * acceptNewsFromHoursBefore) {
+        if (Date.parse(data.pubDate) > now - 1000 * 60 * 60 * acceptNewsFromHoursBefore) {
             $("#bodyMobile").append('<div id ="rowMobile' + i + '"  value = "' + data.category + 'Mobile" class = "news-item-mobile"/>')
             $("#rowMobile" + i).append('<div class="col-8"><p />' + data.category.replaceAll("_", " ") + '</div>')
                 .append('<a href= "' + data.link + '"  class = "news-title" target="blank" href = "' + data.link + '" />' + data.title)
-                .append('<img src="' + data.thumbnailUrl + '"  class= "news-image marginTopMobileImage" />')
+                .append('<img src="' + data.thumbnailUrl + '" loading="lazy" class= "news-image marginTopMobileImage" />')
             addMinimalistInfo("#rowMobile" + i, data, true, i)
             $("#rowMobile" + i).append('<div id ="' + data.source + '_newsDescriptionMobile_' + i + '" class ="news-desciption" >')
             $("#" + data.source + "_newsDescriptionMobile_" + i).append('<p class = "justifyText" />' + data.description)
@@ -188,79 +193,6 @@ setInterval(() => getRss().then((res) => {
     updateLastRequestTimeInFront()
 }), 1000 * 60 * minsRefresh)
 
-let scrollInterval;
-
-function moveNewsUp(containerId) {
-    const container = document.getElementById(containerId);
-    const newsItemHeight = container.querySelector('.news-item').offsetHeight; // Altura de un elemento de noticias
-
-    clearInterval(scrollInterval); // Detener cualquier desplazamiento anterior
-    const downButtons = document.querySelectorAll('.move-down-button');
-    downButtons.forEach(button => button.classList.remove('active'));
-
-    if (container.scrollTop > 0) {
-        container.scrollTop -= newsItemHeight;
-    } else {
-        // Si ya está en la parte superior, detener el intervalo y mantener en la parte superior
-        clearInterval(scrollInterval);
-    }
-}
-
-// Objeto para almacenar los intervalos por columna
-const columnIntervals = {};
-
-
-function moveNewsDown(containerId, button) {
-    const container = document.getElementById(containerId);
-    const newsItemHeight = container.querySelector('.news-item').offsetHeight; // Altura de un elemento de noticias
-
-    const columnId = container.closest('.news-container').id;
-
-    clearInterval(columnIntervals[columnId]); // Detener el intervalo anterior
-
-    button.classList.add('active'); // Agregar clase para cambiar el color a verde
-
-    columnIntervals[columnId] = setInterval(() => {
-        if (container.scrollTop < container.scrollHeight - container.clientHeight) {
-            container.scrollTop += newsItemHeight;
-        } else {
-            // Si ya está en la parte inferior, mueve el primer elemento al final
-            const firstItem = container.querySelector('.news-item');
-            const lastItem = container.querySelector('.news-item:last-child');
-            container.removeChild(firstItem);
-            container.appendChild(firstItem);
-            container.scrollTop = container.scrollHeight - container.clientHeight - newsItemHeight; // Ajusta el desplazamiento inicial
-        }
-    }, 10000); // Intervalo de desplazamiento en milisegundos (10 segundos en este ejemplo)
-}
-
-
-function updateLastRequestTimeInFront() {
-    lastRequestTimeMilis = Date.now()
-    $("#lastUpdate").html("Última actualización: " + new Date(lastRequestTimeMilis).toLocaleString())
-}
-
-
-function sortColumnsByLastPreference(res) {
-    let resSources = []
-    if (JSON.parse(window.localStorage.getItem("columnsOrder"))) {
-        let a = JSON.parse(window.localStorage.getItem("columnsOrder"))
-        res.forEach((data) => resSources.push(data.source))
-        let filtered = resSources.filter(x => !a.includes(x))
-        filtered.forEach((data, i) => {
-            a.push(data)
-        })
-        let sortInsert = function (acc, cur) {
-            var toIdx = R.indexOf(cur.source, a);
-            acc[toIdx] = cur;
-            return acc;
-        };
-        let sort = R.reduceRight(sortInsert, []);
-        return sort(res)
-    } else {
-        return res
-    }
-}
 
 function enableDescriptionToggle(newsDescriptionSelector, verMasSelector) {
     $(newsDescriptionSelector).hide()
@@ -290,31 +222,20 @@ function addMinimalistInfo(parentElementId, feed, isMobile, i) {
         .append('<a href="https://t.me/share/url?url=' + encodeURIComponent(linkToShare) + '&text=¡Visto en JournoGrid en ACOSTA.FUN !" target="_blank" class="no-decoration"> <img src="./logos/telegram.svg" class="news-icon-telegram" alt=""/></a>')
 }
 
-function updateLocalStorageOrder() {
-    let orderArray = []
-    document.querySelectorAll(".fit").forEach((data) => orderArray.push(data.id.replace("Column", "")))
-    window.localStorage.setItem("columnsOrder", JSON.stringify(orderArray))
-}
 
-function setTimer() {
-    let countdown = $("#timer").countdown360({
-        radius: 11,
-        strokeStyle: "#ffffff",
-        strokeWidth: 6,
-        fillStyle: "#212529",
-        fontColor: "#212529",
-        fontFamily: "sans-serif",
-        fontSize: undefined,
-        fontWeight: 900,
-        autostart: true,
-        seconds: minsRefresh * 60,
-        //label: ["segundo", "segundos"],
-        startOverAfterAdding: true,
-        smooth: true,
-        onComplete: function () {
-            countdown.start()
+const images = document.querySelectorAll('.image-container img');
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src;
+            observer.unobserve(img);
         }
     });
-    countdown.start()
-}
+});
+
+images.forEach((image) => {
+    observer.observe(image);
+});
 
