@@ -1,0 +1,406 @@
+.body {
+    background-color: lightgray;
+}
+
+.ia-letters {
+    color: #ff6600; /* Color al que cambian las letras */
+    transition: color 1s; /* Transición suave de 0.3 segundos para el cambio de color */
+}
+
+.ia-letters:hover {
+    color: #333; /* Color al que vuelven las letras al pasar el ratón por encima */
+}
+
+button[title]::after {
+    content: attr(title);
+    background-color: #333;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+    visibility: hidden;
+}
+
+button[title]:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.news-icon-wats {
+    background-color: #25d366; /* Fondo verde similar al de WhatsApp */
+    color: #fff; /* Texto blanco */
+    /*font-size: 17px; /* Tamaño de fuente 19px */
+    border-radius: 50%; /* Establece un borde redondeado para que sea similar al icono de WhatsApp */
+    padding: 0px; /* Añade espacio alrededor del icono */
+    position: relative; /* Permite ajustar la posición */
+    top: 2px; /* Sube 2px */
+    margin-left: 3px;
+    margin-right: 3px; /* Deja espacio a la izquierda */
+    padding-left: 2px; /* 20px de relleno a la izquierda */
+    padding-right: 2px; /* 20px de relleno a la derecha */
+    padding-top: -1px; /* 10px de relleno arriba */
+    width: 26px;
+    height: 26px;
+}
+
+.news-icon-telegram {
+   /* font-size: 22px;*/
+    position: relative;
+    top: 2px; /* Sube 2px */
+    background-color: #fff;
+    color: #079df4; /* Texto blanco */
+    width: 26px;
+    height: 26px;
+}
+
+.news-icon-watsMobile {
+    background-color: #25d366; /* Fondo verde similar al de WhatsApp */
+    color: #fff; /* Texto blanco */
+    font-size: 25px; /* Tamaño de fuente 19px */
+    border-radius: 50%; /* Establece un borde redondeado para que sea similar al icono de WhatsApp */
+    padding: 0px; /* Añade espacio alrededor del icono */
+    position: relative; /* Permite ajustar la posición */
+    top: -4px; /* Sube 2px */
+    margin-left: 3px;
+    margin-right: 3px; /* Deja espacio a la izquierda */
+    padding-left: 4px; /* 20px de relleno a la izquierda */
+    padding-right: 4px; /* 20px de relleno a la derecha */
+    padding-top: -1px; /* 10px de relleno arriba */
+}
+
+.news-icon-telegramMobile {
+    font-size: 32px;
+    position: relative;
+    top: -2px; /* Sube 2px */
+    background-color: #fff;
+    color: #079df4; /* Texto blanco */
+}
+.bi.bi-box-arrow-down {
+    position: relative;
+    top: 4px;
+    color: rgb(0, 4, 255);
+    font-size: 25px;
+    margin-left: 3px;
+    margin-right: 9px;
+  }
+  .bi-box-arrow-in-up {
+    position: relative;
+    top: 4px;
+    color: rgb(19, 192, 0);
+    font-size: 25px;
+    margin-left: 3px;
+    margin-right: 9px;
+  }
+
+.icons-right {
+    text-align: right; /* Alinea los íconos a la derecha */
+    margin-left: auto;
+}
+
+
+
+.news-image {
+    width: 100%;
+    /* Ajusta el ancho de la imagen según tus preferencias *5
+       height: auto; /* Mantén la proporción original */
+    border-radius: 5px; /* Agrega bordes redondeados */
+    /*margin-right: 30px;  Espacio entre la imagen y el texto 
+    margin-left: 40px*/
+}
+
+
+.news-item {
+    display: flex; /* Mostrar como fila */
+    flex-wrap: wrap; /* Romper en múltiples líneas si es necesario */
+    border-bottom: 1px solid #ddd;
+    padding: 15px;
+
+}
+
+.news-item-mobile {
+    display: flex; /* Mostrar como fila */
+    flex-wrap: wrap; /* Romper en múltiples líneas si es necesario */
+    border-bottom: 1px solid black;
+    padding: 15px;
+    background: white;
+}
+
+
+.news-content {
+    flex: 1; /* Ocupar el espacio restante */
+}
+
+.news-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 5px;
+    text-decoration: none;
+}
+
+.news-description img {
+    display: block;
+    margin: 0 auto; /* Centrar la imagen horizontalmente */
+}
+
+
+
+
+.justifyText {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: bold; /* Agregar estilo más elegante al título */
+    margin-bottom: 10px;
+    color: #000; /* Cambiar el color del título a negro */
+}
+
+h3 {
+    font-family: Arial, sans-serif; /* Cambia la fuente según tus preferencias */
+    font-size: 1rem; /* Tamaño pequeño de fuente */
+
+    font-weight: normal; /* Puedes ajustar el peso de la fuente según tus preferencias */
+    color: #333; /* Color del texto, puedes personalizarlo */
+
+}
+
+p {
+    margin: 5px 0;
+    color: #777;
+    font-size: 0.9rem;
+}
+
+
+/* Añade estilos para la clase "header" que envuelve el botón y el título */
+.header {
+    display: flex;
+    align-items: center; /* Alinear verticalmente */
+}
+
+
+.minimize-button.collapsed span {
+    transform: rotate(90deg);
+    font-weight: bold;
+}
+
+
+/* Estilo para el título */
+.header h1 {
+    margin-left: 3px; /* Agrega un espacio entre el botón y el título */
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 0; /* Elimina el margen inferior del título */
+}
+
+/* Aplicar scroll suave a los contenedores de noticias */
+.news-container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    overflow-y: scroll; /* Habilitar la barra de desplazamiento vertical */
+    scroll-behavior: smooth; /* Aplicar desplazamiento suave */
+    max-width: 100%; /* Ajusta el ancho máximo al 100% */
+    align-items: stretch;
+    max-height: 50vh; /* Ajusta la altura máxima según tus necesidades */
+
+}
+
+/* Desactivar la barra de desplazamiento por defecto */
+.news-container::-webkit-scrollbar {
+    width: 0.1em;
+}
+
+.news-container::-webkit-scrollbar-thumb {
+    background-color: #007BFF;
+    border-radius: 10px;
+}
+
+.news-container::-webkit-scrollbar-track {
+    background-color: #f5f5f5;
+}
+
+/* Establecer una altura máxima para el contenedor de noticias */
+.news-container {
+
+
+}
+
+/* Estilo para el contenedor que envuelve la fecha y el icono */
+.minimalist-data {
+    display: flex; /* Utiliza flexbox para alinear los elementos en línea */
+    align-items: center; /* Centra verticalmente los elementos */
+}
+
+/* Estilo para el texto pequeño */
+.news-date {
+    display: inline-block;
+    color: gray; /* Color de texto gris para news-date */
+    font-size: 12px; /* Tamaño de fuente más pequeño para la fecha */
+}
+
+/* Estilo para el icono */
+.news-iconMobile {
+    color: blue;
+    margin-left: 5px;
+    font-size: 27px; /* Tamaño de fuente para el icono */
+}
+
+/* Estilo para el botón cuadrado elegante */
+.move-down-button, .move-up-button {
+    display: inline-block; /* Asegura que el botón no ocupe toda la línea */
+    padding: 4px 10px; /* Ajusta el relleno (padding) según tus necesidades */
+    background-color: rgb(47, 102, 252); /* Color de fondo azul para el botón */
+    color: white; /* olor de texto blanco */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    text-align: center; /* Alinea el texto en el centro del botón */
+    text-decoration: none; /* Quita el subrayado en el texto (enlace) */
+    font-size: 16px; /* Tamaño de fuente del texto */
+    cursor: pointer; /* Cambia el cursor al pasar por encima del botón */
+    margin-left: 5px;
+    transition: background-color 0.3s; /* Agrega una transición de color de fondo suave */
+}
+
+/* Cambia el color de fondo al pasar el cursor por encima */
+.move-down-button:hover {
+    background-color: darkblue; /* Cambia el color de fondo al pasar el cursor por encima */
+}
+
+.fit {
+    position: relative;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 10px 10px 10px 10px;
+    line-height: 28px;
+    font-size: 22px;
+    margin-top: 5px !important;
+    margin-right: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: aliceblue !important;
+    transition: all 0.3s ease-in;
+    box-sizing: border-box;
+    display: inline-block;
+    min-width: 305px;
+
+
+}
+
+.scale-up {
+    position: relative;
+    transform: scale(1.1);
+    opacity: 100%;
+    z-index: 1;
+
+
+}
+
+.scale-down {
+    position: relative;
+    opacity: 50%;
+    transform: scale(0.8);
+    z-index: 0;
+
+}
+
+
+.parent {
+    margin-left: 5%;
+    margin-right: 5%;
+    width: auto;
+}
+
+
+.newFeed {
+    transform: scale(1.1);
+    background-color: firebrick !important;
+    z-index: 10;
+}
+
+
+.displayNone {
+    display: none;
+}
+
+.newLabel {
+    position: absolute;
+    height: 40px;
+    width: 40px;
+    left: -12px;
+    top: -12px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+
+}
+
+.fecha-navbar {
+    width: 14%;
+    text-align: right;
+    padding-right: 2%;
+}
+
+.showMeNewLabel {
+    opacity: 1;
+}
+
+.marginRow {
+    margin-left: 10px !important;
+    flex-direction: row !important;
+}
+
+.marginRowMobile {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+
+.imgAl {
+    width: 150px;
+    height: 150px;
+    position: fixed;
+    z-index: 2;
+}
+
+
+.news-container {
+    margin-top: 5px;
+}
+
+.custom-control {
+
+    line-height: 7px;
+
+}
+
+.marginTopMobileImage {
+    margin-top: 5px;
+}
+
+
+.dropdown-backdrop {
+    position: static;
+}
+
+
+.timer {
+    position: relative;
+    top: 4px;
+    right: 4px;
+}
+
+.no-decoration{
+    text-decoration: none;
+}

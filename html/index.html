@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JournoGrid</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="/main.js"></script>
+    <script src="/filter.js"></script>
+    <script src="/scroller.js"></script>
+    <script src="/preferences.js"></script>
+    <script src="/timer.js"></script>
+
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/ramda/0.19.1/ramda.min.js"></script>
+    <script src="/jquery.countdown360.min.js"></script>
+</head>
+
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex flex-row">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">JournoGrid Notic<span class="ia-letters">IA</span>'s</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Categorías
+                        </a>
+                        <div id="categoriasDropdown" class="dropdown-menu dropdown-menu-dark"
+                             aria-labelledby="navbarDropdown">
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <span id="timer" class="timer me-1"></span>
+            <span id="lastUpdate" class="navbar-text me-4"></span>
+
+            <form class="form-inline" style="margin-left: -10px;">
+                <div class="input-group">
+                    <input class="form-control form-control-sm" type="search" placeholder="Buscar..."
+                           id="searchInput" style="width: 200px;">
+                    <button class="btn btn-outline-light btn-sm" type="button" id="searchButton">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </nav>
+</header>
+
+<main class="body">
+    <div id="radios"></div>
+    <div id="bodyDesktop" class="displayNone"></div>
+    <div id="bodyMobile" class="displayNone"></div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/RubaXa/Sortable/Sortable.min.js"></script>
+</body>
+
+</html>

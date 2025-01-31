@@ -1,0 +1,9 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="36" height="36">
+	<title>Proyecto nuevo</title>
+	<defs>
+		<image  width="36" height="36" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAAAXNSR0IB2cksfwAAAHtQTFRF/////vb0+drZ/Ono/ezp/e3q//z6/vPw7Y+J3wAA629m5ldP4AAA87ey8aio98LA6Gdh9sfF5Dcw8J+b4RMI7pKQ5kg863Ru5UdF6nl05Cwk4iQf4hoV7IB6+uHe6GBa5lBQ8amj98zJ5Twy6Wto8Kah5UZG9Ly3+NPP+8yxmwAAAN5JREFUeJztkGFuwyAMhZ0yaJwYyAJNE8KShjWl9z9hTbcDbH+rPgmhZ33YDwO89fKqDgLgQ0pZFScOSkHFTsJPVR4B6hoRmwaLGtW2iETaFEfWPqsdfCL21lnr6XTqaSDyfOjsx3GiEMY5hvD1N0gTxbYWAmlZVj8gLjBNNPiuswzDhbYNSqae+E0fOUSBFDhHY2QipPQLVdsmN4rxm7S2FfOri5Fav66Be/8Hcs9fOr6OvI+FpxDi2eD1uuM8ww33nTOlZAwvM2feIYBS2tzvsOSUVM5ZpMzt3npxPQD3qRZawYaTAQAAAABJRU5ErkJggg=="/>
+	</defs>
+	<style>
+	</style>
+	<use id="Capa 17" href="#img1" x="0" y="0"/>
+</svg>
