@@ -13,7 +13,6 @@ const newsSchema = new mongoose.Schema({
     description: { type: String }, // Descripción de la noticia
 });
 
-// Crear el modelo basado en el esquema
 
 const News = mongoose.model('News', newsSchema);
 
