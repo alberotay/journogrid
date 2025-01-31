@@ -4,13 +4,13 @@ let  myParser =require("../feedParser");
 let mongoWrapper = require("../db/mongoWrapper")
 
 class feedItems {
-    constructor(elementSource,url,category) {
+    constructor(elementSource,url,category,isActive) {
         this.url = url;
         this.elementSource = elementSource;
         this.frontendImage = "/logos/"+this.elementSource+".svg";
         this.elements = [];
         this.category = category;
-        
+        this.isActive = isActive;
     }
 
 

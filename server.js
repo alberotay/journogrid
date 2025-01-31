@@ -1,10 +1,14 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const cors = require('cors');
+const cors = require('cors')
+const bodyParser = require('body-parser');
 const feedsDecorator = require('./feeds/feedsDecorator')
 app.use(express.static('public'));
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 let uniqueIPs = new Set();
 
 
@@ -24,6 +28,30 @@ app.get('/rss', async (req, res) => {
     console.log(`Total de direcciones IP únicas conectadas: ${uniqueIPs.size}`);
     res.send(await feedsDecorator.getNewsFromCache())
 
+});
+
+app.get('/admin', async (req, res) => {
+    res.sendFile(path.join(__dirname, 'html', 'admin.html'));
+});
+
+
+app.get('/getAllRss', async (req, res) => {
+    res.send(await feedsDecorator.getAllRss());
+});
+
+app.post('/setRss', async (req, res) => {
+     feedsDecorator.storeRss(req.body)
+    res.send("ok")
+});
+
+app.post('/deleteRss', async (req, res) => {
+    feedsDecorator.deleteRss(req.body.source)
+    res.send("ok")
+});
+
+
+app.get('/getAllCategories', async (req, res) => {
+    res.send(await feedsDecorator.getAllCategories());
 });
 
 // Endpoint para depuración

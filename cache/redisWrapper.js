@@ -10,3 +10,8 @@ exports.fillNewsCache =  function (lastNews){
 exports.getNewsCache =  async function (){
    return await redisClient.get('LAST_NEWS');
 }
+
+
+
+
+
