@@ -24,4 +24,8 @@ function obtenerNombreMes(numeroMes) {
 window.addEventListener('load', function () {
     const ultimaActualizacion = document.getElementById('ultima-actualizacion');
     ultimaActualizacion.textContent = 'Última actualización | ' + obtenerFechaHoraActual();
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> advancedSearch
