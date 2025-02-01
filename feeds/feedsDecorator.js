@@ -15,14 +15,11 @@ populateData();
 setInterval(populateData, 1000 * 60 * 5); // Parse and store every 5 minutes
 setInterval(fillCache, 1000 * 60 * 0.1);
 
-<<<<<<< HEAD
-=======
 exports.getDataNews = async function(filter) {
     
     return  await mongoWrapper.getNewsByFilter(filter)
 
 }
->>>>>>> advancedSearch
 
 async function populateData() {
     await parseAndStoreToMongo();

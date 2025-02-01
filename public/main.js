@@ -239,9 +239,3 @@ images.forEach((image) => {
     observer.observe(image);
 });
 
-<<<<<<< HEAD
-images.forEach((image) => {
-    observer.observe(image);
-});
-=======
->>>>>>> advancedSearch
