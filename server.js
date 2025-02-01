@@ -4,10 +4,15 @@ const path = require('path');
 const cors = require('cors')
 const bodyParser = require('body-parser');
 const feedsDecorator = require('./feeds/feedsDecorator')
+//////////////////
+
+
+//////////////////
 app.use(express.static('public'));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 
 let uniqueIPs = new Set();
 
@@ -33,6 +38,44 @@ app.get('/rss', async (req, res) => {
 app.get('/admin', async (req, res) => {
     res.sendFile(path.join(__dirname, 'html', 'admin.html'));
 });
+app.get('/buscador', async (req, res) => {
+    res.sendFile(path.join(__dirname, 'html', 'buscador.html'));
+});
+
+app.get('/api/search', async (req, res) => {
+    const { startDate, endDate, keyword } = req.query;
+
+    if (!startDate || !endDate) {
+        return res.status(400).json({ error: "Faltan fechas de inicio y fin." });
+    }
+
+    try {
+        console.log(`📅 Buscando noticias entre ${startDate} y ${endDate}`);
+        
+        // Creamos el filtro con las fechas
+        const query = {
+            pubDate: {
+                $gte: new Date(startDate), 
+                $lte: new Date(endDate)
+            }
+        };
+        if (keyword) {
+            query.title = { $regex: keyword, $options: "i" }; // Búsqueda insensible a mayúsculas/minúsculas
+        }
+
+        // Asegúrate de que feedsDecorator.getDataNews devuelva una promesa que resuelve con las noticias
+        const news = await feedsDecorator.getDataNews(query);
+
+        console.log(`✅ ${news.length} noticias encontradas`);
+
+        // Devolvemos las noticias en formato JSON
+        res.json(news);
+    } catch (error) {
+        console.error('❌ Error en /api/search:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 
 
 app.get('/getAllRss', async (req, res) => {
