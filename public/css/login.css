@@ -1,0 +1,83 @@
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f4; /* Un fondo grisáceo suave */
+    margin: 0;
+}
+
+.login-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
+    width: 380px; /* Ancho ligeramente mayor */
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 600; /* Etiquetas más destacadas */
+}
+
+input[type="text"],
+input[type="password"] {
+    width: calc(100% - 18px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px; /* Tamaño de letra más grande */
+    transition: border-color 0.2s ease-in-out; /* Transición suave para el borde */
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #007bff; /* Borde azul al enfocar */
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2); /* Sombra azul suave al enfocar */
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s ease-in-out; /* Transición suave para el fondo */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#error-message {
+    color: #dc3545; /* Rojo para mensajes de error */
+    margin-top: 10px;
+    text-align: center; /* Centrar mensaje de error */
+}
+
+/* Estilos para el modal (sin cambios, si lo sigues usando) */
+.modal {
+    /* ... (estilos del modal) */
+}
+
+.modal-content {
+    /* ... (estilos del modal) */
+}
