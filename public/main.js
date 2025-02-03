@@ -43,7 +43,9 @@ getRss().then((res) => {
         }
 
 
-
+        res.forEach((element) => {
+            allCategories.indexOf(element.category) === -1 ? allCategories.push(element.category) : null;
+        })
         document.querySelector('.dropdown-menu').addEventListener('click', function (event) {
             event.stopPropagation();
         });
