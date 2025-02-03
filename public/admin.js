@@ -1,5 +1,5 @@
-$(document).ready(function () {
-    $("#configurarRss").click(async function () {
+$(document).ready(function() {
+    $("#configurarRss").click(async function() {
         let categories = await fetch('/api/getAllCategories');
         const categoriesJson = await categories.json();
 
@@ -30,12 +30,13 @@ $(document).ready(function () {
 
 
         // Evento change del select de source
-        $sourceSelect.change(function () {
+        $sourceSelect.change(function() {
             const selectedSource = $(this).val();
             if (selectedSource === "new") {
                 $sourceSelect.addClass("d-none");
                 $sourceInput.removeClass("d-none").focus();
                 $("#url").val("");
+
                 $("#category").val("");
             } else {
                 $sourceSelect.removeClass("d-none");
@@ -44,12 +45,14 @@ $(document).ready(function () {
                 if (rss) {
                     $("#url").val(rss.url);
                     $("#category").val(rss.category);
-                    $("#isActive").val(rss.isActive? "true": "false");
+                    $("#isActive").val(rss.isActive ? "true" : "false");
                 }
             }
-            if (selectedSource!== "new") {
+            if (selectedSource !== "new") {
+                // ... (código anterior) ...
                 $deleteButton.removeClass("d-none"); // Mostrar el botón Eliminar
             } else {
+                // ... (código anterior) ...
                 $deleteButton.addClass("d-none"); // Ocultar el botón Eliminar
             }
 
@@ -58,6 +61,9 @@ $(document).ready(function () {
         $row.append($("<div>").addClass("col-3").append($("<input>").attr("type", "text").addClass("form-control").attr("id", "url").attr("placeholder", "Url")));
 
         const $select = $("<select>").addClass("form-control").attr("id", "category");
+        // Placeholder para categoría
+        $("<option>").val("").text("Categoría").prop("disabled", true).prop("selected", true).appendTo($select);
+
         categoriesJson.forEach(category => {
             $("<option>").val(category.type).text(category.type).appendTo($select);
         });
@@ -80,13 +86,16 @@ $(document).ready(function () {
         $content.append($form);
 
         // Simular el cambio a "new" después de crear el formulario
-        $sourceSelect.val("new").change();
+        $sourceSelect.val("new");
+        $sourceSelect.change(); //Trigger the change
 
-        $deleteButton.click(function () {
+        $deleteButton.click(function() {
             const source = $("#sourceSelect").val(); // Obtener el ID de la fuente seleccionada
 
             if (confirm("¿Estás seguro de que quieres eliminar esta fuente?")) {
-                $.post("/api/deleteRss", { source: source }, async function (data) {
+                $.post("/api/deleteRss", {
+                    source: source
+                }, async function(data) {
                     console.log("Fuente eliminada:", data);
                     let rssResponse = await fetch('/api/getAllRss');
                     generarTabla(await rssResponse.json());
@@ -100,10 +109,10 @@ $(document).ready(function () {
             }
         });
 
-        $form.submit(function (event) {
+        $form.submit(function(event) {
             event.preventDefault();
 
-            const source = $sourceInput.hasClass("d-none")? $("#sourceSelect").val(): $("#sourceInput").val();
+            const source = $sourceInput.hasClass("d-none") ? $("#sourceSelect").val() : $("#sourceInput").val();
             const url = $("#url").val();
             const category = $("#category").val();
             const isActive = $("#isActive").val() === "true";
@@ -144,7 +153,7 @@ $(document).ready(function () {
                     url: url,
                     category: category,
                     isActive: isActive
-                }, async function (data) {
+                }, async function(data) {
                     console.log("Datos enviados:", data);
                     let rssResponse = await fetch('/api/getAllRss');
                     generarTabla(await rssResponse.json());
@@ -173,21 +182,25 @@ $(document).ready(function () {
         const $thead = $("<thead>").appendTo($table);
         const $tbody = $("<tbody>").appendTo($table);
 
-        const headers = ["source", "url", "category", "isActive"];
+        // Headers de la tabla (nuevos nombres)
+        const headers = ["Fuente", "Url de la Fuente", "Categoría", "Activado?"];
+        const headerKeys = ["source", "url", "category", "isActive"]; // Claves correspondientes en el JSON
         const $row = $("<tr>").appendTo($thead);
         headers.forEach(header => $("<th>").text(header).appendTo($row));
 
         data.forEach(item => {
             const $row = $("<tr>").appendTo($tbody);
 
-            headers.forEach(header => {
-                if (header!== "__v") {
-                    $("<td>").text(item[header]).appendTo($row);
+            headerKeys.forEach(key => { // Usar headerKeys para acceder a las claves del JSON
+                if (key === "isActive") {
+                    $("<td>").text(item[key] ? "Sí" : "No").appendTo($row); // Mostrar "Sí" o "No" para "Activado?"
+                } else {
+                    $("<td>").text(item[key]).appendTo($row);
                 }
             });
 
             // Evento click en la fila
-            $row.click(function () {
+            $row.click(function() {
                 if (item.source === "new") {
                     $("#sourceSelect").val("new").change();
                     $("#sourceInput").val(item.source);
@@ -196,7 +209,7 @@ $(document).ready(function () {
                 }
                 $("#url").val(item.url);
                 $("#category").val(item.category);
-                $("#isActive").val(item.isActive? "true": "false");
+                $("#isActive").val(item.isActive ? "true" : "false");
             });
         });
 
