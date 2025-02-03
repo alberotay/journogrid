@@ -36,7 +36,6 @@ $(document).ready(function () {
                 $sourceSelect.addClass("d-none");
                 $sourceInput.removeClass("d-none").focus();
                 $("#url").val("");
-                $("#url").val("");
                 $("#category").val("");
             } else {
                 $sourceSelect.removeClass("d-none");
@@ -45,16 +44,15 @@ $(document).ready(function () {
                 if (rss) {
                     $("#url").val(rss.url);
                     $("#category").val(rss.category);
-                    $("#isActive").val(rss.isActive ? "true" : "false");
+                    $("#isActive").val(rss.isActive? "true": "false");
                 }
             }
-            if (selectedSource !== "new") {
-                // ... (código anterior) ...
+            if (selectedSource!== "new") {
                 $deleteButton.removeClass("d-none"); // Mostrar el botón Eliminar
             } else {
-                // ... (código anterior) ...
                 $deleteButton.addClass("d-none"); // Ocultar el botón Eliminar
             }
+
         });
 
         $row.append($("<div>").addClass("col-3").append($("<input>").attr("type", "text").addClass("form-control").attr("id", "url").attr("placeholder", "Url")));
@@ -81,6 +79,9 @@ $(document).ready(function () {
         $form.append($card);
         $content.append($form);
 
+        // Simular el cambio a "new" después de crear el formulario
+        $sourceSelect.val("new").change();
+
         $deleteButton.click(function () {
             const source = $("#sourceSelect").val(); // Obtener el ID de la fuente seleccionada
 
@@ -102,7 +103,7 @@ $(document).ready(function () {
         $form.submit(function (event) {
             event.preventDefault();
 
-            const source = $sourceInput.hasClass("d-none") ? $("#sourceSelect").val() : $("#sourceInput").val();
+            const source = $sourceInput.hasClass("d-none")? $("#sourceSelect").val(): $("#sourceInput").val();
             const url = $("#url").val();
             const category = $("#category").val();
             const isActive = $("#isActive").val() === "true";
@@ -180,7 +181,7 @@ $(document).ready(function () {
             const $row = $("<tr>").appendTo($tbody);
 
             headers.forEach(header => {
-                if (header !== "__v") {
+                if (header!== "__v") {
                     $("<td>").text(item[header]).appendTo($row);
                 }
             });
@@ -195,7 +196,7 @@ $(document).ready(function () {
                 }
                 $("#url").val(item.url);
                 $("#category").val(item.category);
-                $("#isActive").val(item.isActive ? "true" : "false");
+                $("#isActive").val(item.isActive? "true": "false");
             });
         });
 
