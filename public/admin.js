@@ -1,9 +1,9 @@
 $(document).ready(function () {
     $("#configurarRss").click(async function () {
-        let categories = await fetch('/getAllCategories');
+        let categories = await fetch('/api/getAllCategories');
         const categoriesJson = await categories.json();
 
-        let rssResponse = await fetch('/getAllRss');
+        let rssResponse = await fetch('/api/getAllRss');
         const rssJson = await rssResponse.json();
 
         const $content = $(".content");
@@ -85,9 +85,9 @@ $(document).ready(function () {
             const source = $("#sourceSelect").val(); // Obtener el ID de la fuente seleccionada
 
             if (confirm("¿Estás seguro de que quieres eliminar esta fuente?")) {
-                $.post("/deleteRss", { source: source }, async function (data) {
+                $.post("/api/deleteRss", { source: source }, async function (data) {
                     console.log("Fuente eliminada:", data);
-                    let rssResponse = await fetch('/getAllRss');
+                    let rssResponse = await fetch('/api/getAllRss');
                     generarTabla(await rssResponse.json());
 
                     // Limpiar los campos del formulario y ocultar el botón Eliminar
@@ -138,14 +138,14 @@ $(document).ready(function () {
 
             // Enviar el formulario si todos los campos son válidos
             if (isValid) {
-                $.post("/setRss", {
+                $.post("/api/setRss", {
                     source: source,
                     url: url,
                     category: category,
                     isActive: isActive
                 }, async function (data) {
                     console.log("Datos enviados:", data);
-                    let rssResponse = await fetch('/getAllRss');
+                    let rssResponse = await fetch('/api/getAllRss');
                     generarTabla(await rssResponse.json());
 
                     // Limpiar los campos del formulario después del envío

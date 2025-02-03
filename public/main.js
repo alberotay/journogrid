@@ -6,7 +6,7 @@ let device
 
 
 async function getRss() {
-    let fetched = await fetch('/rss?lastView=' + lastRequestTimeMilis);
+    let fetched = await fetch('/api/rss?lastView=' + lastRequestTimeMilis);
     return await fetched.json()
 }
 
@@ -43,12 +43,7 @@ getRss().then((res) => {
         }
 
 
-        res.forEach((element) => {
-            allCategories.indexOf(element.category) === -1 ? allCategories.push(element.category) : null;
-            $('#' + element.source + 'Column').hover(function () {
-                $("#" + element.source + "_newLabel").removeClass("showMeNewLabel")
-            })
-        })
+
         document.querySelector('.dropdown-menu').addEventListener('click', function (event) {
             event.stopPropagation();
         });
@@ -86,7 +81,6 @@ function fillDesktop(res) {
             const $li = $(`<li name="newsColumn" id="${t.source}Column" class="fit col-sm-1 list-group-item" value="${t.category}Column">`);
             const $header = $(`<div id ="${t.source}Header" class= "header" />`);
             const $newsContainer = $(`<div id ="${t.source}News" class= "news-container" />`);
-            const $newLabel = $(`<img id ="${t.source}_newLabel" src="/newLabel.png"  class= "newLabel" />`);
             const $h1 = $(`<h1 id ="${t.source}H1"/>`);
             const $img = $(`<img style="width: 100%;" src="${t.frontEndImage}" alt="${t.source}Logo" />`);
             const $moveUpButton = $(`<button title="Primera noticia" id ="${t.source}MoveUpButton" class="btn btn-default"><span class="bi bi-arrow-up""></span></button>`);
@@ -96,7 +90,7 @@ function fillDesktop(res) {
 
             $h1.append($img).append($moveUpButton).append($moveDownButton).append($moveContainerButton);
             $header.append($h1);
-            $li.append($header).append($newsContainer).prepend($newLabel);
+            $li.append($header).append($newsContainer)
             $allFeeds.append($li); // Append the <li> to the pre-created container
 
             $('body').off('click', '#' + t.source + 'MoveUpButton').on('click', '#' + t.source + 'MoveUpButton', () => moveNewsUp(t.source + 'News')); // Arrow function, .off() to prevent duplicate event handlers
@@ -114,8 +108,7 @@ function fillDesktop(res) {
 function fillDesktopGrid(res) {
     res = sortColumnsByLastPreference(res)
     res.forEach((y) => {
-        $("#" + y.source + "_newLabel").removeClass("showMeNewLabel")
-        if (y.hasNewElements || $("#" + y.source + "News").find("div").length === 0) {
+          if (y.hasNewElements || $("#" + y.source + "News").find("div").length === 0) {
             // console.log("new items")
             let source = y.source
 
@@ -139,7 +132,7 @@ function fillDesktopGrid(res) {
             setTimeout(() => {
                 $("#" + source + "Column").removeClass("newFeed")
             }, 2000)
-            $("#" + source + "_newLabel").addClass("showMeNewLabel")
+
         }
     });
     Sortable.create(allFeeds, {
