@@ -38,7 +38,6 @@ exports.storeNewsByArray = async function(newsArray){
 exports.getNewsByFilter =  async function (filter) {
     return News.find(filter)
         .sort({pubDate: -1})
-        .limit(100);
 }
 exports.setRss = async function (rss) {
     try {
