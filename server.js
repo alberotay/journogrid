@@ -1,44 +1,99 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const cors = require('cors')
+const cors = require('cors');
 const bodyParser = require('body-parser');
-const feedsDecorator = require('./feeds/feedsDecorator')
-//////////////////
+const feedsDecorator = require('./feeds/feedsDecorator');
+const passport = require('./config/passport');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 
-//////////////////
+
 app.use(express.static('public'));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.set('view engine', 'ejs'); // Configura EJS como motor de plantillas
 
 let uniqueIPs = new Set();
 
+// Configuración de la sesión (¡ANTES de Passport!)
+app.use(session({
+    secret: 'tu_clave_secreta', // ¡CAMBIA ESTO POR UNA CLAVE FUERTE!
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false } // 'secure: true' para HTTPS en producción
+}));
+
+// Inicialización de Passport (¡UNA SOLA VEZ!)
+app.use(flash()); // Usa connect-flas
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
+
+
+
+// Rutas de autenticación
+app.post('/login',
+    passport.authenticate('local', {
+        successRedirect: '/admin',
+        failureRedirect: '/login',
+        failureFlash: true
+    }),
+    (req, res) => {
+        console.log("Callback ejecutado");
+        console.log("req.user:", req.user);
+        console.log("Mensajes flash:", req.flash('error'));
+        res.status(401).send("Authentication failed"); // Send a simple response with 401 status
+    }
+);
+
+
+app.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/login');
+});
+
+app.get('/profile', isLoggedIn, (req, res) => {
+    res.render('profile', { user: req.user }); // Asegúrate de tener una vista 'profile'
+});
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/login');
+}
+
+app.get('/login', function (req, res) {
+    res.render('login', { errorMessage: req.flash('error') }); // Renderiza la vista 'login.ejs' y pasa el mensaje de error
+});
 
 // Endpoint principal
 app.get('/', function (req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-
     res.sendFile(path.join(__dirname, 'html', 'index.html'));
 });
 
 // Endpoint para devolver las noticias desde Redis
-app.get('/rss', async (req, res) => {
+app.get('/api/rss', async (req, res) => {
     console.log('Petición RSS desde ' + req.ip);
     uniqueIPs.add(req.ip);
     console.log(`Total de direcciones IP únicas conectadas: ${uniqueIPs.size}`);
-    res.send(await feedsDecorator.getNewsFromCache())
-
+    res.send(await feedsDecorator.getNewsFromCache());
 });
 
-app.get('/admin', async (req, res) => {
+app.get('/admin', isLoggedIn, async (req, res) => {
     res.sendFile(path.join(__dirname, 'html', 'admin.html'));
 });
-app.get('/buscador', async (req, res) => {
-    res.sendFile(path.join(__dirname, 'html', 'buscador.html'));
+
+app.get('/advancedSearch', async (req, res) => {
+    res.sendFile(path.join(__dirname, 'html', 'advancedSearch.html'));
 });
 
 app.get('/api/search', async (req, res) => {
@@ -50,24 +105,19 @@ app.get('/api/search', async (req, res) => {
 
     try {
         console.log(`📅 Buscando noticias entre ${startDate} y ${endDate}`);
-        
-        // Creamos el filtro con las fechas
+
         const query = {
             pubDate: {
-                $gte: new Date(startDate), 
+                $gte: new Date(startDate),
                 $lte: new Date(endDate)
             }
         };
         if (keyword) {
-            query.title = { $regex: keyword, $options: "i" }; // Búsqueda insensible a mayúsculas/minúsculas
+            query.title = { $regex: keyword, $options: "i" };
         }
 
-        // Asegúrate de que feedsDecorator.getDataNews devuelva una promesa que resuelve con las noticias
         const news = await feedsDecorator.getDataNews(query);
-
         console.log(`✅ ${news.length} noticias encontradas`);
-
-        // Devolvemos las noticias en formato JSON
         res.json(news);
     } catch (error) {
         console.error('❌ Error en /api/search:', error);
@@ -75,50 +125,22 @@ app.get('/api/search', async (req, res) => {
     }
 });
 
-
-
-app.get('/getAllRss', async (req, res) => {
+app.get('/api/getAllRss', async (req, res) => {
     res.send(await feedsDecorator.getAllRss());
 });
 
-app.post('/setRss', async (req, res) => {
-     feedsDecorator.storeRss(req.body)
-    res.send("ok")
+app.post('/api/setRss', isLoggedIn,async (req, res) => {
+    feedsDecorator.storeRss(req.body);
+    res.send("ok");
 });
 
-app.post('/deleteRss', async (req, res) => {
-    feedsDecorator.deleteRss(req.body.source)
-    res.send("ok")
+app.post('/api/deleteRss',isLoggedIn, async (req, res) => {
+    feedsDecorator.deleteRss(req.body.source);
+    res.send("ok");
 });
 
-
-app.get('/getAllCategories', async (req, res) => {
+app.get('/api/getAllCategories', async (req, res) => {
     res.send(await feedsDecorator.getAllCategories());
-});
-
-// Endpoint para depuración
-app.get('/debug/last-news', (req, res) => {
-    res.json(LAST_NEWS);
-    console.log('http://localhost:3000/debug/last-news');
-});
-
-// Endpoint para devolver todos los elementos disponibles
-app.get('/all-items', async (req, res) => {
-    try {
-        let allItems = [];
-        for (const feedItemGetter of allFeedsItemGetters) {
-            await feedItemGetter.getItems();
-            allItems = allItems.concat(feedItemGetter.elements);
-        }
-        res.json({
-            success: true,
-            totalItems: allItems.length,
-            items: allItems,
-        });
-    } catch (error) {
-        console.error('Error al obtener los items:', error);
-        res.status(500).json({ success: false, message: 'Error al obtener los items' });
-    }
 });
 
 // Iniciar el servidor
