@@ -1,6 +1,7 @@
 const redis = require('redis'); // Importar Redis
+const REDIS_URL = process.env.REDIS_URL;
 const redisClient = redis.createClient({
-    url: 'redis://172.27.160.1:6379', // Cambiar si tienes otra configuración de Redis
+    url: REDIS_URL, // Cambiar si tienes otra configuración de Redis
 });
 redisClient.on('error', (err) => console.error('Redis Client Error', err));
 redisClient.connect()
