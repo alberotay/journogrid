@@ -38,6 +38,7 @@ async function fillCache() {
     // Filter and combine results efficiently using reduce
     const combinedFeed = results.reduce((acc, item) => {
         if (item && item.allFeeds && item.allFeeds.length > 0) {
+            item.allFeeds= item.allFeeds.slice(0, item.maxElementsCache);
             acc.push(item);
         }
         return acc;
@@ -53,7 +54,7 @@ async function getAllFeedItemGetters (){
     for (let rss in dbRss){
         dbRssDoc.push(dbRss[rss]._doc)
     }
-    return dbRssDoc.map(config => new feedItems(config.source,config.url, config.category,config.isActive));
+    return dbRssDoc.map(config => new feedItems(config.source,config.url, config.category,config.isActive,config.maxElementsCache));
 }
 
 exports.getNewsFromCache = async function() {
