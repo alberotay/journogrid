@@ -20,11 +20,32 @@ document.getElementById('searchButton').addEventListener('click', async () => {
 
 function displayResults(data) {
     const resultsContainer = document.getElementById('results');
-    resultsContainer.innerHTML = ''; // 💡 Mueve esto aquí, dentro de la función.
+    resultsContainer.innerHTML = ''; // Limpiar contenido previo
 
     data.forEach(item => {
-        const div = document.createElement('div');
-        div.textContent = `${item.title} - ${item.pubDate}`;
-        resultsContainer.appendChild(div);
+        const articleDiv = document.createElement('div');
+        articleDiv.classList.add('article'); // Clase para estilos
+
+        // Crear la estructura del artículo
+        articleDiv.innerHTML = `
+            <div class="article-card">
+                <div class="article-header">
+                    <img src="${item.thumbnailUrl}" alt="Imagen no disponible" class="article-image">
+                </div>
+                <div class="article-content">
+                    <h2 class="article-title">${item.title}</h2>
+                    <p class="article-meta">${item.source} | ${formatDate(item.pubDate)}</p>
+                    <p class="article-description">${item.description}</p>
+                </div>
+            </div>
+        `;
+
+        resultsContainer.appendChild(articleDiv);
     });
+}
+
+// Función para formatear la fecha
+function formatDate(dateString) {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('es-ES', options);
 }
