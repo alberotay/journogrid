@@ -1,0 +1,110 @@
+body {
+    background-color: #f8f9fa; /* Light gray background */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure full viewport height */
+}
+
+header {
+    background-color: #343a40; /* Dark background for header */
+    color: white;
+    padding: 1rem 0;
+}
+.navbar-brand {
+    font-weight: bold;
+}
+
+main {
+    display: flex;
+    flex-grow: 1; /* Allow main to take up available space */
+    padding: 20px;
+}
+
+.sidebar {
+    background-color: #343a40; /* Dark sidebar */
+    color: white;
+    width: 250px; /* Fixed width for sidebar */
+    padding: 20px;
+    margin-right: 20px; /* Space between sidebar and content */
+}
+.sidebar h2 {
+    margin-bottom: 1rem;
+}
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+.sidebar li a {
+    color: white;
+    text-decoration: none;
+    display: block; /* Make list items clickable */
+    padding: 0.5rem 0;
+}
+
+.content {
+    flex-grow: 1; /* Allow content to take up remaining space */
+    background-color: white;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.login-container {
+    max-width: 400px;
+    margin: 0 auto; /* Center the form */
+    padding: 20px;
+    border: 1px solid #dee2e6; /* Light border */
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #343a40;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #343a40;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff; /* Blue button */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #0069d9; /* Darker blue on hover */
+}
+
+#error-message {
+    color: red;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.ia-letters {
+    color: #ff6600; /* Color al que cambian las letras */
+}
+
+

@@ -4,13 +4,14 @@ let  myParser =require("../feedParser");
 let mongoWrapper = require("../db/mongoWrapper")
 
 class feedItems {
-    constructor(elementSource,url,category,isActive) {
+    constructor(elementSource,url,category,isActive,maxElementsCache) {
         this.url = url;
         this.elementSource = elementSource;
         this.frontendImage = "/logos/"+this.elementSource+".svg";
         this.elements = [];
         this.category = category;
         this.isActive = isActive;
+        this.maxElementsCache = maxElementsCache
     }
 
 
@@ -32,7 +33,8 @@ class feedItems {
             category: this.category,
             allFeeds: await this.getNews(filter),
             frontEndImage: this.frontendImage,
-            hasNewElements: false
+            hasNewElements: false,
+            maxElementsCache:this.maxElementsCache
         }
     }
 

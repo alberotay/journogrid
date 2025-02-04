@@ -1,9 +1,9 @@
-$(document).ready(function () {
-    $("#configurarRss").click(async function () {
-        let categories = await fetch('/getAllCategories');
+$(document).ready(function() {
+    $("#configurarRss").click(async function() {
+        let categories = await fetch('/api/getAllCategories');
         const categoriesJson = await categories.json();
 
-        let rssResponse = await fetch('/getAllRss');
+        let rssResponse = await fetch('/api/getAllRss');
         const rssJson = await rssResponse.json();
 
         const $content = $(".content");
@@ -18,6 +18,10 @@ $(document).ready(function () {
         // Campo para Source (híbrido)
         const $sourceContainer = $("<div>").addClass("col-3");
         const $sourceSelect = $("<select>").addClass("form-control").attr("id", "sourceSelect");
+
+        // Campo para maxElementsCache
+        const $maxElementsCacheContainer = $("<div>").addClass("col-1");
+
         $("<option>").val("new").text("New").appendTo($sourceSelect);
         rssJson.forEach(rss => {
             $("<option>").val(rss.source).text(rss.source).appendTo($sourceSelect);
@@ -30,13 +34,13 @@ $(document).ready(function () {
 
 
         // Evento change del select de source
-        $sourceSelect.change(function () {
+        $sourceSelect.change(function() {
             const selectedSource = $(this).val();
             if (selectedSource === "new") {
                 $sourceSelect.addClass("d-none");
                 $sourceInput.removeClass("d-none").focus();
                 $("#url").val("");
-                $("#url").val("");
+                $("#maxElementsCache").val(100);
                 $("#category").val("");
             } else {
                 $sourceSelect.removeClass("d-none");
@@ -55,15 +59,29 @@ $(document).ready(function () {
                 // ... (código anterior) ...
                 $deleteButton.addClass("d-none"); // Ocultar el botón Eliminar
             }
+
         });
 
         $row.append($("<div>").addClass("col-3").append($("<input>").attr("type", "text").addClass("form-control").attr("id", "url").attr("placeholder", "Url")));
 
         const $select = $("<select>").addClass("form-control").attr("id", "category");
+        // Placeholder para categoría
+        $("<option>").val("").text("Categoría").prop("disabled", true).prop("selected", true).appendTo($select);
+
         categoriesJson.forEach(category => {
             $("<option>").val(category.type).text(category.type).appendTo($select);
         });
         $row.append($("<div>").addClass("col-2").append($select));
+
+        const $maxElementsCacheInput = $("<input>")
+            .attr("type", "number")
+            .addClass("form-control")
+            .attr("id", "maxElementsCache")
+            .attr("name", "maxElementsCache")  // Add the name attribute!
+            .attr("placeholder", "Cache")
+            .attr("min", "1"); // Minimum value (adjust as needed)
+        $maxElementsCacheContainer.append($maxElementsCacheInput);
+        $row.append($maxElementsCacheContainer);
 
         // Dropdown para isActive
         const $isActiveDropdown = $("<select>").addClass("form-control").attr("id", "isActive");
@@ -81,13 +99,19 @@ $(document).ready(function () {
         $form.append($card);
         $content.append($form);
 
-        $deleteButton.click(function () {
+        // Simular el cambio a "new" después de crear el formulario
+        $sourceSelect.val("new");
+        $sourceSelect.change(); //Trigger the change
+
+        $deleteButton.click(function() {
             const source = $("#sourceSelect").val(); // Obtener el ID de la fuente seleccionada
 
             if (confirm("¿Estás seguro de que quieres eliminar esta fuente?")) {
-                $.post("/deleteRss", { source: source }, async function (data) {
+                $.post("/api/deleteRss", {
+                    source: source
+                }, async function(data) {
                     console.log("Fuente eliminada:", data);
-                    let rssResponse = await fetch('/getAllRss');
+                    let rssResponse = await fetch('/api/getAllRss');
                     generarTabla(await rssResponse.json());
 
                     // Limpiar los campos del formulario y ocultar el botón Eliminar
@@ -99,14 +123,14 @@ $(document).ready(function () {
             }
         });
 
-        $form.submit(function (event) {
+        $form.submit(function(event) {
             event.preventDefault();
 
             const source = $sourceInput.hasClass("d-none") ? $("#sourceSelect").val() : $("#sourceInput").val();
             const url = $("#url").val();
             const category = $("#category").val();
             const isActive = $("#isActive").val() === "true";
-
+            const maxElementsCache =  $("#maxElementsCache").val()
             // Validación de campos obligatorios
             let isValid = true;
             if (!source) {
@@ -127,6 +151,14 @@ $(document).ready(function () {
             } else {
                 $("#category").removeClass("is-invalid");
             }
+            if (!maxElementsCache || maxElementsCache < 1) {
+                $("#maxElementsCache").addClass("is-invalid");
+                isValid = false;
+            } else {
+                $("#maxElementsCache").removeClass("is-invalid");
+            }
+
+
 
             // Validación de la URL
             const urlPattern = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
@@ -138,14 +170,15 @@ $(document).ready(function () {
 
             // Enviar el formulario si todos los campos son válidos
             if (isValid) {
-                $.post("/setRss", {
+                $.post("/api/setRss", {
                     source: source,
                     url: url,
                     category: category,
-                    isActive: isActive
-                }, async function (data) {
+                    isActive: isActive,
+                    maxElementsCache: maxElementsCache
+                }, async function(data) {
                     console.log("Datos enviados:", data);
-                    let rssResponse = await fetch('/getAllRss');
+                    let rssResponse = await fetch('/api/getAllRss');
                     generarTabla(await rssResponse.json());
 
                     // Limpiar los campos del formulario después del envío
@@ -172,21 +205,25 @@ $(document).ready(function () {
         const $thead = $("<thead>").appendTo($table);
         const $tbody = $("<tbody>").appendTo($table);
 
-        const headers = ["source", "url", "category", "isActive"];
+        // Headers de la tabla (nuevos nombres)
+        const headers = ["Fuente", "Url de la Fuente", "Categoría","Nº Noticias cache", "Activado?"];
+        const headerKeys = ["source", "url", "category","maxElementsCache", "isActive"]; // Claves correspondientes en el JSON
         const $row = $("<tr>").appendTo($thead);
         headers.forEach(header => $("<th>").text(header).appendTo($row));
 
         data.forEach(item => {
             const $row = $("<tr>").appendTo($tbody);
 
-            headers.forEach(header => {
-                if (header !== "__v") {
-                    $("<td>").text(item[header]).appendTo($row);
+            headerKeys.forEach(key => { // Usar headerKeys para acceder a las claves del JSON
+                if (key === "isActive") {
+                    $("<td>").text(item[key] ? "Sí" : "No").appendTo($row); // Mostrar "Sí" o "No" para "Activado?"
+                } else {
+                    $("<td>").text(item[key]).appendTo($row);
                 }
             });
 
             // Evento click en la fila
-            $row.click(function () {
+            $row.click(function() {
                 if (item.source === "new") {
                     $("#sourceSelect").val("new").change();
                     $("#sourceInput").val(item.source);
@@ -196,6 +233,8 @@ $(document).ready(function () {
                 $("#url").val(item.url);
                 $("#category").val(item.category);
                 $("#isActive").val(item.isActive ? "true" : "false");
+                $("#maxElementsCache").val(item.maxElementsCache);
+                
             });
         });
 
