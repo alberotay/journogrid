@@ -52,6 +52,7 @@ exports.setRss = async function (rss) {
                     url: rss.url,        // Usa rss.url para el campo url
                     category: rss.category, // Usa rss.category para el campo category
                     isActive: rss.isActive,
+                    maxElementsCache: parseInt(rss.maxElementsCache)
                 },
             },
             { upsert: true, setDefaultsOnInsert: true }

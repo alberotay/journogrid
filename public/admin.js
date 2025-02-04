@@ -18,6 +18,10 @@ $(document).ready(function() {
         // Campo para Source (híbrido)
         const $sourceContainer = $("<div>").addClass("col-3");
         const $sourceSelect = $("<select>").addClass("form-control").attr("id", "sourceSelect");
+
+        // Campo para maxElementsCache
+        const $maxElementsCacheContainer = $("<div>").addClass("col-1");
+
         $("<option>").val("new").text("New").appendTo($sourceSelect);
         rssJson.forEach(rss => {
             $("<option>").val(rss.source).text(rss.source).appendTo($sourceSelect);
@@ -36,7 +40,7 @@ $(document).ready(function() {
                 $sourceSelect.addClass("d-none");
                 $sourceInput.removeClass("d-none").focus();
                 $("#url").val("");
-
+                $("#maxElementsCache").val(100);
                 $("#category").val("");
             } else {
                 $sourceSelect.removeClass("d-none");
@@ -68,6 +72,16 @@ $(document).ready(function() {
             $("<option>").val(category.type).text(category.type).appendTo($select);
         });
         $row.append($("<div>").addClass("col-2").append($select));
+
+        const $maxElementsCacheInput = $("<input>")
+            .attr("type", "number")
+            .addClass("form-control")
+            .attr("id", "maxElementsCache")
+            .attr("name", "maxElementsCache")  // Add the name attribute!
+            .attr("placeholder", "Cache")
+            .attr("min", "1"); // Minimum value (adjust as needed)
+        $maxElementsCacheContainer.append($maxElementsCacheInput);
+        $row.append($maxElementsCacheContainer);
 
         // Dropdown para isActive
         const $isActiveDropdown = $("<select>").addClass("form-control").attr("id", "isActive");
@@ -116,7 +130,7 @@ $(document).ready(function() {
             const url = $("#url").val();
             const category = $("#category").val();
             const isActive = $("#isActive").val() === "true";
-
+            const maxElementsCache =  $("#maxElementsCache").val()
             // Validación de campos obligatorios
             let isValid = true;
             if (!source) {
@@ -137,6 +151,14 @@ $(document).ready(function() {
             } else {
                 $("#category").removeClass("is-invalid");
             }
+            if (!maxElementsCache || maxElementsCache < 1) {
+                $("#maxElementsCache").addClass("is-invalid");
+                isValid = false;
+            } else {
+                $("#maxElementsCache").removeClass("is-invalid");
+            }
+
+
 
             // Validación de la URL
             const urlPattern = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
@@ -152,7 +174,8 @@ $(document).ready(function() {
                     source: source,
                     url: url,
                     category: category,
-                    isActive: isActive
+                    isActive: isActive,
+                    maxElementsCache: maxElementsCache
                 }, async function(data) {
                     console.log("Datos enviados:", data);
                     let rssResponse = await fetch('/api/getAllRss');
@@ -183,8 +206,8 @@ $(document).ready(function() {
         const $tbody = $("<tbody>").appendTo($table);
 
         // Headers de la tabla (nuevos nombres)
-        const headers = ["Fuente", "Url de la Fuente", "Categoría", "Activado?"];
-        const headerKeys = ["source", "url", "category", "isActive"]; // Claves correspondientes en el JSON
+        const headers = ["Fuente", "Url de la Fuente", "Categoría","Nº Noticias cache", "Activado?"];
+        const headerKeys = ["source", "url", "category","maxElementsCache", "isActive"]; // Claves correspondientes en el JSON
         const $row = $("<tr>").appendTo($thead);
         headers.forEach(header => $("<th>").text(header).appendTo($row));
 
@@ -210,6 +233,8 @@ $(document).ready(function() {
                 $("#url").val(item.url);
                 $("#category").val(item.category);
                 $("#isActive").val(item.isActive ? "true" : "false");
+                $("#maxElementsCache").val(item.maxElementsCache);
+                
             });
         });
 
