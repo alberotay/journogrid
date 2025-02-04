@@ -1,3 +1,5 @@
+require('dotenv').config(); // Cargar variables de entorno desde .env
+
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -7,7 +9,7 @@ const feedsDecorator = require('./feeds/feedsDecorator');
 const passport = require('./config/passport');
 const session = require('express-session');
 const flash = require('connect-flash');
-
+const PORT = process.env.PORT || 3000; // Usar variables de entorno
 
 
 app.use(express.static('public'));
@@ -144,6 +146,6 @@ app.get('/api/getAllCategories', async (req, res) => {
 });
 
 // Iniciar el servidor
-app.listen(3000, () => {
-    console.log('Servidor iniciado en el puerto 3000');
+app.listen(PORT, () => {
+    console.log('Servidor iniciado en el puerto', PORT);
 });
