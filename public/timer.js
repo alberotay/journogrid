@@ -1,8 +1,8 @@
 function setTimer() {
     let countdown = $("#timer").countdown360({
-        radius: 11,
+        radius: 12,
         strokeStyle: "#ffffff",
-        strokeWidth: 6,
+        strokeWidth: 3,
         fillStyle: "#212529",
         fontColor: "#212529",
         fontFamily: "sans-serif",

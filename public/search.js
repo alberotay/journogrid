@@ -35,7 +35,8 @@ function displayResults(data) {
                 <div class="article-content">
                     <h2 class="article-title">${item.title}</h2>
                     <p class="article-meta">${item.source} | ${formatDate(item.pubDate)}</p>
-                    <p class="article-description">${item.description}</p>
+                    <p class="article-description">${item.description}<a href="${item.link}" target="_blank" class="article-link-button"><i class="bi bi-eye"></i></a></p>
+                    
                 </div>
             </div>
         `;

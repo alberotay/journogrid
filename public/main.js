@@ -87,10 +87,11 @@ function fillDesktop(res) {
             const $img = $(`<img style="width: 100%;" src="${t.frontEndImage}" alt="${t.source}Logo" />`);
             const $moveUpButton = $(`<button title="Primera noticia" id ="${t.source}MoveUpButton" class="btn btn-default"><span class="bi bi-arrow-up""></span></button>`);
             const $moveDownButton = $(`<button title="Automático" id ="${t.source}MoveDownButton"  class="btn btn-default bi bi-chevron-double-down"" />`);
-            const $moveContainerButton = $(`<button type="button" title="Arrastra el contenedor" class="btn btn-default" /><span class="bi bi-arrows-move""></span></button>`);
+            const $moveContainerButton = $(`<button type="button" title="Arrastra el contenedor" id="moveContainerButton" class="btn btn-default" /><span class="bi bi-arrows-move""></span></button>`);
 
 
-            $h1.append($img).append($moveUpButton).append($moveDownButton).append($moveContainerButton);
+            //$h1.append($img).append($moveUpButton).append($moveDownButton).append($moveContainerButton);
+            $h1.append($img);
             $header.append($h1);
             $li.append($header).append($newsContainer)
             $allFeeds.append($li); // Append the <li> to the pre-created container
