@@ -264,7 +264,7 @@ p {
     background-color: rgb(47, 102, 252); /* Color de fondo azul para el botón */
     color: white; /* olor de texto blanco */
     border: none; /* Sin borde */
-    border-radius: 5px; /* Bordes redondeados */
+    /*border-radius: 5px;  Bordes redondeados */
     text-align: center; /* Alinea el texto en el centro del botón */
     text-decoration: none; /* Quita el subrayado en el texto (enlace) */
     font-size: 16px; /* Tamaño de fuente del texto */
@@ -403,4 +403,28 @@ p {
 
 .no-decoration{
     text-decoration: none;
+}
+
+#moveContainerButton {
+    position: absolute;
+    top: 25px;
+    right: -1px;
+    transform: translateY(-50%);
+    z-index: 10;
+    background-color: #007BFF; /* Fondo azul */
+    color: white; /* Texto blanco */
+    border: none; /* Sin borde */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 13px; /* Espaciado interno */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    clip-path: polygon(100% 0%, 0% 0%, 100% 100%); /* Forma triangular con ángulo de 90º en la parte superior derecha */
+    transition: background-color 0.3s; /* Transición suave para el color de fondo */
+    display: flex;
+    align-items: flex-start; /* Alinea el contenido del botón hacia arriba */
+    justify-content: center;
+    
+}
+
+#moveContainerButton:hover {
+    background-color: #0056b3; /* Cambia el color de fondo al pasar el cursor por encima */
 }

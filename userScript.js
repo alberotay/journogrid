@@ -1,20 +1,22 @@
+require('dotenv').config();
+const MONGO_URI = process.env.MONGO_URI;
 const mongoose = require('mongoose');
 const Usuario = require('./db/schemas/userSchema'); // Importa tu modelo de usuario
 
-const uri = "mongodb://127.0.0.1:27017/newsdb";
+//const uri = MONGO_URI;
 
 async function insertarUsuario() {
     try {
-        await mongoose.connect(uri, {
+        await mongoose.connect(MONGO_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
         console.log('Conectado a MongoDB');
 
-        const password = 'test'; // Contraseña en texto plano (¡sin hashear!)
+        const password = 'unir'; // Contraseña en texto plano (¡sin hashear!)
 
         const nuevoUsuario = new Usuario({
-            username: 'test',
+            username: 'unir',
             password: password // Guarda la contraseña en texto plano (se hasheará en el schema)
         });
 
