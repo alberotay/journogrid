@@ -145,6 +145,76 @@ app.get('/api/getAllCategories', async (req, res) => {
     res.send(await feedsDecorator.getAllCategories());
 });
 
+
+//////////////IA/////////////////////////
+let summary = ""; // Variable para almacenar el resumen
+
+//app.get('/api/generateSummary', async (req, res) => {
+    async function generateSummary() {
+    try {
+        console.log(`📅 Buscando las 5 noticias más recientes`);
+
+        // Llamada a getDataNews, que devuelve un array
+        const news = await feedsDecorator.getDataNews({});
+
+        // Aquí hacemos sort y slice para limitar los 5 más recientes
+        const sortedNews = news.sort((a, b) => b.pubDate - a.pubDate).slice(0, 20);
+
+        console.log(`✅ ${sortedNews.length} noticias encontradas`);
+
+       // Crear el prompt para la IA con la orden incluida
+       const prompt = `Escribe una crónica simpática de 80 palabras con las siguientes noticias y personalizalo:\n` +
+       sortedNews.map((item, index) => {
+           return `Noticia ${index + 1}: Título: ${item.title}}`;
+          // return `Noticia ${index + 1}: Título: ${item.title}, Descripción: ${item.description || 'No disponible'}`;
+       }).join('\n');
+
+        console.log(`Prompt generado: \n${prompt}`);
+
+        const response = await fetch('http://localhost:11434/api/generate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: 'llama3.2',
+                prompt: prompt,
+                stream: false
+            })
+        });
+        if (!response.ok) {
+            throw new Error('Error al obtener respuesta de la IA');
+        }
+        const data = await response.json();
+        if (data.response) {
+            summary = data.response; // Almacenar la respuesta de la IA en la variable global
+            console.log(`✅ Resumen generado y almacenado: \n${summary}`);
+        } else {
+            throw new Error('La respuesta de la IA está vacía');
+        }
+
+    } catch (error) {
+        console.error('❌ Error al generar resumen:', error);
+        summary = ""; // Si ocurre un error, dejamos la variable vacía
+    }
+}
+
+// Ejecutar la función cada 5 minutos (300,000 ms)
+setInterval(generateSummary, 300000);
+
+// Llamada inicial para generar el resumen en el arranque del servidor
+generateSummary();
+
+// En esta ruta GET, podemos devolver el resumen generado
+app.get('/api/getSummary', (req, res) => {
+    res.send({ summary: summary });
+});
+       
+
+
+
+///////////////////////////////////
+
 // Iniciar el servidor
 app.listen(PORT, () => {
     console.log('Servidor iniciado en el puerto', PORT);
