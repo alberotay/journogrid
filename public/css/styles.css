@@ -264,7 +264,7 @@ p {
     background-color: rgb(47, 102, 252); /* Color de fondo azul para el botón */
     color: white; /* olor de texto blanco */
     border: none; /* Sin borde */
-    /*border-radius: 5px;  Bordes redondeados */
+    border-radius: 5px; /* Bordes redondeados */
     text-align: center; /* Alinea el texto en el centro del botón */
     text-decoration: none; /* Quita el subrayado en el texto (enlace) */
     font-size: 16px; /* Tamaño de fuente del texto */
@@ -427,4 +427,78 @@ p {
 
 #moveContainerButton:hover {
     background-color: #0056b3; /* Cambia el color de fondo al pasar el cursor por encima */
+}
+
+.eps-button {
+    background: transparent; /* Sin fondo */
+    border: none;           /* Sin borde */
+    padding: 0;             /* Ajuste para que solo ocupe el tamaño de la imagen */
+    opacity: 0.7;           /* Ligera transparencia */
+    transition: opacity 0.3s ease-in-out; /* Suavidad en el hover */
+}
+
+.eps-button img {
+    width: 110px;  /* Aumentamos el tamaño del icono */
+     /* Proporcional */
+    filter: brightness(0) invert(1); /* Imagen en blanco puro */
+    pointer-events: none; /* Evita que se pueda arrastrar */
+}
+
+
+
+.eps-button:disabled {
+    opacity: 0.3; /* Botón desactivado con menos opacidad */
+    cursor: not-allowed;
+}
+.eps-active {
+    animation: heartbeat 1.5s infinite ease-in-out; /* Animación de latido */
+    opacity: 1; /* Brillo total */
+    transform: scale(1.1); /* Tamaño aumentado */
+    transition: opacity 0.3s ease-in-out;
+}
+
+@keyframes heartbeat {
+    0% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2); /* Hace el latido */
+        opacity: 0.9;
+    }
+    100% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+/* Aplica el efecto de latido solo cuando el botón está habilitado */
+#epsButton:not(:disabled) {
+    animation: pulsar 1s infinite;
+}
+/* Efecto de latido para el botón */
+@keyframes pulsar {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.10); /* Un cambio de escala más pequeño para un latido más suave */
+        opacity: 0.8; /* Mantener una opacidad más suave */
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Aplica el efecto de latido solo cuando el botón está habilitado */
+#epsButton:not(:disabled) {
+    animation: pulsar 3s infinite;
+}
+
+/* El estado deshabilitado del botón */
+#epsButton:disabled {
+    animation: none; /* El latido no se aplica cuando está deshabilitado */
+    opacity: 0.6; /* Se ve un poco más apagado cuando está deshabilitado */
 }

@@ -24,7 +24,8 @@ let feedsConfig = [
     ["washingtonpPost","https://feeds.washingtonpost.com/rss/national?itid=lk_inline_manual_32",categories.INTERNATIONAL],
     ["laTribuna","https://www.latribunadeciudadreal.es/RSS/TCRPortada.xml",categories.CASTILLALAMANCHA],
     ["miCiudadReal","https://www.miciudadreal.es/feed/",categories.CASTILLALAMANCHA],
-    ["enCastilla","https://www.encastillalamancha.es/feed/",categories.CASTILLALAMANCHA]
+    ["enCastilla","https://www.encastillalamancha.es/feed/",categories.CASTILLALAMANCHA],
+    ["rtve","https://api2.rtve.es/rss/temas_noticias.xml",categories.NATIONAL]
 ]
 
 exports.feedConfig = feedsConfig
