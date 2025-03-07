@@ -502,3 +502,59 @@ p {
     animation: none; /* El latido no se aplica cuando está deshabilitado */
     opacity: 0.6; /* Se ve un poco más apagado cuando está deshabilitado */
 }
+.modal-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .icono-zorrito {
+    width: 35px; /* Ajusta el tamaño del ícono */
+    margin-right: 15px; /* Espacio entre el ícono y el texto */
+  }
+  
+  h5.modal-title {
+    margin: 0; /* Elimina el margen por defecto */
+    font-size: 1.25rem; /* Ajusta el tamaño de la fuente si es necesario */
+  }
+
+  .play-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 2rem;
+    color: #7e807e; /* Gris clarito */
+    transition: transform 0.2s ease, color 0.3s ease;
+}
+
+.play-button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.play-button.enabled:hover {
+    transform: scale(1.2);
+    color: #4caf50; /* Verde cuando está activo */
+}
+
+/* Personalizar íconos si es necesario */
+.bi-volume-up {
+    color: #7e807e; /* Color del ícono */
+}
+.audio-timer {
+    font-size: 0.9rem;
+    color: #bdbdbd; /* Gris clarito */
+    margin-left: 10px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.audio-timer.hide {
+    opacity: 0;
+    pointer-events: none;
+}
+.zorrito-icon {
+    width: 50px; /* Puedes ajustar el tamaño */
+    height: auto;
+    transition: opacity 0.3s ease; /* Suaviza el cambio entre imágenes */
+    animation: blink 1s infinite; /* Aquí aplicamos una animación visual */
+}
+
