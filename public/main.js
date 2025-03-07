@@ -29,6 +29,8 @@ getRss().then((res) => {
             // Si "#bodyMobile" es visible, significa que es una vista móvil, entonces oculta la imagen con la clase "clock".
             $('.timer').hide();
             $('.navbar-text').hide();
+            $('#aSearch').css('display', 'none'); // Esto debería ocultar el elemento directamente
+
 
         } else {
             console.log("llega Desktop")
@@ -162,7 +164,8 @@ function fillMobileGrid(res) {
         onlyNews.push(data.allFeeds)
     })
     let mergedNews = onlyNews.flat(1)
-    mergedNews = mergedNews.sort((a, b) => b.pubDate - parseFloat(a.pubDate));
+    mergedNews = mergedNews.sort((a, b) => Date.parse(b.pubDate) - Date.parse(a.pubDate));
+
     $("#bodyMobile").empty()
     mergedNews.forEach((data, i) => {
         if (Date.parse(data.pubDate) > now - 1000 * 60 * 60 * acceptNewsFromHoursBefore) {
@@ -214,8 +217,8 @@ function addMinimalistInfo(parentElementId, feed, isMobile, i) {
     $('#' + feed.source + stringMinimalist + i).append('<span class="news-date"  />' + image + " " + new Date(feed.pubDate).toLocaleString())
         .append('<i class="bi bi-box-arrow-down news-icon" id="' + feed.source + stringVerMas + i + '" />')
         .append('<div class="icons-right" id="' + feed.source + stringVerMas + i + 'ShareIcons" />')
-    $('#' + feed.source + stringVerMas + i + 'ShareIcons').append('<a href="https://api.whatsapp.com/send?text=¡Visto en JournoGrid en ACOSTA.FUN !' + encodeURIComponent(linkToShare) + '" target="_blank" class="no-decoration"><img src="./logos/whatsapp.svg" class="news-icon-wats" alt=""/> </a>')
-        .append('<a href="https://t.me/share/url?url=' + encodeURIComponent(linkToShare) + '&text=¡Visto en JournoGrid en ACOSTA.FUN !" target="_blank" class="no-decoration"> <img src="./logos/telegram.svg" class="news-icon-telegram" alt=""/></a>')
+    $('#' + feed.source + stringVerMas + i + 'ShareIcons').append('<a href="https://api.whatsapp.com/send?text=¡Visto en JournoGrid !' + encodeURIComponent(linkToShare) + '" target="_blank" class="no-decoration"><img src="./logos/whatsapp.svg" class="news-icon-wats" alt=""/> </a>')
+        .append('<a href="https://t.me/share/url?url=' + encodeURIComponent(linkToShare) + '&text=¡Visto en JournoGrid!" target="_blank" class="no-decoration"> <img src="./logos/telegram.svg" class="news-icon-telegram" alt=""/></a>')
 }
 
 

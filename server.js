@@ -9,6 +9,8 @@ const feedsDecorator = require('./feeds/feedsDecorator');
 const passport = require('./config/passport');
 const session = require('express-session');
 const flash = require('connect-flash');
+const utils = require('./utils');
+
 const PORT = process.env.PORT || 3000; // Usar variables de entorno
 
 
@@ -87,7 +89,8 @@ app.get('/api/rss', async (req, res) => {
     console.log('Petición RSS desde ' + req.ip);
     uniqueIPs.add(req.ip);
     console.log(`Total de direcciones IP únicas conectadas: ${uniqueIPs.size}`);
-    res.send(await feedsDecorator.getNewsFromCache());
+    let allNewsFromCache =  await feedsDecorator.getNewsFromCache()
+    res.send(utils.sortForClient(allNewsFromCache,req.query.lastView));
 });
 
 app.get('/admin', isLoggedIn, async (req, res) => {
@@ -163,7 +166,7 @@ let summary = ""; // Variable para almacenar el resumen
         console.log(`✅ ${sortedNews.length} noticias encontradas`);
 
        // Crear el prompt para la IA con la orden incluida
-       const prompt = `Escribe una crónica simpática de 80 palabras con las siguientes noticias y personalizalo:\n` +
+       const prompt = `Escribe una crónica simpática de 120 palabras con las siguientes noticias y personalizalo:\n` +
        sortedNews.map((item, index) => {
            return `Noticia ${index + 1}: Título: ${item.title}}`;
           // return `Noticia ${index + 1}: Título: ${item.title}, Descripción: ${item.description || 'No disponible'}`;
@@ -189,6 +192,8 @@ let summary = ""; // Variable para almacenar el resumen
         if (data.response) {
             summary = data.response; // Almacenar la respuesta de la IA en la variable global
             console.log(`✅ Resumen generado y almacenado: \n${summary}`);
+            // Una vez generado el resumen, generamos la voz automáticamente
+            await generateVoice(summary);
         } else {
             throw new Error('La respuesta de la IA está vacía');
         }
@@ -198,9 +203,30 @@ let summary = ""; // Variable para almacenar el resumen
         summary = ""; // Si ocurre un error, dejamos la variable vacía
     }
 }
+// Función para generar la voz automáticamente cuando el resumen se genera
+async function generateVoice(summary) {
+
+    const encodedSummary = encodeURIComponent(summary); // Codificar el resumen para pasarlo por URL
+
+    const url = `http://localhost:5002/api/tts?text=${encodedSummary}&speaker_id=Daisy%20Studious&language_id=es`;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Error al generar la voz');
+        }
+
+        // Obtener el archivo de audio generado
+        audioBuffer = await response.arrayBuffer();
+        console.log("✅ Voz generada");
+
+    } catch (error) {
+        console.error('❌ Error al generar la voz:', error);
+    }
+}
 
 // Ejecutar la función cada 5 minutos (300,000 ms)
-setInterval(generateSummary, 300000);
+setInterval(generateSummary, 1000000);
 
 // Llamada inicial para generar el resumen en el arranque del servidor
 generateSummary();
@@ -211,11 +237,20 @@ app.get('/api/getSummary', (req, res) => {
 });
        
 
-
-
 ///////////////////////////////////
 
 // Iniciar el servidor
 app.listen(PORT, () => {
     console.log('Servidor iniciado en el puerto', PORT);
+});
+
+// Ruta para obtener la voz generada en formato de audio
+
+app.get('/api/getVoice', (req, res) => {
+    
+    if (!audioBuffer) {
+        return res.status(400).send('Voz no disponible aún');
+    }
+    res.set('Content-Type', 'audio/mp3');
+    res.send(Buffer.from(audioBuffer)); // Enviar el archivo de audio generado
 });

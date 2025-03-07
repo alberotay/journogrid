@@ -13,6 +13,8 @@
     <script src="/timer.js"></script>
     <script src="/ia.js"></script>
 
+    <link rel="icon" type="image/svg+xml" href="/logos/zorritoIA.svg">
+
 
     <link rel="stylesheet" type="text/css" href="/css/styles.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -26,6 +28,21 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex flex-row">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">JournoGrid Notic<span class="ia-letters">IA</span>'s</a>
+            <button id="epsButton" class="eps-button" title="" disabled>
+                <img src="/logos/robot.svg" alt="EPS Icon" width="24" height="24">
+            </button>
+
+            
+                <button id="playAudioBtn" class="play-button" disabled>
+                    <img id="zorrito" src="logos/zorritoIAB1.svg" alt="Zorrito" class="zorrito-icon">
+                </button>
+            
+            <audio id="audioPlayer" style="display: none;">
+                <source src="/api/getVoice" type="audio/mp3">
+            </audio>
+
+            
+            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -44,11 +61,8 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="http://localhost:3000/advancedSearch">Buscador Avanzado</a>
+                        <a id="aSearch" class="nav-link" href="/advancedSearch">Buscador Avanzado</a>
                     </li>
-                    <button id="epsButton" class="eps-button" title="Mostrar Resumen" disabled>
-                        <img src="/logos/robot.svg" alt="EPS Icon" width="24" height="24">
-                    </button>
                 </ul>
             </div>
 
@@ -69,6 +83,26 @@
 </header>
 
 <main class="body">
+    
+<!-- Modal -->
+<div class="modal fade" id="summaryModal" tabindex="-1" aria-labelledby="summaryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <img src="/logos/zorritoIA.svg" alt="Zorrito IA Logo" class="icono-zorrito">
+                <h5 class="modal-title" id="summaryModalLabel">JournIA dice:</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalSummaryContent">
+                <!-- Aquí irá el resumen -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Modal -->
     <div id="radios"></div>
     <div id="bodyDesktop" class="displayNone"></div>
     <div id="bodyMobile" class="displayNone"></div>

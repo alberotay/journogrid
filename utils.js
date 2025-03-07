@@ -105,12 +105,13 @@ exports.sortForClient = function (sortedForClient, lastView) {
     if (sortedForClient.length > 0) {
         sortedForClient.forEach((y) => {
             y.allFeeds.forEach((feed) => {
-                if (lastView < feed.pubDate) {
-                    feed.isNew = true
-                    y.hasNewElements = true
+                const feedPubDateMs = new Date(feed.pubDate).getTime();
+                if (!isNaN(feedPubDateMs) && lastView < feedPubDateMs) {
+                    feed.isNew = true;
+                    y.hasNewElements = true;
                 }
-            })
-        })
+            });
+        });
     }
-    return sortedForClient
-}
+    return sortedForClient;
+};

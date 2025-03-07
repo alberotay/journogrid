@@ -7,11 +7,19 @@ exports.fillNewsCache =  function (lastNews){
     });
 }
 
-exports.getNewsCache =  async function (){
-   return await redisClient.get('LAST_NEWS');
-}
+exports.getNewsCache = async function () {
+    let stringLastNews = await redisClient.get('LAST_NEWS');
 
-
-
+    if (stringLastNews) {
+        try {
+            return JSON.parse(stringLastNews);
+        } catch (error) {
+            console.error("Error parsing JSON from Redis:", error);
+            return null;
+        }
+    } else {
+        return null;
+    }
+};
 
 
