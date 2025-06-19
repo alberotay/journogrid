@@ -1,3 +1,6 @@
+
+
+
 //////////ZORRITO LOGO////////////////////
 document.addEventListener("DOMContentLoaded", () => {
     const zorritoImg = document.getElementById("zorrito");
@@ -97,18 +100,32 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
-    // Reproducir audio al hacer clic
-    playButton.addEventListener("click", () => {
-        const audioSource = audioPlayer.querySelector("source");
+    // Reproducir o pausar audio al hacer clic
+playButton.addEventListener("click", () => {
+    const audioSource = audioPlayer.querySelector("source");
 
-        // Forzar que siempre se obtenga una versión nueva del audio agregando un parámetro aleatorio
-        const timestamp = new Date().getTime(); // Obtiene el tiempo actual como timestamp
-        audioSource.src = `/api/getVoice?timestamp=${timestamp}`; // Agrega un parámetro de timestamp
+    // Si ya está reproduciendo, lo pausamos
+    if (!audioPlayer.paused && !audioPlayer.ended) {
+        audioPlayer.pause();
+        playButton.classList.remove("playing"); // Puedes cambiar el icono si quieres
+    } else {
+        // Si está pausado o ha terminado, cargamos y reproducimos uno nuevo
+        const timestamp = new Date().getTime();
+        audioSource.src = `/api/getVoice?timestamp=${timestamp}`; // Añadir parámetro anti-cache
 
-        // Recargamos y reproducimos el audio
         audioPlayer.load();
         audioPlayer.play();
-    });
+        playButton.classList.add("playing");
+    }
+});
+
+// Cambia el icono del zorrito si quieres durante play/pause
+audioPlayer.addEventListener("play", () => {
+    zorritoImg.src = "logos/zorritoPlay.svg"; // opcional: icono de reproducción
+});
+audioPlayer.addEventListener("pause", () => {
+    zorritoImg.src = "logos/zorritoIAB1.svg"; // vuelve al original
+});
 
     // Llamada inicial y cada 30 segundos
     checkAudioAvailability();

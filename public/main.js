@@ -113,6 +113,7 @@ function fillDesktop(res) {
 function fillDesktopGrid(res) {
     res = sortColumnsByLastPreference(res)
     res.forEach((y) => {
+        console.log("Fuente:", y.source, "hasNewElements:", y.hasNewElements, "n divs:", $("#" + y.source + "News").find("div").length);
           if (y.hasNewElements || $("#" + y.source + "News").find("div").length === 0) {
             // console.log("new items")
             let source = y.source
@@ -136,7 +137,7 @@ function fillDesktopGrid(res) {
             $("#" + source + "Column").addClass("newFeed")
             setTimeout(() => {
                 $("#" + source + "Column").removeClass("newFeed")
-            }, 2000)
+            }, 2000) 
 
         }
     });
@@ -213,14 +214,21 @@ function addMinimalistInfo(parentElementId, feed, isMobile, i) {
     let linkToShare = feed.link;
     let image = '<img style="width: 19px; height: 19px; border-radius: 4px;" src="./logos/' + feed.source + 'SmallLogo.svg" alt="" />';
 
-    $(parentElementId).append('<div id="' + feed.source + stringMinimalist + i + '" class="minimalist-data" style="width: 100%;"/>')
-    $('#' + feed.source + stringMinimalist + i).append('<span class="news-date"  />' + image + " " + new Date(feed.pubDate).toLocaleString())
-        .append('<i class="bi bi-box-arrow-down news-icon" id="' + feed.source + stringVerMas + i + '" />')
-        .append('<div class="icons-right" id="' + feed.source + stringVerMas + i + 'ShareIcons" />')
-    $('#' + feed.source + stringVerMas + i + 'ShareIcons').append('<a href="https://api.whatsapp.com/send?text=¡Visto en JournoGrid !' + encodeURIComponent(linkToShare) + '" target="_blank" class="no-decoration"><img src="./logos/whatsapp.svg" class="news-icon-wats" alt=""/> </a>')
-        .append('<a href="https://t.me/share/url?url=' + encodeURIComponent(linkToShare) + '&text=¡Visto en JournoGrid!" target="_blank" class="no-decoration"> <img src="./logos/telegram.svg" class="news-icon-telegram" alt=""/></a>')
-}
-
+    $(parentElementId).append(`
+        <div id="${feed.source + stringMinimalist + i}" class="minimalist-data" style="width: 100%;">
+            <span class="news-date">${image} ${new Date(feed.pubDate).toLocaleString()}</span>
+            <i class="bi bi-box-arrow-down news-icon" id="${feed.source + stringVerMas + i}"></i>
+            <div class="icons-right" id="${feed.source + stringVerMas + i}ShareIcons">
+                <a href="https://api.whatsapp.com/send?text=¡Visto en JournoGrid! ${encodeURIComponent(linkToShare)}" target="_blank" class="no-decoration">
+                    <img src="./logos/whatsapp.svg" class="news-icon-wats" alt=""/>
+                </a>
+                <a href="https://t.me/share/url?url=${encodeURIComponent(linkToShare)}&text=¡Visto en JournoGrid!" target="_blank" class="no-decoration">
+                    <img src="./logos/telegram.svg" class="news-icon-telegram" alt=""/>
+                </a>
+            </div>
+        </div>
+    `);
+    }
 
 const images = document.querySelectorAll('.image-container img');
 

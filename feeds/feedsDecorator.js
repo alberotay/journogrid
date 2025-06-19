@@ -1,5 +1,5 @@
 const feedItems = require('./feed');
-const feedsConfig = require('./feedsConfig');
+//const feedsConfig = require('./feedsConfig');
 const redisWrapper = require('../cache/redisWrapper');
 const mongoWrapper = require('../db/mongoWrapper');
 

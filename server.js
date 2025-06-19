@@ -2,6 +2,7 @@ require('dotenv').config(); // Cargar variables de entorno desde .env
 
 const express = require('express');
 const app = express();
+const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -10,9 +11,16 @@ const passport = require('./config/passport');
 const session = require('express-session');
 const flash = require('connect-flash');
 const utils = require('./utils');
+///////////////////////////////////////MPEG
+const ffmpeg = require('fluent-ffmpeg');
+const ffmpegBin = require('ffmpeg-static');
+ffmpeg.setFfmpegPath(ffmpegBin);
+/////////////////////////////////////
 
 const PORT = process.env.PORT || 3000; // Usar variables de entorno
-
+const voiceConfig = JSON.parse(
+  fs.readFileSync(path.join(__dirname, 'voice_config.json'), 'utf-8')
+);
 
 app.use(express.static('public'));
 app.use(cors());
@@ -21,6 +29,7 @@ app.use(bodyParser.json());
 app.set('view engine', 'ejs'); // Configura EJS como motor de plantillas
 
 let uniqueIPs = new Set();
+let audioBuffer = null;
 
 // Configuración de la sesión (¡ANTES de Passport!)
 app.use(session({
@@ -155,7 +164,7 @@ let summary = ""; // Variable para almacenar el resumen
 //app.get('/api/generateSummary', async (req, res) => {
     async function generateSummary() {
     try {
-        console.log(`📅 Buscando las 5 noticias más recientes`);
+        console.log(`📅 Buscando las 20 noticias más recientes`);
 
         // Llamada a getDataNews, que devuelve un array
         const news = await feedsDecorator.getDataNews({});
@@ -164,9 +173,13 @@ let summary = ""; // Variable para almacenar el resumen
         const sortedNews = news.sort((a, b) => b.pubDate - a.pubDate).slice(0, 20);
 
         console.log(`✅ ${sortedNews.length} noticias encontradas`);
+        const fechaActual = new Date().toLocaleString('es-ES', {
+        dateStyle: 'full',
+        timeStyle: 'short'
+        }); // Formato de fecha y hora en español
 
        // Crear el prompt para la IA con la orden incluida
-       const prompt = `Escribe una crónica simpática de 120 palabras con las siguientes noticias y personalizalo:\n` +
+       const prompt = `Comienza siempre el texto indicando la fecha y la hora actual de la crónica: "${fechaActual}" con un tono periodístico. Después, Escribe una crónica simpática de 120 palabras con las siguientes noticias y personalizalo:\n` +
        sortedNews.map((item, index) => {
            return `Noticia ${index + 1}: Título: ${item.title}}`;
           // return `Noticia ${index + 1}: Título: ${item.title}, Descripción: ${item.description || 'No disponible'}`;
@@ -180,7 +193,7 @@ let summary = ""; // Variable para almacenar el resumen
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: 'llama3.2',
+                model: 'mistral:7b',
                 prompt: prompt,
                 stream: false
             })
@@ -205,20 +218,59 @@ let summary = ""; // Variable para almacenar el resumen
 }
 // Función para generar la voz automáticamente cuando el resumen se genera
 async function generateVoice(summary) {
-
-    const encodedSummary = encodeURIComponent(summary); // Codificar el resumen para pasarlo por URL
-
-    const url = `http://localhost:5002/api/tts?text=${encodedSummary}&speaker_id=Daisy%20Studious&language_id=es`;
+    const payload = {
+        ...voiceConfig, // Inserta speaker_embedding y gpt_cond_latent desde el archivo
+        text: summary,
+        language: "es",
+        stream_chunk_size: 0,
+        add_wav_header: true
+    };
 
     try {
-        const response = await fetch(url);
+        const response = await fetch('http://localhost:8000/tts_stream', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/octet-stream'
+            },
+            body: JSON.stringify(payload)
+        });
+
         if (!response.ok) {
-            throw new Error('Error al generar la voz');
+            throw new Error('❌ Error al generar la voz');
         }
 
-        // Obtener el archivo de audio generado
         audioBuffer = await response.arrayBuffer();
-        console.log("✅ Voz generada");
+        console.log("✅ Voz generada correctamente");
+        ///////////////////////MPEG
+        const tempDir = path.join(__dirname, 'temp');
+fs.mkdirSync(tempDir, { recursive: true });
+const vozPath = path.join(tempDir, 'voz.wav');
+fs.writeFileSync(vozPath, Buffer.from(audioBuffer));
+
+// Mezclar con música de fondo usando ffmpeg
+const fondoPath = path.join(__dirname, 'assets', 'fondo.wav');
+const salidaPath = path.join(tempDir, 'voz_con_fondo.wav');
+const delayMs = 2500; // 2 segundos de retardo
+await new Promise((resolve, reject) => {
+    ffmpeg()
+        .input(vozPath)
+        .input(fondoPath)
+        .complexFilter([
+            `[0:a]adelay=${delayMs}|${delayMs},volume=1[a1]`, // Aplica retardo a la voz
+            '[1:a]volume=0.1[a2]',
+            '[a1][a2]amix=inputs=2:duration=first:dropout_transition=2'
+        ])
+        .output(salidaPath)
+        .audioCodec('pcm_s16le')
+        .on('end', resolve)
+        .on('error', reject)
+        .run();
+});
+// Carga el resultado en memoria
+audioBuffer = fs.readFileSync(salidaPath);
+console.log('✅ Voz con fondo musical lista');
+        /////////////////////////////
 
     } catch (error) {
         console.error('❌ Error al generar la voz:', error);
