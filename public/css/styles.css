@@ -32,6 +32,17 @@ button[title]:hover::after {
     visibility: visible;
 }
 
+.navbar-toggler.custom-toggler {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important; /* Elimina cualquier sombra */
+    outline: none !important; /* Elimina el borde de enfoque */
+    padding: 0 !important; /* Elimina cualquier padding */
+    margin: 0 !important; /* Elimina cualquier margen */
+    appearance: none !important; /* Elimina el estilo por defecto del botón */
+}
+
+
 .news-icon-wats {
     background-color: #25d366; /* Fondo verde similar al de WhatsApp */
     color: #fff; /* Texto blanco */
@@ -98,6 +109,48 @@ button[title]:hover::after {
     margin-right: 9px;
   }
 
+
+
+  .minimalist-data {
+    display: flex;
+    
+    justify-content: space-between; /* Separa texto e iconos */
+    width: 100%;
+    padding: 5px 10px; 
+    border-bottom: none; /* Elimina la línea debajo de los iconos */
+    white-space: nowrap; /* Evita que el texto se desborde a una segunda línea */
+}
+
+.news-left {
+    display: flex;
+    align-items: left;
+    flex-grow: 1; /* Permite que el texto ocupe el espacio sin empujar los iconos */
+    overflow: hidden; /* Oculta el desbordamiento del texto */
+    text-overflow: ellipsis; /* Añade puntos suspensivos al texto desbordado */
+}
+
+.news-date {
+    margin-right: 0px; /* Evita que el texto se pegue al icono */
+}
+
+.news-icon {
+    cursor: pointer;
+}
+
+.icons-right {
+    display: flex;
+    gap: 4px; /* Espaciado entre los iconos */
+    flex-shrink: 0; /* Evita que los iconos se desplacen */
+}
+
+
+
+
+
+
+
+
+  
 .icons-right {
     text-align: right; /* Alinea los íconos a la derecha */
     margin-left: auto;
@@ -435,6 +488,10 @@ p {
     padding: 0;             /* Ajuste para que solo ocupe el tamaño de la imagen */
     opacity: 0.7;           /* Ligera transparencia */
     transition: opacity 0.3s ease-in-out; /* Suavidad en el hover */
+    margin: 0 -20px;
+    display: flex; 
+    justify-content: center;
+    position: relative;
 }
 
 .eps-button img {
@@ -521,9 +578,10 @@ p {
     border: none;
     background: none;
     cursor: pointer;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #7e807e; /* Gris clarito */
     transition: transform 0.2s ease, color 0.3s ease;
+    padding: 0; /* Elimina el padding para reducir el tamaño del botón */
 }
 
 .play-button:disabled {
@@ -552,9 +610,25 @@ p {
     pointer-events: none;
 }
 .zorrito-icon {
-    width: 50px; /* Puedes ajustar el tamaño */
-    height: auto;
+    width: 40px; /* Ajusta el tamaño del icono */
+    height: 40px; /* Ajusta el tamaño del icono */
+    
     transition: opacity 0.3s ease; /* Suaviza el cambio entre imágenes */
     animation: blink 1s infinite; /* Aquí aplicamos una animación visual */
 }
 
+/* Fondo oscuro semi-transparente */
+/* Fondo oscuro semi-transparente */
+/* Fondo oscuro semi-transparente */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s;
+    z-index: 9999;
+  }
