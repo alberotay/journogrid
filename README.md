@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/1670112/177870185-bf05e0c5-52a3-4638-8a11-c3b36cd54a7a.png" height="110" alt="JournoGrid logo">
+  <img src="https://aspas.myqnapcloud.com/logos/zorritoIA.svg" height="110" alt="JournoGrid logo">
 </p>
 
 <h1 align="center">📰 JournoGrid</h1>
@@ -66,6 +66,14 @@ db.createUser({
   user: "",
   pwd: "",
   roles: [{ role: "readWrite", db: "newsdb" }]
+<<<<<<< HEAD
 })
 - Generador de texto IA => Ollama serve .
 - Sintetizador de voz=> docker run --gpus=all -e COQUI_TOS_AGREED=1 --name coqui-xtts -d -p 8000:80 ghcr.io/coqui-ai/xtts-streaming-server:latest-cuda121 .
+||||||| 7b450d7
+})
+=======
+})
+- Generador de texto IA => Ollama serve .
+- Sintetizador de voz=> docker run --gpus=all -e COQUI_TOS_AGREED=1 --name coqui-xtts -d -p 8000:80 ghcr.io/coqui-ai/xtts-streaming-server:latest-cuda121 .
+>>>>>>> 115c3061e68d3b13db1602efe8f8871c6afe39e6
