@@ -241,3 +241,74 @@ $(document).ready(function() {
         $content.append($table);
     }
 });
+$("#configurarCategorias").click(async function() {
+    // 1. Trae todas las categorías actuales
+    let categoriesResponse = await fetch('/api/getAllCategories');
+    const categoriesJson = await categoriesResponse.json();
+
+    const $content = $(".content");
+    $content.empty();
+
+    // 2. Formulario para alta de categoría
+    const $form = $("<form>").addClass("mb-3 row g-2 align-items-center");
+    $form.append(
+        $("<div>").addClass("col-auto")
+            .append($("<input>").attr({
+                type: "text",
+                id: "newCategoryType",
+                placeholder: "Nueva categoría"
+            }).addClass("form-control"))
+    );
+    $form.append(
+        $("<div>").addClass("col-auto")
+            .append($("<button>").attr({
+                type: "submit",
+                id: "addCategory"
+            }).addClass("btn btn-success").text("Añadir"))
+    );
+    $content.append($form);
+
+    // 3. Tabla de categorías existentes
+    const $table = $("<table>").addClass("table table-striped mt-3");
+    $table.append("<thead><tr><th>Categoría</th><th>Eliminar</th></tr></thead>");
+    const $tbody = $("<tbody>");
+    categoriesJson.forEach(category => {
+        const $row = $("<tr>");
+        $row.append($("<td>").text(category.type));
+        const $deleteBtn = $("<button>")
+            .addClass("btn btn-danger btn-sm")
+            .text("Eliminar")
+            .click(async function(e) {
+                e.preventDefault();
+                if (confirm(`¿Eliminar la categoría "${category.type}"?`)) {
+                    await fetch('/api/deleteCategory', {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ type: category.type })
+                    });
+                    // Recarga la vista
+                    $("#configurarCategorias").trigger("click");
+                }
+            });
+        $row.append($("<td>").append($deleteBtn));
+        $tbody.append($row);
+    });
+    $table.append($tbody);
+    $content.append($table);
+
+    // 4. Alta nueva categoría
+    $form.submit(async function(e) {
+        e.preventDefault();
+        const type = $("#newCategoryType").val().trim();
+        if (!type) {
+            alert("Introduce un nombre de categoría");
+            return;
+        }
+        await fetch('/api/setCategory', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ type })
+        });
+        $("#configurarCategorias").trigger("click"); // Refresca la vista
+    });
+});

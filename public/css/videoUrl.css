@@ -1,0 +1,42 @@
+/* Contenedor relativo para imagen + play */
+.news-video-thumb {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+/* Imagen de la noticia */
+.news-image.marginTopMobileImage {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+}
+
+/* Botón de play centrado y bonito */
+.play-video-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.4);
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    cursor: pointer;
+    padding: 0;
+}
+
+.play-video-btn svg {
+    pointer-events: none;
+}
+
+.play-video-btn:hover img {
+    filter: brightness(1.2) drop-shadow(0 0 6px #f00);
+    transform: scale(1.12);
+    transition: 0.2s;
+}

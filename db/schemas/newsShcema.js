@@ -11,6 +11,8 @@ const newsSchema = new mongoose.Schema({
     category: { type: String }, // Categoría de la noticia
     thumbnailUrl: { type: String }, // Imagen asociada a la noticia
     description: { type: String }, // Descripción de la noticia
+    horaEntradaBD: { type: Date, default: Date.now }, // Hora de entrada a la base de datos
+    videoUrl: { type: String }, // URL del video asociado
 });
 
 

@@ -84,3 +84,14 @@ exports.getAllCategories = async function (){
 exports.storeCategory = async function (rss){
     return await mongoWrapper.setCategory(rss)
 }
+
+
+// Añadir categoría 
+exports.setCategory = async function (category) {
+    return await mongoWrapper.setCategory(category);
+};
+
+// Eliminar categoría
+exports.deleteCategory = async function (type) {
+    return await mongoWrapper.deleteCategory(type);
+};
