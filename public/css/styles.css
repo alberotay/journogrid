@@ -284,12 +284,6 @@ p {
     background-color: #f5f5f5;
 }
 
-/* Establecer una altura máxima para el contenedor de noticias */
-.news-container {
-
-
-}
-
 /* Estilo para el contenedor que envuelve la fecha y el icono */
 .minimalist-data {
     display: flex; /* Utiliza flexbox para alinear los elementos en línea */

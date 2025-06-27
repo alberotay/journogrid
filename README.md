@@ -5,7 +5,7 @@
 
 <h1 align="center">📰 JournoGrid</h1>
 <p align="center">
-  <b>El agregador de noticias inteligente, personalizable y rápido.<br>Organiza, filtra y consulta cientos de medios en tiempo real.</b>
+  <b>Tu agregador de noticias inteligente, personalizable y rápido.<br>Organiza, filtra y consulta cientos de medios en tiempo real.</b>
 </p>
 <p align="center">
   <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-18.x-brightgreen?logo=node.js"></a>
@@ -66,14 +66,7 @@ db.createUser({
   user: "",
   pwd: "",
   roles: [{ role: "readWrite", db: "newsdb" }]
-<<<<<<< HEAD
+
 })
 - Generador de texto IA => Ollama serve .
 - Sintetizador de voz=> docker run --gpus=all -e COQUI_TOS_AGREED=1 --name coqui-xtts -d -p 8000:80 ghcr.io/coqui-ai/xtts-streaming-server:latest-cuda121 .
-||||||| 7b450d7
-})
-=======
-})
-- Generador de texto IA => Ollama serve .
-- Sintetizador de voz=> docker run --gpus=all -e COQUI_TOS_AGREED=1 --name coqui-xtts -d -p 8000:80 ghcr.io/coqui-ai/xtts-streaming-server:latest-cuda121 .
->>>>>>> 115c3061e68d3b13db1602efe8f8871c6afe39e6
