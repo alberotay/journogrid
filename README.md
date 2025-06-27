@@ -5,13 +5,13 @@
 
 <h1 align="center">📰 JournoGrid</h1>
 <p align="center">
-  <b>Tu agregador de noticias inteligente, personalizable y rápido.<br>Organiza, filtra y consulta cientos de medios en tiempo real.</b>
+  <b>El agregador de noticias inteligente, personalizable y rápido.<br>Organiza, filtra y consulta cientos de medios en tiempo real.</b>
 </p>
 <p align="center">
   <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-18.x-brightgreen?logo=node.js"></a>
   <a href="https://www.mongodb.com/"><img src="https://img.shields.io/badge/MongoDB-%20v6.0-success?logo=mongodb"></a>
   <a href="https://redis.io/"><img src="https://img.shields.io/badge/Redis-7.x-critical?logo=redis"></a>
-  <a href="https://github.com/youruser/JournoGrid/blob/main/LICENSE"><img src="https://img.shields.io/github/license/youruser/JournoGrid?color=blue"></a>
+  
 </p>
 
 ---
@@ -30,6 +30,7 @@
 - 🧠 **Integración IA:** Resúmenes automáticos, generación de voz y más.
 - 📱 **Modo escritorio & móvil:** UI adaptable según dispositivo.
 - 🗂️ **Filtrado y orden personalizado:** Elige categorías y el orden de columnas.
+- 🗂️ **Busquedas avanzadas:** Palabra y  fechas .
 - 🎨 **Visual minimalista:** Tarjetas, flashes de novedad, drag&drop.
 
 ---
@@ -37,28 +38,34 @@
 ## 🖼️ Vista rápida
 
 ### Escritorio
-<img src="https://user-images.githubusercontent.com/1670112/177870222-1844477c-cb04-4c72-a21e-fb82e34b0e82.png" width="700" alt="JournoGrid Desktop" />
+<img src="https://aspas.myqnapcloud.com/logos/escritorio.jpg" width="700" alt="JournoGrid Desktop" />
 
 ### Móvil
-<img src="https://user-images.githubusercontent.com/1670112/177870242-55a6a6ed-b8ba-4f16-8de3-04d77991dc87.png" width="300" alt="JournoGrid Mobile" />
+<img src="https://aspas.myqnapcloud.com/logos/mobile.png" width="300" alt="JournoGrid Mobile" />
+
+
+---
+
+## ⚡ Últimas actualizaciones
+
+-  **Actualización de modulo  TTS a XTTS COQUI v2** 20/06/2025.
+-  **Insercion de Timestamp  en las noticias** 27/06/2025.
+-  **Implementación de video o iframe en las noticias** 27/06/2025.
+
+-----
 
 
 
+## Procedimiento
 
-
-
-
-
-
-
-
-
-# Procedimiento
-#Power by MOngo & Redis
-Arrancamos con un npm install, creamos el .env , actualmente  redis y mongodb corren en docker  deberemos crear el usuario y password  para la base de datos
+- Arrancamos con un npm install.
+- creamos el .env => PORT ,MONGO_URI, REDIS_URI
+- Recomendación => redis y mongodb corren en docker  deberemos crear el usuario y password  para la base de datos
 use newsdb
 db.createUser({
   user: "",
   pwd: "",
   roles: [{ role: "readWrite", db: "newsdb" }]
 })
+- Generador de texto IA => Ollama serve .
+- Sintetizador de voz=> docker run --gpus=all -e COQUI_TOS_AGREED=1 --name coqui-xtts -d -p 8000:80 ghcr.io/coqui-ai/xtts-streaming-server:latest-cuda121 .
