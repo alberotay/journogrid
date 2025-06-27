@@ -157,6 +157,26 @@ app.get('/api/getAllCategories', async (req, res) => {
     res.send(await feedsDecorator.getAllCategories());
 });
 
+// Añadir una categoría
+app.post('/api/setCategory', async (req, res) => {
+    try {
+        await feedsDecorator.setCategory(req.body);
+        res.send("ok");
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+// Eliminar una categoría
+app.post('/api/deleteCategory', async (req, res) => {
+    try {
+        await feedsDecorator.deleteCategory(req.body.type);
+        res.send("ok");
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 
 //////////////IA/////////////////////////
 let summary = ""; // Variable para almacenar el resumen
@@ -164,7 +184,7 @@ let summary = ""; // Variable para almacenar el resumen
 //app.get('/api/generateSummary', async (req, res) => {
     async function generateSummary() {
     try {
-        console.log(`📅 Buscando las 20 noticias más recientes`);
+       // console.log(`📅 Buscando las 20 noticias más recientes`);
 
         // Llamada a getDataNews, que devuelve un array
         const news = await feedsDecorator.getDataNews({});
@@ -172,7 +192,7 @@ let summary = ""; // Variable para almacenar el resumen
         // Aquí hacemos sort y slice para limitar los 5 más recientes
         const sortedNews = news.sort((a, b) => b.pubDate - a.pubDate).slice(0, 20);
 
-        console.log(`✅ ${sortedNews.length} noticias encontradas`);
+        //console.log(`✅ ${sortedNews.length} noticias encontradas`);
         const fechaActual = new Date().toLocaleString('es-ES', {
         dateStyle: 'full',
         timeStyle: 'short'
@@ -185,7 +205,7 @@ let summary = ""; // Variable para almacenar el resumen
           // return `Noticia ${index + 1}: Título: ${item.title}, Descripción: ${item.description || 'No disponible'}`;
        }).join('\n');
 
-        console.log(`Prompt generado: \n${prompt}`);
+        //console.log(`Prompt generado: \n${prompt}`);
 
         const response = await fetch('http://localhost:11434/api/generate', {
             method: 'POST',
@@ -204,7 +224,8 @@ let summary = ""; // Variable para almacenar el resumen
         const data = await response.json();
         if (data.response) {
             summary = data.response; // Almacenar la respuesta de la IA en la variable global
-            console.log(`✅ Resumen generado y almacenado: \n${summary}`);
+            console.log(`✅ Resumen generado y almacenado`);
+            //console.log(`✅ Resumen generado y almacenado: \n${summary}`);
             // Una vez generado el resumen, generamos la voz automáticamente
             await generateVoice(summary);
         } else {
@@ -278,7 +299,7 @@ console.log('✅ Voz con fondo musical lista');
 }
 
 // Ejecutar la función cada 5 minutos (300,000 ms)
-setInterval(generateSummary, 1000000);
+setInterval(generateSummary, 4000000);
 
 // Llamada inicial para generar el resumen en el arranque del servidor
 generateSummary();

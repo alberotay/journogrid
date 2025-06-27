@@ -632,3 +632,28 @@ p {
     transition: opacity 0.3s ease, visibility 0.3s;
     z-index: 9999;
   }
+/*Modaal Video escritorio*/
+.video-modal {
+  position: fixed; z-index: 1000;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.35);
+  display: flex; align-items: center; justify-content: center;
+}
+.video-modal-backdrop {
+  position: absolute; width: 100vw; height: 100vh; top:0; left:0;
+  background: rgba(0,0,0,0.25);
+}
+.video-modal-content {
+  position: relative;
+  background: #fff; border-radius: 12px; box-shadow: 0 4px 32px #0006;
+  max-width: 90vw; max-height: 85vh; padding: 0; overflow: hidden;
+}
+#videoPlayerContainer { width: 60vw; max-width: 640px; aspect-ratio: 16/9; background: #222; }
+.close-modal-btn {
+  position: absolute; top: 8px; right: 8px;
+  background: transparent; border: none; font-size: 1.5rem; color: #333;
+  cursor: pointer; z-index: 2;
+}
+@media (max-width:700px){
+  #videoPlayerContainer { width: 96vw; max-width: none; }
+}

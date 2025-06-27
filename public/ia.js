@@ -119,13 +119,7 @@ playButton.addEventListener("click", () => {
     }
 });
 
-// Cambia el icono del zorrito si quieres durante play/pause
-audioPlayer.addEventListener("play", () => {
-    zorritoImg.src = "logos/zorritoPlay.svg"; // opcional: icono de reproducción
-});
-audioPlayer.addEventListener("pause", () => {
-    zorritoImg.src = "logos/zorritoIAB1.svg"; // vuelve al original
-});
+
 
     // Llamada inicial y cada 30 segundos
     checkAudioAvailability();

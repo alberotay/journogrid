@@ -11,6 +11,10 @@ categories = []
 exports.storeNewsByArray = async function(newsArray){
     for (const news of newsArray) {
        try {
+        // Log para ver qué noticia (y qué videoUrl) vas a guardar:
+            if (news.videoUrl) {
+                //console.log(`[storeNewsByArray] Guardando noticia con videoUrl: ${news.title} - ${news.videoUrl}`);
+            }
             // Evitar duplicados mediante `link` como único
              await News.updateOne(
                 { id: news.id }, // Condición
@@ -24,6 +28,7 @@ exports.storeNewsByArray = async function(newsArray){
                         category: news.category,
                         thumbnailUrl:news.thumbnailUrl,
                         description:news.description,
+                        videoUrl: news.videoUrl,
                     },
                 },
                 { upsert: true } // Inserta si no existe
@@ -93,3 +98,7 @@ exports.setCategory = async function (category){
 exports.getAllCategories = async function(){
     return Categories.find()
 }
+
+exports.deleteCategory = async function(type) {
+    return await Categories.deleteOne({ type });
+};

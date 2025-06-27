@@ -86,7 +86,7 @@ function fillDesktop(res) {
             const $header = $(`<div id ="${t.source}Header" class= "header" />`);
             const $newsContainer = $(`<div id ="${t.source}News" class= "news-container" />`);
             const $h1 = $(`<h1 id ="${t.source}H1"/>`);
-            const $img = $(`<img style="width: 100%;" src="${t.frontEndImage}" alt="${t.source}Logo" />`);
+            const $img = $(`<img style="width: 100%;" src="${t.frontEndImage}" alt="${t.source}Logo" onerror="this.onerror=null;this.src='/logos/generic.svg';" />`);
             const $moveUpButton = $(`<button title="Primera noticia" id ="${t.source}MoveUpButton" class="btn btn-default"><span class="bi bi-arrow-up""></span></button>`);
             const $moveDownButton = $(`<button title="Automático" id ="${t.source}MoveDownButton"  class="btn btn-default bi bi-chevron-double-down"" />`);
             const $moveContainerButton = $(`<button type="button" title="Arrastra el contenedor" id="moveContainerButton" class="btn btn-default" /><span class="bi bi-arrows-move""></span></button>`);
@@ -113,11 +113,8 @@ function fillDesktop(res) {
 function fillDesktopGrid(res) {
     res = sortColumnsByLastPreference(res)
     res.forEach((y) => {
-        console.log("Fuente:", y.source, "hasNewElements:", y.hasNewElements, "n divs:", $("#" + y.source + "News").find("div").length);
-          if (y.hasNewElements || $("#" + y.source + "News").find("div").length === 0) {
-            // console.log("new items")
+        if (y.hasNewElements || $("#" + y.source + "News").find("div").length === 0) {
             let source = y.source
-
 
             $('#' + source + 'News').empty()
             y.allFeeds.forEach((feed, j) => {
@@ -125,8 +122,29 @@ function fillDesktopGrid(res) {
                 $('#' + source + 'New' + j).append('<h2 id ="' + source + 'h2_' + j + '" style = "color: black; font-weight: bold;"  class= "news-title" />')
                     .append('<div id ="' + source + 'NewsImageContainer_' + j + '" class= "news-image-container" />')
                     .append('<h3 id ="' + source + 'h3_' + j + '"  />');
-                $('#' + source + 'h2_' + j).append('<a id ="' + source + '_a_' + j + '" class= "news-title" href= "' + feed.link + '"  target="blank" href = "' + feed.link + '" />' + feed.title + '');
-                $('#' + source + 'NewsImageContainer_' + j).append('<img id ="' + source + '_thumbNail_' + j + '" loading="lazy" src="' + feed.thumbnailUrl + '"  class= "news-image" />');
+
+                $('#' + source + 'h2_' + j).append(
+                    '<a id ="' + source + '_a_' + j + '" class= "news-title" href= "' + feed.link + '"  target="blank">' + feed.title + '</a>'
+                );
+
+                // ----- BLOQUE DE IMAGEN + PLAY -----
+                let imgHtml;
+               if (feed.videoUrl) {
+    imgHtml = `
+        <div class="news-video-thumb" data-video-url="${feed.videoUrl}">
+            <img id ="${source}_thumbNail_${j}" loading="lazy" src="${feed.thumbnailUrl}" class="news-image" onerror="this.onerror=null;this.src='/logos/genericB.svg';"/>
+            <button class="play-video-btn">
+                <img src="/logos/play.svg" alt="Play" width="32" height="32">
+            </button>
+        </div>
+    `;
+} else {
+    imgHtml = `<img id ="${source}_thumbNail_${j}" loading="lazy" src="${feed.thumbnailUrl}" class="news-image" onerror="this.onerror=null;this.src='/logos/genericB.svg';"/>`;
+}
+
+                $('#' + source + 'NewsImageContainer_' + j).append(imgHtml);
+                // ----- FIN BLOQUE IMAGEN + PLAY -----
+
                 $('#' + source + 'h3_' + j).append('<div id ="' + source + '_newsContent_' + j + '" class ="news-content" />');
                 addMinimalistInfo('#' + source + '_newsContent_' + j, feed, false, j)
                 $('#' + source + '_newsContent_' + j).append('<div id ="' + source + '_newsDescription_' + j + '" class ="news-desciption" />');
@@ -137,10 +155,43 @@ function fillDesktopGrid(res) {
             $("#" + source + "Column").addClass("newFeed")
             setTimeout(() => {
                 $("#" + source + "Column").removeClass("newFeed")
-            }, 2000) 
-
+            }, 2000)
         }
     });
+
+    // ---- EVENTO PLAY ----
+    $(".news-image-container").off("click", ".play-video-btn").on("click", ".play-video-btn", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    let $container = $(this).closest(".news-video-thumb");
+    let videoUrl = $container.data("video-url");
+    if (!videoUrl) return;
+
+    let playerHtml;
+    if (videoUrl.match(/\.(mp4|webm|ogg)$/i)) {
+        playerHtml = `<video controls autoplay style="width:100%;height:100%;border-radius:8px;max-height:80vh;">
+                        <source src="${videoUrl}">
+                        Tu navegador no soporta el video.
+                    </video>`;
+    } else {
+        playerHtml = `<iframe src="${videoUrl}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
+                     style="width:100%;height:100%;aspect-ratio:16/9;border-radius:8px;max-height:80vh;"></iframe>`;
+    }
+
+    // Muestra el modal y mete el player dentro
+    $("#videoPlayerContainer").html(playerHtml);
+    $("#videoModal").fadeIn(120);
+});
+
+// Cierra el modal al pulsar el botón de cerrar o el fondo oscuro
+$("#closeVideoModal, .video-modal-backdrop").on("click", function () {
+    $("#videoModal").fadeOut(120, function(){
+        $("#videoPlayerContainer").empty();
+    });
+});
+
+
+    // ---- Sortable ----
     Sortable.create(allFeeds, {
         animation: 100,
         group: 'list-1',
@@ -156,31 +207,68 @@ function fillDesktopGrid(res) {
 }
 
 
+
 function fillMobileGrid(res) {
-    let now = new Date()
-    //Variable to Setup Only News from last 12h in order to avoid the news flooding
-    let acceptNewsFromHoursBefore = 6
-    let onlyNews = []
+    let now = new Date();
+    let acceptNewsFromHoursBefore = 6;
+    let onlyNews = [];
     res.forEach((data) => {
-        onlyNews.push(data.allFeeds)
-    })
-    let mergedNews = onlyNews.flat(1)
+        onlyNews.push(data.allFeeds);
+    });
+    let mergedNews = onlyNews.flat(1);
     mergedNews = mergedNews.sort((a, b) => Date.parse(b.pubDate) - Date.parse(a.pubDate));
 
-    $("#bodyMobile").empty()
+    $("#bodyMobile").empty();
     mergedNews.forEach((data, i) => {
         if (Date.parse(data.pubDate) > now - 1000 * 60 * 60 * acceptNewsFromHoursBefore) {
-            $("#bodyMobile").append('<div id ="rowMobile' + i + '"  value = "' + data.category + 'Mobile" class = "news-item-mobile"/>')
-            $("#rowMobile" + i).append('<div class="col-8"><p />' + data.category.replaceAll("_", " ") + '</div>')
-                .append('<a href= "' + data.link + '"  class = "news-title" target="blank" href = "' + data.link + '" />' + data.title)
-                .append('<img src="' + data.thumbnailUrl + '" loading="lazy" class= "news-image marginTopMobileImage" />')
-            addMinimalistInfo("#rowMobile" + i, data, true, i)
-            $("#rowMobile" + i).append('<div id ="' + data.source + '_newsDescriptionMobile_' + i + '" class ="news-desciption" >')
-            $("#" + data.source + "_newsDescriptionMobile_" + i).append('<p class = "justifyText" />' + data.description)
+            $("#bodyMobile").append('<div id="rowMobile' + i + '" value="' + data.category + 'Mobile" class="news-item-mobile"></div>');
+            $("#rowMobile" + i).append('<div class="col-8"><p />' + data.category.replaceAll("_", " ") + '</div>');
+            $("#rowMobile" + i).append('<a href="' + data.link + '" class="news-title" target="blank">' + data.title + '</a>');
 
-            enableDescriptionToggle('#' + data.source + '_newsDescriptionMobile_' + i, '#' + data.source + '_verMasMobile_' + i)
+            // ---- BLOQUE DE IMAGEN + PLAY ----
+            let imgHtml;
+            if (data.videoUrl) {
+               imgHtml = `
+                <div class="news-video-thumb" data-video-url="${data.videoUrl}">
+                     <img src="${data.thumbnailUrl}" loading="lazy" class="news-image marginTopMobileImage" onerror="this.onerror=null;this.src='/logos/genericB.svg';"/>
+                    <button class="play-video-btn">
+                    <img src="/logos/play.svg" alt="Play" width="32" height="32">
+                    </button>
+                </div>
+                `;
+            } else {
+                imgHtml = `<img src="${data.thumbnailUrl}" loading="lazy" class="news-image marginTopMobileImage" onerror="this.onerror=null;this.src='/logos/genericB.svg';"/>`;
+            }
+            $("#rowMobile" + i).append(imgHtml);
+            // ---- FIN BLOQUE IMAGEN + PLAY ----
+
+            addMinimalistInfo("#rowMobile" + i, data, true, i);
+            $("#rowMobile" + i).append('<div id="' + data.source + '_newsDescriptionMobile_' + i + '" class="news-desciption"></div>');
+            $("#" + data.source + "_newsDescriptionMobile_" + i).append('<p class="justifyText" />' + data.description);
+
+            enableDescriptionToggle('#' + data.source + '_newsDescriptionMobile_' + i, '#' + data.source + '_verMasMobile_' + i);
         }
-    })
+    });
+
+    // EVENTO PLAY: Reemplaza imagen por reproductor al pulsar play
+    $("#bodyMobile").off("click", ".play-video-btn").on("click", ".play-video-btn", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        let $container = $(this).closest(".news-video-thumb");
+        let videoUrl = $container.data("video-url");
+        if (!videoUrl) return;
+        let html;
+        if (videoUrl.match(/\.(mp4|webm|ogg)$/i)) {
+            html = `<video controls autoplay width="100%" style="border-radius:8px;">
+                        <source src="${videoUrl}">
+                        Tu navegador no soporta el video.
+                    </video>`;
+        } else {
+            html = `<iframe src="${videoUrl}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
+                     style="width:100%;aspect-ratio:16/9;border-radius:8px;"></iframe>`;
+        }
+        $container.replaceWith(html);
+    });
 }
 
 
@@ -212,7 +300,7 @@ function addMinimalistInfo(parentElementId, feed, isMobile, i) {
     let stringVerMas = isMobile ? "_verMasMobile_" : "_verMas_"
     let stringMinimalist = isMobile ? "_minMobile_" : "_min_"
     let linkToShare = feed.link;
-    let image = '<img style="width: 19px; height: 19px; border-radius: 4px;" src="./logos/' + feed.source + 'SmallLogo.svg" alt="" />';
+    let image = '<img style="width: 19px; height: 19px; border-radius: 4px;" src="./logos/' + feed.source + 'SmallLogo.svg" alt="" onerror="this.onerror=null;this.src=\'./logos/genericSmallLogo.svg\';" />';
 
     $(parentElementId).append(`
         <div id="${feed.source + stringMinimalist + i}" class="minimalist-data" style="width: 100%;">

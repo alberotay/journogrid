@@ -6,6 +6,7 @@ exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage, cat
         let image = getImage(element)
         let description = removeTags(getDescription(element), "b", "br")
         let pubDate = new Date(getDate(element));
+        let videoUrl = getVideo(element);
         fixedElements.push({
             id:md5(element.title),
             pubDate: pubDate.getTime(),
@@ -15,7 +16,8 @@ exports.feedNormalizerMedia = function (elements, feedSource, frontEndImage, cat
             link: element.link,
             thumbnailUrl: image,
             isNew: false,
-            category: category
+            category: category,
+            videoUrl: videoUrl
         })
     })
 
@@ -52,6 +54,46 @@ function getImage(element) {
     } catch (e) {
         return ""
     }
+}
+function getVideo(element) {
+    // 1. Enclosure directo (array)
+    if (element.enclosures && element.enclosures.length > 0) {
+        const video = element.enclosures.find(e => e.type && e.type.startsWith("video/"));
+        if (video && video.url) {
+            //console.log(`[getVideo] Vídeo encontrado en enclosure: ${video.url}`);
+            return video.url;
+        }
+    }
+    // 2. media:content (puede ser objeto o array)
+    if (element["media:content"]) {
+        let media = element["media:content"];
+        if (Array.isArray(media)) {
+            media = media.find(m =>
+                (m["@"] && m["@"].type && m["@"].type.startsWith("video/")) ||
+                (m.type && m.type.startsWith("video/"))
+            );
+        }
+        // Caso objeto con atributos
+        if (media && media["@"] && media["@"].type && media["@"].type.startsWith("video/") && media["@"].url) {
+            //console.log(`[getVideo] Vídeo encontrado en media:content (@): ${media["@"].url}`);
+            return media["@"].url;
+        }
+        // Caso objeto plano
+        if (media && media.url && media.type && media.type.startsWith("video/")) {
+            //onsole.log(`[getVideo] Vídeo encontrado en media:content (plano): ${media.url}`);
+            return media.url;
+        }
+    }
+    // 3. Otras opciones: buscar <video> o <iframe> embebido en la descripción
+   if (element.description) {
+    let regexVideo = /<video[^>]+src="([^"]+)"/i;
+    let regexIframe = /<iframe[^>]+src="([^"]+)"/i;
+    let match = element.description.match(regexVideo) || element.description.match(regexIframe);
+    if (match) {
+        //console.log(`[getVideo] Vídeo encontrado en description embebido: ${match[1]}`);
+        return match[1];
+    }
+}
 }
 
 function getDescription(element) {
@@ -105,8 +147,32 @@ exports.sortForClient = function (sortedForClient, lastView) {
     if (sortedForClient.length > 0) {
         sortedForClient.forEach((y) => {
             y.allFeeds.forEach((feed) => {
-                const feedPubDateMs = new Date(feed.pubDate).getTime();
-                if (!isNaN(feedPubDateMs) && lastView < feedPubDateMs) {
+                const feedPubDateMs = feed.pubDate ? new Date(feed.pubDate).getTime() : NaN;
+                const horaEntradaBDMs = feed.horaEntradaBD ? new Date(feed.horaEntradaBD).getTime() : NaN;
+                // Logs de depuración para cada campo
+    // Logs de depuración para cada campo
+    console.log(`feed.pubDate:`, feed.pubDate, `=>`, feedPubDateMs, isNaN(feedPubDateMs) ? '(NaN)' : `(${new Date(feedPubDateMs).toISOString()})`);
+    console.log(`feed.horaEntradaBD:`, feed.horaEntradaBD, `=>`, horaEntradaBDMs, isNaN(horaEntradaBDMs) ? '(NaN)' : `(${new Date(horaEntradaBDMs).toISOString()})`);
+
+                // Elige la fecha más reciente disponible
+                const fechaReferencia = Math.max(feedPubDateMs, horaEntradaBDMs);
+
+                // Logs para diagnóstico
+                const titulo = feed.title || '[Sin título]';
+                const fuente = y.source || y.name || '[Sin fuente]';
+                const fechaRefISO = !isNaN(fechaReferencia) ? new Date(fechaReferencia).toISOString() : 'Invalid Date';
+                const lastViewISO = Number.isFinite(lastView) ? new Date(lastView).toISOString() : 'Invalid Date';
+                const diffMs = fechaReferencia - lastView;
+                const entra = !isNaN(fechaReferencia) && lastView < fechaReferencia;
+                const color = entra ? '\x1b[32m' : '\x1b[31m';
+                const reset = '\x1b[0m';
+
+                console.log(
+                    `${color}[sortForClient] ${fuente} :: "${titulo}" - fechaRef: ${fechaReferencia} (${fechaRefISO}), lastView: ${lastView} (${lastViewISO}), diferencia: ${diffMs} ms ==> ${entra ? 'NUEVA' : 'NO NUEVA'}${reset}`
+                );
+
+                // Lógica de marcado
+                if (entra) {
                     feed.isNew = true;
                     y.hasNewElements = true;
                 }
@@ -115,3 +181,5 @@ exports.sortForClient = function (sortedForClient, lastView) {
     }
     return sortedForClient;
 };
+
+
