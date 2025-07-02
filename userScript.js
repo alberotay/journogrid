@@ -13,10 +13,10 @@ async function insertarUsuario() {
         });
         console.log('Conectado a MongoDB');
 
-        const password = 'unir'; // Contraseña en texto plano (¡sin hashear!)
+        const password = ''; // Contraseña en texto plano (¡sin hashear!)
 
         const nuevoUsuario = new Usuario({
-            username: 'unir',
+            username: '',
             password: password // Guarda la contraseña en texto plano (se hasheará en el schema)
         });
 

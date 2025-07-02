@@ -240,7 +240,7 @@ let summary = ""; // Variable para almacenar el resumen
 // Función para generar la voz automáticamente cuando el resumen se genera
 async function generateVoice(summary) {
     const payload = {
-        ...voiceConfig, // Inserta speaker_embedding y gpt_cond_latent desde el archivo
+        ...voiceConfig, // Inserta speaker_embedding y gpt_cond_latent desde el archivo(audio tokenizado)
         text: summary,
         language: "es",
         stream_chunk_size: 0,
@@ -262,7 +262,7 @@ async function generateVoice(summary) {
         }
 
         audioBuffer = await response.arrayBuffer();
-        console.log("✅ Voz generada correctamente");
+        console.log("✅Voz generada correctamente");
         ///////////////////////MPEG
         const tempDir = path.join(__dirname, 'temp');
 fs.mkdirSync(tempDir, { recursive: true });

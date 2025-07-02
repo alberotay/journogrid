@@ -54,19 +54,82 @@
 
 -----
 
+**Requisitos previos:**  
+• [Node.js](https://nodejs.org/) (LTS recomendado)  
+• [Docker](https://www.docker.com/) y [Docker Compose](https://docs.docker.com/compose/)  
+• [Ollama](https://ollama.com/) para generación de texto por IA  
+• GPU compatible (opcional, pero recomendable para la generación de texto y síntesis de voz con Coqui xTTS-v2)
 
+**Instalación rápida:**  
 
-## Procedimiento
+**1️⃣ Clona el repositorio y prepara dependencias:**  
+```
+git clone <url>
+cd journogrid
+npm install
+```
+**2️⃣ Configura las variables de entorno:**
 
-- Arrancamos con un npm install.
-- creamos el .env => PORT ,MONGO_URI, REDIS_URI
-- Recomendación => redis y mongodb corren en docker  deberemos crear el usuario y password  para la base de datos
+- Crea el archivo .env en la raíz del proyecto (ajusta valores si lo necesitas):
+```
+PORT=3000
+MONGO_URI=mongodb://user:password@localhost:27017/newsdb
+REDIS_URI=redis://localhost:6379
+```
+**3️⃣ Despliega los servicios con Docker:**
+
+- MongoDB con persistencia de datos:
+```
+docker run -d --name mongo-server -p 27017:27017 -v ~/mongo-data:/data/db mongo
+```
+- Entra al contenedor para crear el usuario y la base de datos:
+```
+docker exec -it mongo-server mongosh
 use newsdb
-db.createUser({
-  user: "",
-  pwd: "",
-  roles: [{ role: "readWrite", db: "newsdb" }]
+db.createUser({ user: "user", pwd: "password", roles: [{ role: "readWrite", db: "newsdb" }] })
+exit
+```
+- REDIS
 
-})
-- Generador de texto IA => Ollama serve .
-- Sintetizador de voz=> docker run --gpus=all -e COQUI_TOS_AGREED=1 --name coqui-xtts -d -p 8000:80 ghcr.io/coqui-ai/xtts-streaming-server:latest-cuda121 .
+docker run -d --name redis-server -p 6379:6379 redis
+
+
+**4️⃣ Crea el usuario administrador:**
+
+- Edita el archivo userScript.js con los datos del usuario administrador y ejecútalo:
+
+```
+node userScript.js
+```
+
+**5️⃣ IA y síntesis de voz:**
+
+- Generador de texto (Ollama):
+```
+ollama serve
+```
+- Sintetizador de voz (Coqui xTTS-v2) con GPU:
+```
+docker run --gpus=all -e COQUI_TOS_AGREED=1 --name coqui-xtts -d -p 8000:80 ghcr.io/coqui-ai/xtts-streaming-server:latest-cuda121
+```
+**6️⃣ Arranca Journogrid:**
+```
+node server.js
+```
+**Notas y recomendaciones:**
+
+- Los puertos 27017 (MongoDB), 6379 (Redis), 8000 (Coqui TTS) y 3000 (backend) deben estar libres
+
+- Personaliza los usuarios y contraseñas en tu .env y en la creación del usuario MongoDB si lo deseas
+
+- Si quieres persistencia avanzada para los datos de MongoDB o Redis, puedes cambiar la ruta del volumen por la que prefieras
+
+- El usuario administrador es imprescindible para gestionar fuentes, categorías y toda la configuración desde el panel web
+
+**Preguntas frecuentes:**
+
+- ¿Puedo usar la plataforma sin GPU? Sí, pero la síntesis de voz será mucho más lenta
+
+- ¿Cómo respaldo mis datos? Usa volúmenes persistentes de Docker (-v) para MongoDB y Redis
+
+- ¿Qué hago si algún puerto está ocupado? Cambia el puerto correspondiente en tu .env y en el comando de Docker

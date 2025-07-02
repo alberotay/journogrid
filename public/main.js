@@ -4,13 +4,13 @@ let allCategories = []
 let minsRefresh = 5
 let device
 
-
+//peticion para obtener noticias pasando parametro de la última carga
 async function getRss() {
     let fetched = await fetch('/api/rss?lastView=' + lastRequestTimeMilis);
     return await fetched.json()
 }
 
-
+// Detección si el usuario  entra con móvil o desktop
 getRss().then((res) => {
     // console.log("antes update   ", lastRequestTimeMilis)
 
@@ -72,7 +72,7 @@ getRss().then((res) => {
 
     })
 })
-
+//Crea estructuras de contenedores para la vista en escritorio
 function fillDesktop(res) {
     $("body").append('<div id ="lastRequestTime" />');
     $("#bodyDesktop").append('<div id ="containerAllFeeds" class="container-fluid">');
@@ -109,7 +109,7 @@ function fillDesktop(res) {
         updateLocalStorageOrder(); // Assuming this function is defined elsewhere
     }
 }
-
+// Rellena el contenido de las columnas o contenedores
 function fillDesktopGrid(res) {
     res = sortColumnsByLastPreference(res)
     res.forEach((y) => {
