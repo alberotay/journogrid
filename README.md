@@ -11,7 +11,9 @@
   <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-18.x-brightgreen?logo=node.js"></a>
   <a href="https://www.mongodb.com/"><img src="https://img.shields.io/badge/MongoDB-%20v6.0-success?logo=mongodb"></a>
   <a href="https://redis.io/"><img src="https://img.shields.io/badge/Redis-7.x-critical?logo=redis"></a>
-  
+  <a href="https://expressjs.com/"><img src="https://img.shields.io/badge/Express.js-4.x-grey?logo=express"></a>
+<a href="https://www.docker.com/"><img src="https://img.shields.io/badge/Docker-%230db7ed.svg?logo=docker&logoColor=white"></a>
+<a href="https://ollama.com/"><img src="https://img.shields.io/badge/Ollama-LLM-5f5fff?logo=OpenAI"></a>
 </p>
 
 ---
