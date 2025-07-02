@@ -90,9 +90,9 @@ db.createUser({ user: "user", pwd: "password", roles: [{ role: "readWrite", db: 
 exit
 ```
 - REDIS
-
+```
 docker run -d --name redis-server -p 6379:6379 redis
-
+```
 
 **4️⃣ Crea el usuario administrador:**
 
