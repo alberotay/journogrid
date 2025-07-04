@@ -6,7 +6,7 @@ mongoConnect();
 
 
 
-categories = []
+
 
 exports.storeNewsByArray = async function(newsArray){
     for (const news of newsArray) {
