@@ -1,15 +1,23 @@
+// ==============================
+// search.js
+// Módulo de búsqueda avanzada en el frontend de JournoGrid
+// Permite buscar noticias por rango de fechas y palabra clave
+// ==============================
+
+// Evento: Al hacer clic en el botón de búsqueda
 document.getElementById('searchButton').addEventListener('click', async () => {
     const startDate = document.getElementById('startDate').value;
     const endDate = document.getElementById('endDate').value;
     const keyword = document.getElementById('searchInput').value.trim(); // Captura la palabra clave
 
     
-
+// Valida que ambas fechas estén seleccionadas antes de buscar
     if (startDate && endDate) {
         try {
+            // Hace una petición a la API backend, pasando las fechas y la palabra clave como parámetros
             const response = await fetch(`/api/search?startDate=${startDate}&endDate=${endDate}&keyword=${encodeURIComponent(keyword)}`);
             const data = await response.json();
-            displayResults(data);
+            displayResults(data);// Llama a la función que pinta los resultados en pantalla
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -17,6 +25,11 @@ document.getElementById('searchButton').addEventListener('click', async () => {
         alert('Por favor, selecciona ambas fechas.');
     }
 });
+
+// ==============================
+// displayResults
+// Renderiza los artículos encontrados en el contenedor de resultados
+// ==============================
 
 function displayResults(data) {
     const resultsContainer = document.getElementById('results');

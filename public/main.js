@@ -1,16 +1,20 @@
-let lastResponse
-let lastRequestTimeMilis = Date.now()
-let allCategories = []
-let minsRefresh = 5
-let device
+let lastResponse;                      // Guarda la última respuesta de la API (no se usa mucho)
+let lastRequestTimeMilis = Date.now(); // Marca temporal del último fetch (para filtrar noticias nuevas)
+let allCategories = [];                // Almacena todas las categorías detectadas en las noticias recibidas
+let minsRefresh = 5;                   // Minutos entre refrescos automáticos del frontend
+let device;                            // Identifica si es móvil o escritorio
 
-//peticion para obtener noticias pasando parametro de la última carga
+// ====================================
+// getRss: Petición al backend para obtener noticias, pasando como parámetro el timestamp de la última carga
+// ====================================
 async function getRss() {
     let fetched = await fetch('/api/rss?lastView=' + lastRequestTimeMilis);
     return await fetched.json()
 }
 
-// Detección si el usuario  entra con móvil o desktop
+// ====================================
+// Detección del dispositivo (mobile/desktop) y primera carga de noticias
+// ====================================
 getRss().then((res) => {
     // console.log("antes update   ", lastRequestTimeMilis)
 
@@ -21,7 +25,7 @@ getRss().then((res) => {
             device = "desktop"
         }
 
-
+        // Renderizado según tipo de dispositivo
         if (device === "mobile") {
             console.log("llega Mobile")
             fillMobileGrid(res)
@@ -30,8 +34,6 @@ getRss().then((res) => {
             $('.timer').hide();
             $('.navbar-text').hide();
             $('#aSearch').css('display', 'none'); // Esto debería ocultar el elemento directamente
-
-
         } else {
             console.log("llega Desktop")
             fillDesktop(res)
@@ -44,6 +46,7 @@ getRss().then((res) => {
             })
         }
 
+        // Rellena el array de categorías detectadas y configura el dropdown de filtros por categoría
 
         res.forEach((element) => {
             allCategories.indexOf(element.category) === -1 ? allCategories.push(element.category) : null;
@@ -55,6 +58,7 @@ getRss().then((res) => {
             $('#categoriasDropdown').append('<a class="dropdown-item"> <div class="form-check" > <input  checked value=' + value + ' class="form-check-input" type="checkbox" id="flexCheckDefault' + value + '">' +
                 '  <label class="form-check-label" for="flexCheckDefault' + value + '">' + value.replaceAll("_", " ") + ' </label></div></a>');
         });
+        // Permite ocultar/mostrar categorías al cambiar los checkboxes del dropdown
         $('#categoriasDropdown').on('change', 'input', function () {
             let elem = $(this);
             if (elem.is(':checked')) {
@@ -72,7 +76,9 @@ getRss().then((res) => {
 
     })
 })
-//Crea estructuras de contenedores para la vista en escritorio
+// ====================================
+// fillDesktop: Construye la estructura de columnas y cabeceras para la vista de escritorio
+// ====================================
 function fillDesktop(res) {
     $("body").append('<div id ="lastRequestTime" />');
     $("#bodyDesktop").append('<div id ="containerAllFeeds" class="container-fluid">');
@@ -87,9 +93,9 @@ function fillDesktop(res) {
             const $newsContainer = $(`<div id ="${t.source}News" class= "news-container" />`);
             const $h1 = $(`<h1 id ="${t.source}H1"/>`);
             const $img = $(`<img style="width: 100%;" src="${t.frontEndImage}" alt="${t.source}Logo" onerror="this.onerror=null;this.src='/logos/generic.svg';" />`);
-            const $moveUpButton = $(`<button title="Primera noticia" id ="${t.source}MoveUpButton" class="btn btn-default"><span class="bi bi-arrow-up""></span></button>`);
-            const $moveDownButton = $(`<button title="Automático" id ="${t.source}MoveDownButton"  class="btn btn-default bi bi-chevron-double-down"" />`);
-            const $moveContainerButton = $(`<button type="button" title="Arrastra el contenedor" id="moveContainerButton" class="btn btn-default" /><span class="bi bi-arrows-move""></span></button>`);
+            //const $moveUpButton = $(`<button title="Primera noticia" id ="${t.source}MoveUpButton" class="btn btn-default"><span class="bi bi-arrow-up""></span></button>`);
+            //const $moveDownButton = $(`<button title="Automático" id ="${t.source}MoveDownButton"  class="btn btn-default bi bi-chevron-double-down"" />`);
+            //const $moveContainerButton = $(`<button type="button" title="Arrastra el contenedor" id="moveContainerButton" class="btn btn-default" /><span class="bi bi-arrows-move""></span></button>`);
 
 
             //$h1.append($img).append($moveUpButton).append($moveDownButton).append($moveContainerButton);
@@ -97,37 +103,37 @@ function fillDesktop(res) {
             $header.append($h1);
             $li.append($header).append($newsContainer)
             $allFeeds.append($li); // Append the <li> to the pre-created container
-
-            $('body').off('click', '#' + t.source + 'MoveUpButton').on('click', '#' + t.source + 'MoveUpButton', () => moveNewsUp(t.source + 'News')); // Arrow function, .off() to prevent duplicate event handlers
-            $('body').off('click', '#' + t.source + 'MoveDownButton').on('click', '#' + t.source + 'MoveDownButton', function () { // .off() to prevent duplicate event handlers
-                moveNewsDown(t.source + 'News', this);
-            });
+            // Eventos para mover columnas arriba/abajo (si usas esos botones)
+            //$('body').off('click', '#' + t.source + 'MoveUpButton').on('click', '#' + t.source + 'MoveUpButton', () => moveNewsUp(t.source + 'News')); // Arrow function, .off() to prevent duplicate event handlers
+            //$('body').off('click', '#' + t.source + 'MoveDownButton').on('click', '#' + t.source + 'MoveDownButton', function () { // .off() to prevent duplicate event handlers   moveNewsDown(t.source + 'News', this);});
         }
     });
-
+    // Si no existe orden de columnas en localStorage, lo crea
     if (localStorage.getItem("columnsOrder") === null) {
         updateLocalStorageOrder(); // Assuming this function is defined elsewhere
     }
 }
-// Rellena el contenido de las columnas o contenedores
+// ====================================
+// fillDesktopGrid: Llena cada columna con las noticias recibidas para cada feed
+// ====================================
 function fillDesktopGrid(res) {
     res = sortColumnsByLastPreference(res)
     res.forEach((y) => {
         if (y.hasNewElements || $("#" + y.source + "News").find("div").length === 0) {
             let source = y.source
-
+            // Vacía la columna antes de llenarla de nuevo
             $('#' + source + 'News').empty()
             y.allFeeds.forEach((feed, j) => {
                 $('#' + source + 'News').append('<div id ="' + source + 'New' + j + '" class= "news-item" />');
                 $('#' + source + 'New' + j).append('<h2 id ="' + source + 'h2_' + j + '" style = "color: black; font-weight: bold;"  class= "news-title" />')
                     .append('<div id ="' + source + 'NewsImageContainer_' + j + '" class= "news-image-container" />')
                     .append('<h3 id ="' + source + 'h3_' + j + '"  />');
-
+                // Título con enlace
                 $('#' + source + 'h2_' + j).append(
                     '<a id ="' + source + '_a_' + j + '" class= "news-title" href= "' + feed.link + '"  target="blank">' + feed.title + '</a>'
                 );
 
-                // ----- BLOQUE DE IMAGEN + PLAY -----
+                // Imagen y botón de play si es vídeo
                 let imgHtml;
                if (feed.videoUrl) {
     imgHtml = `
@@ -144,14 +150,14 @@ function fillDesktopGrid(res) {
 
                 $('#' + source + 'NewsImageContainer_' + j).append(imgHtml);
                 // ----- FIN BLOQUE IMAGEN + PLAY -----
-
+                // Contenido y descripción de la noticia
                 $('#' + source + 'h3_' + j).append('<div id ="' + source + '_newsContent_' + j + '" class ="news-content" />');
                 addMinimalistInfo('#' + source + '_newsContent_' + j, feed, false, j)
                 $('#' + source + '_newsContent_' + j).append('<div id ="' + source + '_newsDescription_' + j + '" class ="news-desciption" />');
                 $('#' + source + '_newsDescription_' + j).append('<p class = "justifyText" />' + feed.description);
                 enableDescriptionToggle('#' + source + '_newsDescription_' + j, '#' + source + '_verMas_' + j)
             })
-
+            // Animación rápida para resaltar columnas nuevas
             $("#" + source + "Column").addClass("newFeed")
             setTimeout(() => {
                 $("#" + source + "Column").removeClass("newFeed")
@@ -159,7 +165,7 @@ function fillDesktopGrid(res) {
         }
     });
 
-    // ---- EVENTO PLAY ----
+     // Evento de reproducir vídeo al pulsar el botón de play
     $(".news-image-container").off("click", ".play-video-btn").on("click", ".play-video-btn", function (e) {
     e.preventDefault();
     e.stopPropagation();
@@ -191,7 +197,7 @@ $("#closeVideoModal, .video-modal-backdrop").on("click", function () {
 });
 
 
-    // ---- Sortable ----
+    // ---- DRAGS & DROPS de fuentes ----
     Sortable.create(allFeeds, {
         animation: 100,
         group: 'list-1',
@@ -206,7 +212,10 @@ $("#closeVideoModal, .video-modal-backdrop").on("click", function () {
     });
 }
 
-
+// ==============================
+// fillMobileGrid: Construye y rellena la grid de noticias para móviles
+// Solo muestra noticias recientes (de las últimas X horas)
+// ==============================
 
 function fillMobileGrid(res) {
     let now = new Date();
@@ -225,7 +234,7 @@ function fillMobileGrid(res) {
             $("#rowMobile" + i).append('<div class="col-8"><p />' + data.category.replaceAll("_", " ") + '</div>');
             $("#rowMobile" + i).append('<a href="' + data.link + '" class="news-title" target="blank">' + data.title + '</a>');
 
-            // ---- BLOQUE DE IMAGEN + PLAY ----
+            // Imagen y play si es vídeo
             let imgHtml;
             if (data.videoUrl) {
                imgHtml = `
@@ -240,7 +249,7 @@ function fillMobileGrid(res) {
                 imgHtml = `<img src="${data.thumbnailUrl}" loading="lazy" class="news-image marginTopMobileImage" onerror="this.onerror=null;this.src='/logos/genericB.svg';"/>`;
             }
             $("#rowMobile" + i).append(imgHtml);
-            // ---- FIN BLOQUE IMAGEN + PLAY ----
+            // Descripción noticia
 
             addMinimalistInfo("#rowMobile" + i, data, true, i);
             $("#rowMobile" + i).append('<div id="' + data.source + '_newsDescriptionMobile_' + i + '" class="news-desciption"></div>');
@@ -250,7 +259,7 @@ function fillMobileGrid(res) {
         }
     });
 
-    // EVENTO PLAY: Reemplaza imagen por reproductor al pulsar play
+    // Reproductor en móvil al pulsar play
     $("#bodyMobile").off("click", ".play-video-btn").on("click", ".play-video-btn", function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -270,7 +279,10 @@ function fillMobileGrid(res) {
         $container.replaceWith(html);
     });
 }
-
+// ==============================
+// Refresca automáticamente las noticias cada X minutos
+// Llama a getRss y actualiza el frontal según tipo de dispositivo
+// ==============================
 
 setInterval(() => getRss().then((res) => {
     if (device === "mobile") {
@@ -281,7 +293,9 @@ setInterval(() => getRss().then((res) => {
     updateLastRequestTimeInFront()
 }), 1000 * 60 * minsRefresh)
 
-
+// ==============================
+// Muestra/oculta la descripción extendida de cada noticia al pulsar el icono correspondiente
+// ==============================
 function enableDescriptionToggle(newsDescriptionSelector, verMasSelector) {
     $(newsDescriptionSelector).hide()
     $('body').on('click', verMasSelector, function () {
@@ -295,7 +309,9 @@ function enableDescriptionToggle(newsDescriptionSelector, verMasSelector) {
     });
 }
 
-
+// ==============================
+// Añade información bajo imagen (fecha, iconos para compartir, etc.)
+// ==============================
 function addMinimalistInfo(parentElementId, feed, isMobile, i) {
     let stringVerMas = isMobile ? "_verMasMobile_" : "_verMas_"
     let stringMinimalist = isMobile ? "_minMobile_" : "_min_"
@@ -318,6 +334,7 @@ function addMinimalistInfo(parentElementId, feed, isMobile, i) {
     `);
     }
 
+/*    //ANTIGUO LAZY
 const images = document.querySelectorAll('.image-container img');
 
 const observer = new IntersectionObserver((entries) => {
@@ -333,4 +350,4 @@ const observer = new IntersectionObserver((entries) => {
 images.forEach((image) => {
     observer.observe(image);
 });
-
+*/

@@ -1,3 +1,9 @@
+// ==============================
+// connection.js
+// Inicializa la conexión a MongoDB usando Mongoose
+// Lee la URI desde las variables de entorno
+// ==============================
+
 const MONGO_URI = process.env.MONGO_URI;
 const mongoose = require('mongoose');
 

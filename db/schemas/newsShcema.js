@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
-const { defaults } = require('request');
+// ==============================
+// newsShcema.js
+// Define el esquema de una noticia para MongoDB usando Mongoose
+// Establece qué campos tiene cada documento de la colección "News"
+// ==============================
 
 // Esquema para las noticias
 const newsSchema = new mongoose.Schema({
@@ -15,7 +19,7 @@ const newsSchema = new mongoose.Schema({
     videoUrl: { type: String }, // URL del video asociado
 });
 
-
+// Crea el modelo "News" basado en el esquema anterior
 const News = mongoose.model('News', newsSchema);
-
+// Exporta el modelo para poder usarlo en otras partes del proyecto
 module.exports = News;
