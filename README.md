@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="https://aspas.myqnapcloud.com/logos/zorritoIA.svg" height="110" alt="JournoGrid logo">
+  <img src="https://github.com/alberotay/journogrid/blob/main/public/logos/zorritoIA.svg" height="110" alt="JournoGrid logo">
 </p>
 
 <h1 align="center">📰 JournoGrid</h1>
@@ -9,6 +9,9 @@
 </p>
 <p align="center">
   <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-18.x-brightgreen?logo=node.js"></a>
+  <a href="https://www.npmjs.com/">
+  <img src="https://img.shields.io/badge/npm-%23CB3837.svg?logo=npm&logoColor=white">
+</a>
   <a href="https://www.mongodb.com/"><img src="https://img.shields.io/badge/MongoDB-%20v6.0-success?logo=mongodb"></a>
   <a href="https://redis.io/"><img src="https://img.shields.io/badge/Redis-7.x-critical?logo=redis"></a>
   <a href="https://expressjs.com/"><img src="https://img.shields.io/badge/Express.js-4.x-grey?logo=express"></a>
@@ -40,10 +43,10 @@
 ## 🖼️ Vista rápida
 
 ### Escritorio
-<img src="https://aspas.myqnapcloud.com/logos/escritorio.jpg" width="700" alt="JournoGrid Desktop" />
+<img src="https://github.com/alberotay/journogrid/blob/main/public/logos/escritorio.jpg" width="700" alt="JournoGrid Desktop" />
 
 ### Móvil
-<img src="https://aspas.myqnapcloud.com/logos/mobile.png" width="300" alt="JournoGrid Mobile" />
+<img src="https://github.com/alberotay/journogrid/blob/main/public/logos/mobile.png" width="300" alt="JournoGrid Mobile" />
 
 
 ---
