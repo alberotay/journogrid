@@ -230,7 +230,7 @@ function fillMobileGrid(res) {
             if (data.videoUrl) {
                imgHtml = `
                 <div class="news-video-thumb" data-video-url="${data.videoUrl}">
-                     <img src="${data.thumbnailUrl}" loading="lazy" class="news-image marginTopMobileImage" onerror="this.onerror=null;this.src='/logos/genericB.svg';"/>
+                    <img src="${data.thumbnailUrl}" loading="lazy" class="news-image marginTopMobileImage" onerror="this.onerror=null;this.src='/logos/genericB.svg';"/>
                     <button class="play-video-btn">
                     <img src="/logos/play.svg" alt="Play" width="32" height="32">
                     </button>

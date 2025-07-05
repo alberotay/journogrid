@@ -199,13 +199,13 @@ let summary = ""; // Variable para almacenar el resumen
         }); // Formato de fecha y hora en español
 
        // Crear el prompt para la IA con la orden incluida
-       const prompt = `Comienza siempre el texto indicando la fecha y la hora actual de la crónica: "${fechaActual}" con un tono periodístico. Después, Escribe una crónica simpática de 120 palabras con las siguientes noticias y personalizalo:\n` +
+      const prompt = `Redacta una crónica periodística breve de exactamente 120 palabras. Comienza siempre con la fecha y hora actual: "${fechaActual}". Adopta el rol de un presentador de informativos ofreciendo un avance serio y claro, con tono neutral y sin introducir opiniones personales o juicios de valor (evita cualquier tipo de sesgo). Piensa paso a paso como un reportero: analiza las noticias, prioriza aquellas con mayor impacto social (por ejemplo: política, economía, sanidad, conflictos), agrúpalas lógicamente y redacta un avance informativo con continuidad narrativa. Limítate únicamente a la información contenida en los siguientes titulares, sin añadir datos no presentes en ellos ni especulaciones.**elementos criticos:** nunca me enumeres las noticias, la respuesta en español siempre,si el contenido de la noticia no tiene relevancia social omitela, tiene que ser una locucion profesional para sintetizar voz. Aquí están las noticias: ` +
        sortedNews.map((item, index) => {
            return `Noticia ${index + 1}: Título: ${item.title}}`;
           // return `Noticia ${index + 1}: Título: ${item.title}, Descripción: ${item.description || 'No disponible'}`;
        }).join('\n');
 
-        //console.log(`Prompt generado: \n${prompt}`);
+        console.log(`Prompt generado: \n${prompt}`);
 
         const response = await fetch('http://localhost:11434/api/generate', {
             method: 'POST',

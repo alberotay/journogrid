@@ -151,25 +151,25 @@ exports.sortForClient = function (sortedForClient, lastView) {
                 const horaEntradaBDMs = feed.horaEntradaBD ? new Date(feed.horaEntradaBD).getTime() : NaN;
                 // Logs de depuración para cada campo
     // Logs de depuración para cada campo
-    console.log(`feed.pubDate:`, feed.pubDate, `=>`, feedPubDateMs, isNaN(feedPubDateMs) ? '(NaN)' : `(${new Date(feedPubDateMs).toISOString()})`);
-    console.log(`feed.horaEntradaBD:`, feed.horaEntradaBD, `=>`, horaEntradaBDMs, isNaN(horaEntradaBDMs) ? '(NaN)' : `(${new Date(horaEntradaBDMs).toISOString()})`);
+//    console.log(`feed.pubDate:`, feed.pubDate, `=>`, feedPubDateMs, isNaN(feedPubDateMs) ? '(NaN)' : `(${new Date(feedPubDateMs).toISOString()})`);
+//    console.log(`feed.horaEntradaBD:`, feed.horaEntradaBD, `=>`, horaEntradaBDMs, isNaN(horaEntradaBDMs) ? '(NaN)' : `(${new Date(horaEntradaBDMs).toISOString()})`);
 
                 // Elige la fecha más reciente disponible
                 const fechaReferencia = Math.max(feedPubDateMs, horaEntradaBDMs);
 
                 // Logs para diagnóstico
-                const titulo = feed.title || '[Sin título]';
-                const fuente = y.source || y.name || '[Sin fuente]';
-                const fechaRefISO = !isNaN(fechaReferencia) ? new Date(fechaReferencia).toISOString() : 'Invalid Date';
-                const lastViewISO = Number.isFinite(lastView) ? new Date(lastView).toISOString() : 'Invalid Date';
-                const diffMs = fechaReferencia - lastView;
+ //               const titulo = feed.title || '[Sin título]';
+ //               const fuente = y.source || y.name || '[Sin fuente]';
+//                const fechaRefISO = !isNaN(fechaReferencia) ? new Date(fechaReferencia).toISOString() : 'Invalid Date';
+//                const lastViewISO = Number.isFinite(lastView) ? new Date(lastView).toISOString() : 'Invalid Date';
+//                const diffMs = fechaReferencia - lastView;
                 const entra = !isNaN(fechaReferencia) && lastView < fechaReferencia;
-                const color = entra ? '\x1b[32m' : '\x1b[31m';
-                const reset = '\x1b[0m';
+//                const color = entra ? '\x1b[32m' : '\x1b[31m';
+//                const reset = '\x1b[0m';
 
-                console.log(
-                    `${color}[sortForClient] ${fuente} :: "${titulo}" - fechaRef: ${fechaReferencia} (${fechaRefISO}), lastView: ${lastView} (${lastViewISO}), diferencia: ${diffMs} ms ==> ${entra ? 'NUEVA' : 'NO NUEVA'}${reset}`
-                );
+//                console.log(
+//                    `${color}[sortForClient] ${fuente} :: "${titulo}" - fechaRef: ${fechaReferencia} (${fechaRefISO}), lastView: ${lastView} (${lastViewISO}), diferencia: ${diffMs} ms ==> ${entra ? 'NUEVA' : 'NO NUEVA'}${reset}`
+//                );
 
                 // Lógica de marcado
                 if (entra) {
