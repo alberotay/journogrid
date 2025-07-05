@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="https://github.com/alberotay/journogrid/blob/main/public/logos/zorritoIA.svg" height="110" alt="JournoGrid logo">
+  <img src="https://github.com/alberotay/journogrid/blob/main/public/logos/zorritoIA.svg" width="80" alt="JournoGrid logo">
 </p>
 
 <h1 align="center">📰 JournoGrid</h1>
