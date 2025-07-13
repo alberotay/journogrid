@@ -5,10 +5,13 @@
 
 <h1 align="center">📰 JournoGrid</h1>
 <p align="center">
-  <b>Tu agregador de noticias inteligente, personalizable y rápido.<br>Organiza, filtra y consulta cientos de medios en tiempo real.</b>
+  <b>Agregador de noticias inteligente, personalizable y rápido.<br>Organiza, filtra y consulta cientos de medios en tiempo real.</b>
 </p>
 <p align="center">
-  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-18.x-brightgreen?logo=node.js"></a>
+  <i>Proyecto desarrollado como parte del Trabajo de Fin de Estudios (TFE) para la Universidad Internacional de La Rioja (UNIR)</i>
+</p>
+<p align="center">
+  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-22.x-brightgreen?logo=node.js"></a>
   <a href="https://www.npmjs.com/">
   <img src="https://img.shields.io/badge/npm-%23CB3837.svg?logo=npm&logoColor=white">
 </a>
@@ -54,7 +57,7 @@
 ## ⚡ Últimas actualizaciones
 
 -  **Actualización de modulo  TTS a XTTS COQUI v2** 20/06/2025.
--  **Insercion de Timestamp  en las noticias** 27/06/2025.
+-  **Reordenación de noticias por Timestamp** 27/06/2025.
 -  **Implementación de video o iframe en las noticias** 27/06/2025.
 
 -----
@@ -131,10 +134,3 @@ node server.js
 
 - El usuario administrador es imprescindible para gestionar fuentes, categorías y toda la configuración desde el panel web
 
-**Preguntas frecuentes:**
-
-- ¿Puedo usar la plataforma sin GPU? Sí, pero la síntesis de voz será mucho más lenta
-
-- ¿Cómo respaldo mis datos? Usa volúmenes persistentes de Docker (-v) para MongoDB y Redis
-
-- ¿Qué hago si algún puerto está ocupado? Cambia el puerto correspondiente en tu .env y en el comando de Docker

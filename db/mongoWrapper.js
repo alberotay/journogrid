@@ -49,7 +49,7 @@ exports.storeNewsByArray = async function(newsArray){
 
 exports.getNewsByFilter =  async function (filter) {
     return News.find(filter)
-        .sort({pubDate: -1})
+        .sort({horaEntradaBD: -1})
 }
 // =========================================
 // CRUD para Feeds RSS (configuración de fuentes)

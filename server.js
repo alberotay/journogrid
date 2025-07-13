@@ -37,7 +37,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.set('view engine', 'ejs'); // Configura EJS como motor de plantillas para administrator
 
-let uniqueIPs = new Set(); // IPs únicas conectadas(control de acceso no necesario)
+//let uniqueIPs = new Set(); // IPs únicas conectadas(control de acceso no necesario)
 let audioBuffer = null; // Buffer para el audio generado por IA
 
 // ==================
@@ -114,9 +114,9 @@ app.get('/advancedSearch', async (req, res) => {
 //  API: Gestión y consulta de noticias y fuentes
 // ==================
 app.get('/api/rss', async (req, res) => {
-    console.log('Petición RSS desde ' + req.ip);
-    uniqueIPs.add(req.ip);
-    console.log(`Total de direcciones IP únicas conectadas: ${uniqueIPs.size}`);
+    //console.log('Petición RSS desde ' + req.ip);
+    //uniqueIPs.add(req.ip);
+    //console.log(`Total de direcciones IP únicas conectadas: ${uniqueIPs.size}`);
     let allNewsFromCache =  await feedsDecorator.getNewsFromCache()
     res.send(utils.sortForClient(allNewsFromCache,req.query.lastView));
 });

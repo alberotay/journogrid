@@ -1,7 +1,8 @@
 
 
 
-//////////ZORRITO LOGO////////////////////
+//////////ZORRITO LOGO///////////////////
+/*
 document.addEventListener("DOMContentLoaded", () => {
     const zorritoImg = document.getElementById("zorrito");
 
@@ -35,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Iniciar la animación
     setInterval(handleBlinking, totalCycleTime);
 });
-
+*/
 
 
 
@@ -124,4 +125,42 @@ playButton.addEventListener("click", () => {
     // Llamada inicial y cada 30 segundos
     checkAudioAvailability();
     setInterval(checkAudioAvailability, 90000);
+});
+////////////////////////////////////////////////////
+document.addEventListener("DOMContentLoaded", () => {
+    const ojoIzq = document.getElementById("ojo-izq");
+    const ojoDer = document.getElementById("ojo-der");
+
+    const rxOpen = 35, ryOpen = 35;
+    const rxClosed = 20, ryClosed = 2;
+
+    const totalCycleTime = 6000;
+    const openTime = 2000;
+    const blinkDuration = 180;
+
+    function setEyes(open) {
+        ojoIzq.setAttribute("rx", rxOpen);
+        ojoIzq.setAttribute("ry", open ? ryOpen : ryClosed);
+        ojoDer.setAttribute("rx", rxOpen);
+        ojoDer.setAttribute("ry", open ? ryOpen : ryClosed);
+    }
+
+    function blinkSequence() {
+        setEyes(true);
+        setTimeout(() => {
+            setEyes(false);
+            setTimeout(() => {
+                setEyes(true);
+                setTimeout(() => {
+                    setEyes(false);
+                    setTimeout(() => {
+                        setEyes(true);
+                    }, openTime);
+                }, blinkDuration);
+            }, blinkDuration);
+        }, blinkDuration);
+    }
+
+    setInterval(blinkSequence, totalCycleTime);
+    blinkSequence();
 });

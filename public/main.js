@@ -225,11 +225,11 @@ function fillMobileGrid(res) {
         onlyNews.push(data.allFeeds);
     });
     let mergedNews = onlyNews.flat(1);
-    mergedNews = mergedNews.sort((a, b) => Date.parse(b.pubDate) - Date.parse(a.pubDate));
+    mergedNews = mergedNews.sort((a, b) => Date.parse(b.horaEntradaBD) - Date.parse(a.horaEntradaBD));
 
     $("#bodyMobile").empty();
     mergedNews.forEach((data, i) => {
-        if (Date.parse(data.pubDate) > now - 1000 * 60 * 60 * acceptNewsFromHoursBefore) {
+        if (Date.parse(data.horaEntradaBD) > now - 1000 * 60 * 60 * acceptNewsFromHoursBefore) {
             $("#bodyMobile").append('<div id="rowMobile' + i + '" value="' + data.category + 'Mobile" class="news-item-mobile"></div>');
             $("#rowMobile" + i).append('<div class="col-8"><p />' + data.category.replaceAll("_", " ") + '</div>');
             $("#rowMobile" + i).append('<a href="' + data.link + '" class="news-title" target="blank">' + data.title + '</a>');
